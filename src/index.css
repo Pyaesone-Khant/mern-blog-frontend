@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components{
+
+  .form-tlt{
+    @apply font-semibold text-xl mb-8
+  ;}
+
+  label{
+    @apply capitalize font-medium
+  ;}
+
+  .form-input{
+    @apply p-2 rounded-md w-full outline-none mt-1 border border-black/30 select-none
+  ;}
+
+  .form-input.input-error{
+    @apply border-red-600 text-red-600
+  ;}
+
+  .error{
+    @apply text-sm text-red-600 mt-1
+  ;}
+
+  .btn{
+    @apply h-10 min-w-[150px] flex items-center justify-center rounded-md text-white duration-200 border-none text-[17px] font-medium 
+  ;}
+
+  .submit-btn{
+    @apply bg-blue-600 hover:bg-blue-500
+  ;}
+
+  .delete-btn{
+    @apply bg-red-600 hover:bg-red-500
+  ;}
+
+  .comment-btn{
+    @apply border border-green-700 text-green-700 hover:bg-green-700 hover:text-white
+  ;}
+
+  .submit-btn.disabled{
+    @apply bg-gray-600 text-gray-400
+  ;}
+  
+  .pws-btn{
+    @apply absolute right-4 top-1/2 transform -translate-y-1/2 text-lg outline-none border-none text-gray-700
+  ;}
+
+  .card{
+    @apply flex flex-col gap-3 p-3 shadow tracking-wider w-full bg-white hover:shadow-xl duration-200 h-fit
+  ;}
+
+  .detail-card{
+    @apply flex flex-col gap-3 tracking-wider
+  ;}
+
+  .reaction-btn{
+    @apply text-blue-600 text-xl hover:scale-[1.2] duration-200
+  ;}
+}
+
+

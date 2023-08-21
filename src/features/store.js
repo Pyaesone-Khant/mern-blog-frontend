@@ -1,0 +1,28 @@
+import { configureStore } from "@reduxjs/toolkit";
+import { authApi } from "./auth/authApi";
+import { blogApi } from "./blogs/blogApi";
+import { userApi } from "./users/UserApi";
+import authSlice from "./auth/authSlice";
+import { categoriesApi } from "./categories/categoriesApi";
+import categoriesSlice from "./categories/categoriesSlice";
+import { commentsApi } from "./comments/commentsApi";
+
+export const store = configureStore({
+    reducer: {
+        [authApi.reducerPath]: authApi.reducer,
+        [blogApi.reducerPath]: blogApi.reducer,
+        [userApi.reducerPath]: userApi.reducer,
+        [categoriesApi.reducerPath]: categoriesApi.reducer,
+        [commentsApi.reducerPath]: commentsApi.reducer,
+        auth: authSlice,
+        category: categoriesSlice,
+    },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(
+            authApi.middleware,
+            blogApi.middleware,
+            userApi.middleware,
+            categoriesApi.middleware,
+            commentsApi.middleware
+        ),
+});

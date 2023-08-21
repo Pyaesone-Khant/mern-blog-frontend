@@ -1,0 +1,14 @@
+@layer component {  
+  
+  .nav-ul{
+    @apply flex flex-col md:flex-row md:items-center gap-5 items-center
+  ;}
+  
+   .navLink{
+    @apply relative p-2 text-[17px] font-semibold capitalize opacity-60 duration-300 
+  ;}
+
+  .navLink:hover, .navLink.active{
+    @apply opacity-100 text-blue-600 !important
+  ;}
+}
