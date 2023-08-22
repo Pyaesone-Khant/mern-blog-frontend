@@ -5,6 +5,7 @@ export const commentsApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: "https://blogapp-apis.onrender.com/comments",
     }),
+
     tagTypes: ["comment"],
     endpoints: (builder) => ({
         getAllComments: builder.query({

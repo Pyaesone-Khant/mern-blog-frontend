@@ -16,6 +16,7 @@ const CommentForm = ({ blogId, isCommenting, setIsCommenting }) => {
         register,
         handleSubmit,
         formState: { errors },
+        setValue,
     } = form;
 
     const onFormSubmit = async (data) => {
@@ -28,6 +29,7 @@ const CommentForm = ({ blogId, isCommenting, setIsCommenting }) => {
         try {
             const { data } = await createComment(commentData);
             if (data?.success) {
+                setValue("comment", "");
                 setIsSubmitting(false);
                 setIsCommenting(false);
                 nav(`/blogs/${blogId}`);

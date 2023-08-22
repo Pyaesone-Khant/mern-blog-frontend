@@ -116,7 +116,7 @@ const CreateBlogForm = () => {
                         >
                             <option disabled={true} value={""}>
                                 {" "}
-                                Select Category{" "}
+                                Select Blog Category{" "}
                             </option>
                             {categories?.map((item) => {
                                 return (

@@ -2,7 +2,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const categoriesApi = createApi({
     reducerPath: "categoriesApi",
-    baseQuery: fetchBaseQuery({ baseUrl: "https://blogapp-apis.onrender.com/categories" }),
+    baseQuery: fetchBaseQuery({
+        baseUrl: "https://blogapp-apis.onrender.com/categories",
+    }),
     tagTypes: ["category"],
     endpoints: (builder) => ({
         getAllCategories: builder.query({

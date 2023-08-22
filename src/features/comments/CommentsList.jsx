@@ -10,7 +10,7 @@ const CommentsList = ({ blogComments }) => {
                     </h3>{" "}
                 </div>
             ) : (
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-2">
                     {blogComments?.map((item) => {
                         return (
                             <CommentCard key={item?._id} commentItem={item} />
