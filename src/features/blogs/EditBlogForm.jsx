@@ -31,7 +31,6 @@ const EditBlogForm = () => {
         try {
             setIsSubmitting(true);
             const { data } = await updateBlog(updatedBlogData);
-            console.log(data);
             if (data?.success) {
                 setIsSubmitting(false);
                 nav("/");

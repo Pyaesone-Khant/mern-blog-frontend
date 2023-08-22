@@ -43,7 +43,6 @@ const Register = () => {
         try {
             setIsSubmitting(true);
             const { data } = await registerAccount(userObj);
-            console.log(data);
             if (data?.success) {
                 setIsSubmitting(false);
                 nav("/login", { state: data?.message });

@@ -39,8 +39,6 @@ const BlogDetail = () => {
         setIsDeleting(true);
         try {
             const { data } = await deleteBlog(blogId);
-            //console.log(data);
-
             if (data?.success) {
                 setIsDeleting(false);
                 nav("/", { state: data?.message });

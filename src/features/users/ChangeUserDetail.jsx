@@ -41,7 +41,6 @@ const ChangeUserDetail = () => {
         setIsSubmitting(true);
         try {
             const { data } = await updateUser(updatedUser);
-            console.log(data);
             if (data?.success) {
                 Cookies.remove("token");
                 Cookies.remove("user");

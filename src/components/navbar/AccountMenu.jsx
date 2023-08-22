@@ -62,7 +62,7 @@ const AccountMenu = ({ user, token, event }) => {
                 <MenuLink
                     event={event}
                     path={"change_profile"}
-                    title={"change profile"}
+                    title={"Update profile"}
                 />
             ),
         },

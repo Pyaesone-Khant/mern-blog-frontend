@@ -55,7 +55,7 @@ const BlogCard = ({ blog, isDetail }) => {
         <article
             className={` rounded-md ${isDetail ? "detail-card" : "card"} `}
         >
-            <div className="text-xl font-bold  duration-200 w-fit flex items-center gap-2 ">
+            <div className="text-xl font-bold  duration-200 w-fit flex flex-col-reverse md:items-center gap-2 md:flex-row ">
                 {isDetail ? (
                     <h2 className="text-2xl"> {blog?.title} </h2>
                 ) : (
@@ -67,7 +67,7 @@ const BlogCard = ({ blog, isDetail }) => {
                         {blog?.title}{" "}
                     </Link>
                 )}
-                <span className="text-sm px-2 py-1 rounded-md bg-blue-600 text-white font-normal">
+                <span className="text-sm px-2 py-1 rounded-md bg-blue-600 text-white font-normal w-fit">
                     {" "}
                     {blogCategory?.title}{" "}
                 </span>
@@ -92,7 +92,7 @@ const BlogCard = ({ blog, isDetail }) => {
                     {blog?.description}{" "}
                 </Link>
             )}
-            <div className="flex items-center justify-between mt-auto">
+            <div className="flex flex-col-reverse md:flex-row md:items-center justify-between mt-auto gap-2">
                 <p className=" font-medium">
                     {" "}
                     By{" "}
@@ -133,9 +133,9 @@ const BlogCard = ({ blog, isDetail }) => {
                     </button>{" "}
                 </Tooltip>
 
-                <p className="text-lg font-medium text-blue-600">
+                <p className="font-medium text-blue-600">
                     {" "}
-                    {reactionsCount > 0 ? reactionsCount : ""}{" "}
+                    {reactionsCount > 0 ? reactionsCount : ""}
                     {reactionsCount > 1
                         ? "Likes"
                         : reactionsCount === 1

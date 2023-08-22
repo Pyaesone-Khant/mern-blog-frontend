@@ -33,7 +33,6 @@ const CreateBlogForm = () => {
         try {
             setIsSubmitting(true);
             const { data } = await createBlog(blogData);
-            //console.log(data);
             if (data?.success) {
                 setIsSubmitting(false);
                 nav("/");

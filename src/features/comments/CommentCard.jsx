@@ -25,7 +25,6 @@ const CommentCard = ({ commentItem }) => {
     );
 
     const currentComment = currentCommentData?.data;
-    //console.log(currentComment);
 
     const {
         register,
@@ -59,7 +58,6 @@ const CommentCard = ({ commentItem }) => {
                 comment: commentData?.comment,
             };
             const { data } = await updateComment(updatedCommentObj);
-            console.log(data);
         } catch (error) {
             throw new Error(error);
         }

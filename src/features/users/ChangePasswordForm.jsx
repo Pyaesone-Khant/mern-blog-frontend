@@ -34,7 +34,6 @@ const ChangePasswordForm = () => {
         setIsSubmitting(true);
         try {
             const { data } = await changeUserPassword(updatedPasswords);
-            console.log(data);
             if (data?.success) {
                 Cookies.remove("token");
                 Cookies.remove("user");

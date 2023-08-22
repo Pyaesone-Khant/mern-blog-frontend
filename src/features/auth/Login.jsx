@@ -52,7 +52,6 @@ const Login = () => {
         try {
             setIsSubmitting(true);
             const { data } = await loginAccount(userData);
-            //console.log(data);
             if (data?.success) {
                 Cookies.set("user", JSON.stringify(data?.user), {
                     expires: 60 * 60 * 24,
