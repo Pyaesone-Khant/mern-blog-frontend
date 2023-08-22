@@ -27,7 +27,7 @@
   ;}
 
   .btn{
-    @apply h-10 min-w-[150px] flex items-center justify-center rounded-md text-white duration-200 border-none text-[17px] font-medium 
+    @apply h-10 min-w-[150px] flex items-center justify-center rounded-md text-white duration-200 border-transparent text-[17px] font-medium 
   ;}
 
   .submit-btn{
@@ -51,7 +51,7 @@
   ;}
 
   .card{
-    @apply flex flex-col gap-3 p-3 shadow tracking-wider w-full bg-white hover:shadow-xl duration-200 h-fit
+    @apply flex flex-col gap-3 p-3 shadow tracking-wider w-full bg-white hover:shadow-xl duration-200 h-fit rounded-md
   ;}
 
   .detail-card{

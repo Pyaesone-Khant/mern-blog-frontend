@@ -86,8 +86,10 @@ const BlogDetail = () => {
                     ""
                 )}
             </div>
+
+            {/* comments */}
             <div className=" max-w-2xl mx-auto flex items-center justify-between mt-5">
-                <h2 className="text-xl font-semibold"> Comments </h2>
+                <h2 className="text-xl font-bold"> Comments </h2>
                 <button
                     onClick={handleCommenting}
                     className={`comment-btn btn `}

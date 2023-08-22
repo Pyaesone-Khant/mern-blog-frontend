@@ -71,7 +71,7 @@ const CommentCard = ({ commentItem }) => {
                 <div className="">
                     <p className={`text-black`}> {commentItem?.comment} </p>
                     <div className="flex items-center gap-5 mt-3">
-                        <p className="text-sm font-medium">
+                        <p className="text-sm font-medium text-gray-500">
                             {" "}
                             Commented By{" "}
                             <Link

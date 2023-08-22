@@ -5,7 +5,7 @@ const CommentsList = ({ blogComments }) => {
             {!blogComments?.length ? (
                 <div>
                     {" "}
-                    <h3 className="text-center font-bold text-xl p-5 rounded-md shadow border bg-white">
+                    <h3 className="text-center font-semibold text-xl p-5 rounded-md shadow border bg-white">
                         There is no comments for this blog!
                     </h3>{" "}
                 </div>

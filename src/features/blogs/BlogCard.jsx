@@ -5,13 +5,16 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useSetUserReactionMutation } from "./blogApi";
 import { BsHandThumbsUp, BsHandThumbsUpFill } from "react-icons/bs";
-import { Tooltip } from "antd";
+import { Skeleton, Tooltip } from "antd";
 
 const BlogCard = ({ blog, isDetail }) => {
     const id = blog?._id;
-    const { data: userData } = useGetUserByIdQuery(blog?.userId);
+    const { data: userData, isLoading: isULoading } = useGetUserByIdQuery(
+        blog?.userId
+    );
     const author = userData?.data;
-    const { data: categoryData } = useGetCategoryByIdQuery(blog?.categoryId);
+    const { data: categoryData, isLoading: isCLoading } =
+        useGetCategoryByIdQuery(blog?.categoryId);
     const [setUserReaction] = useSetUserReactionMutation();
     const blogCategory = categoryData?.data;
     const { user: currentUser, isLoggedIn } = useSelector(
@@ -40,35 +43,55 @@ const BlogCard = ({ blog, isDetail }) => {
         .slice(4)
         .replace(/ /gi, " / ");
 
+    if (isULoading || isCLoading) {
+        return (
+            <div className="card">
+                <Skeleton active />
+            </div>
+        );
+    }
+
     return (
         <article
             className={` rounded-md ${isDetail ? "detail-card" : "card"} `}
         >
-            <div className="text-xl font-semibold  duration-200 w-fit flex items-center gap-2 ">
+            <div className="text-xl font-bold  duration-200 w-fit flex items-center gap-2 ">
                 {isDetail ? (
                     <h2 className="text-2xl"> {blog?.title} </h2>
                 ) : (
                     <Link
                         to={`/blogs/${id}`}
-                        className="text-truncate hover:text-blue-500"
+                        className="text-truncate hover:text-blue-500 duration-200"
                     >
                         {" "}
                         {blog?.title}{" "}
                     </Link>
                 )}
-                <span className="text-sm px-2 py-[3px] rounded-md bg-blue-600 text-white font-normal">
+                <span className="text-sm px-2 py-1 rounded-md bg-blue-600 text-white font-normal">
                     {" "}
                     {blogCategory?.title}{" "}
                 </span>
             </div>
-            <p
-                className={`text-gray-500 ${
-                    isDetail ? " whitespace-pre-line" : "line-clamp-2"
-                }  `}
-            >
-                {" "}
-                {blog?.description}{" "}
-            </p>
+            {isDetail ? (
+                <p
+                    className={`text-gray-500 ${
+                        isDetail ? " whitespace-pre-line" : "line-clamp-2"
+                    }  `}
+                >
+                    {" "}
+                    {blog?.description}{" "}
+                </p>
+            ) : (
+                <Link
+                    to={`/blogs/${id}`}
+                    className={`text-gray-500 ${
+                        isDetail ? " whitespace-pre-line" : "line-clamp-2"
+                    }  `}
+                >
+                    {" "}
+                    {blog?.description}{" "}
+                </Link>
+            )}
             <div className="flex items-center justify-between mt-auto">
                 <p className=" font-medium">
                     {" "}
