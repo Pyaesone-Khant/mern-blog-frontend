@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useGetUserByIdQuery } from "../users/UserApi";
 import { useGetCategoryByIdQuery } from "../categories/categoriesApi";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useSetUserReactionMutation } from "./blogApi";
 import { BsHandThumbsUp, BsHandThumbsUpFill } from "react-icons/bs";
@@ -38,10 +38,7 @@ const BlogCard = ({ blog, isDetail }) => {
             return nav("/login", { state: "Please login first!" });
         }
     };
-    const date = new Date(blog?.createdAt)
-        .toDateString()
-        .slice(4)
-        .replace(/ /gi, " / ");
+    const date = new Date(blog?.createdAt).toLocaleString().split(",")[0];
 
     if (isULoading || isCLoading) {
         return (
@@ -147,4 +144,4 @@ const BlogCard = ({ blog, isDetail }) => {
     );
 };
 
-export default BlogCard;
+export default memo(BlogCard);

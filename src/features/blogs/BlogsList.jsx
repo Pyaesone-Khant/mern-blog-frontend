@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import BlogCard from "./BlogCard";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { Pagination } from "antd";
 
 const BlogsList = ({ blogs }) => {
@@ -56,4 +56,4 @@ const BlogsList = ({ blogs }) => {
     );
 };
 
-export default BlogsList;
+export default memo(BlogsList);

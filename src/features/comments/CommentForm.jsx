@@ -58,11 +58,11 @@ const CommentForm = ({ blogId, isCommenting, setIsCommenting }) => {
                                     value: true,
                                     message: "Blog content is required!",
                                 },
-                                pattern: {
-                                    value: /^([@A-Za-z])+[\w -!$_.]*/,
-                                    message:
-                                        "First letter of the content must be capital !",
-                                },
+                                //pattern: {
+                                //    value: /^([@A-Za-z])+[\w -!$_.]*/,
+                                //    message:
+                                //        "First letter of the content must be capital !",
+                                //},
                                 minLength: {
                                     value: 1,
                                     message:

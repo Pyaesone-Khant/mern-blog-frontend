@@ -130,7 +130,7 @@ const CommentCard = ({ commentItem }) => {
                                 },
                             })}
                             className={`form-input resize-none ${
-                                errors.comment?.message ? "input-error" : ""
+                                errors.ဖcomment?.message ? "input-error" : ""
                             }`}
                         ></textarea>
                         <p className="error"> {errors.comment?.message} </p>
