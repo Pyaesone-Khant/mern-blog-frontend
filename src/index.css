@@ -26,6 +26,10 @@
     @apply text-sm text-red-600 mt-1
   ;}
 
+  .api-error{
+    @apply p-3 rounded-md bg-red-700/60 border border-red-500 text-white  my-5
+  ;}
+
   .btn{
     @apply h-10 min-w-[150px] flex items-center justify-center rounded-md text-white duration-200 border-transparent text-[17px] font-medium 
   ;}

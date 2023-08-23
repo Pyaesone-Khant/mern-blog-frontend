@@ -10,3 +10,12 @@ export { default as IsNotAuth } from "./routeGuards/IsNotAuth";
 
 //footer
 export { default as Footer } from "./footer/Footer";
+
+//antd
+export { default as LikeBtn } from "./antd/btns/ReactionBtn";
+export { default as SubmitBtn } from "./antd/btns/SubmitBtn";
+export { default as PwsBtn } from "./antd/btns/PasswordBtn";
+export { default as IconBtn } from "./antd/btns/IconBtn";
+
+//errortexts
+export { default as ErrorMsg } from "./errortexts/ErrorMessage";

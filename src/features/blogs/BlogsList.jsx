@@ -2,11 +2,13 @@ import { useSelector } from "react-redux";
 import BlogCard from "./BlogCard";
 import { memo, useEffect, useState } from "react";
 import { Pagination } from "antd";
+import BlogNotFound from "./BlogNotFound";
 
 const BlogsList = ({ blogs }) => {
-    const { keyword, title } = useSelector((state) => state.category);
+    const { keyword } = useSelector((state) => state.category);
     const [renderedBlogs, setRenderedBlogs] = useState([]);
-    //testing pagination
+
+    //pagination start
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 3;
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -32,6 +34,7 @@ const BlogsList = ({ blogs }) => {
         const subsetPages = blogs?.slice(startIndex, endIndex);
         setRenderedBlogs(subsetPages);
     };
+
     return (
         <div className=" w-full h-full flex flex-col gap-5 items-center">
             {renderedBlogs?.length > 0 ? (
@@ -39,14 +42,10 @@ const BlogsList = ({ blogs }) => {
                     return <BlogCard key={blog._id} blog={blog} />;
                 })
             ) : (
-                <h2 className="text-2xl font-semibold text-center p-5 rounded-md bg-white w-full">
-                    There is no blogs with the category title {`"${title}"`} in
-                    this page!
-                </h2>
+                <BlogNotFound />
             )}
             <Pagination
                 className="mt-auto"
-                defaultCurrent={currentPage}
                 current={currentPage}
                 total={blogs?.length}
                 onChange={handlePageChange}

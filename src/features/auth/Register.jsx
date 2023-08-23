@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { BsEyeSlashFill, BsEyeFill } from "react-icons/bs";
-import { Spinner } from "../../components";
+import { SubmitBtn, PwsBtn, ErrorMsg } from "@/components";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterAccountMutation } from "./authApi";
 
@@ -79,16 +78,10 @@ const Register = () => {
             <div className="p-5 rounded-md shadow-md max-w-2xl w-full border bg-white">
                 <h2 className="form-tlt"> Register Account </h2>
 
-                {apiError ? (
-                    <p className=" p-3 rounded-md bg-red-700/60 border border-red-500 text-white  my-5">
-                        {" "}
-                        {apiError}{" "}
-                    </p>
-                ) : (
-                    ""
-                )}
+                {apiError && <ErrorMsg message={apiError} isFromApi={true} />}
 
                 <form action="#" onSubmit={handleSubmit(onSubmit)}>
+                    {/* name */}
                     <div className="mb-5">
                         <label htmlFor="name">Name</label>
                         <input
@@ -113,8 +106,10 @@ const Register = () => {
                                 errors.name?.message ? "input-error" : ""
                             }`}
                         />
-                        <p className="error"> {errors.name?.message} </p>
+                        <ErrorMsg message={errors.name?.message} />
                     </div>
+
+                    {/* email */}
                     <div className="mb-5">
                         <label htmlFor="email">Email</label>
                         <input
@@ -125,7 +120,7 @@ const Register = () => {
                                     message: "Email is required!",
                                 },
                                 pattern: {
-                                    value: /^([\w]{4,9})+@([\w-]+\.)+[\w-]{2,4}$/,
+                                    value: /^([\w.]{4,10})+@([\w-]+\.)+[\w-]{2,4}$/,
                                     message: "Invalid email address!",
                                 },
                             })}
@@ -134,8 +129,10 @@ const Register = () => {
                                 errors.email?.message ? "input-error" : ""
                             }`}
                         />
-                        <p className="error"> {errors.email?.message} </p>
+                        <ErrorMsg message={errors.email?.message} />
                     </div>
+
+                    {/* password */}
                     <div className="mb-5">
                         <label htmlFor="password">Password</label>
                         <div className="relative">
@@ -164,20 +161,15 @@ const Register = () => {
                                         : ""
                                 }`}
                             />
-                            <button
-                                onClick={handleShowPassword}
-                                type="button"
-                                className="pws-btn"
-                            >
-                                {showPassword ? (
-                                    <BsEyeFill />
-                                ) : (
-                                    <BsEyeSlashFill />
-                                )}
-                            </button>
+                            <PwsBtn
+                                event={handleShowPassword}
+                                isShowed={showPassword}
+                            />
                         </div>
-                        <p className="error"> {errors.password?.message} </p>
+                        <ErrorMsg message={errors.password?.message} />
                     </div>
+
+                    {/* password confirmation */}
                     <div className="mb-5">
                         <label htmlFor="password_confirmation">
                             Confirm Password
@@ -203,23 +195,16 @@ const Register = () => {
                                         : ""
                                 }`}
                             />
-                            <button
-                                onClick={handleShowPasswordConfirmation}
-                                type="button"
-                                className="pws-btn"
-                            >
-                                {showPasswordConfirmation ? (
-                                    <BsEyeFill />
-                                ) : (
-                                    <BsEyeSlashFill />
-                                )}
-                            </button>
+                            <PwsBtn
+                                event={handleShowPasswordConfirmation}
+                                isShowed={showPasswordConfirmation}
+                            />
                         </div>
-                        <p className="error">
-                            {" "}
-                            {errors.password_confirmation?.message}{" "}
-                        </p>
+                        <ErrorMsg
+                            message={errors.password_confirmation?.message}
+                        />
                     </div>
+
                     <div className="flex items-center gap-2 mb-5">
                         <p>Already have an account? </p>
                         <Link
@@ -230,14 +215,12 @@ const Register = () => {
                             Login{" "}
                         </Link>
                     </div>
-                    <button
-                        className={`btn submit-btn ${
-                            canSave && !isSubmitting ? "" : "disabled"
-                        }`}
-                        disabled={!canSave || isSubmitting}
-                    >
-                        {isSubmitting ? <Spinner /> : "Register"}
-                    </button>
+                    <SubmitBtn
+                        isSubmitting={isSubmitting}
+                        label={"Register"}
+                        canSave={canSave}
+                        isDisabled={true}
+                    />
                 </form>
             </div>
         </section>

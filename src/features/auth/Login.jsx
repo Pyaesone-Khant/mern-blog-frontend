@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { BsEyeSlashFill, BsEyeFill } from "react-icons/bs";
-import { Spinner } from "../../components";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLoginAccountMutation } from "./authApi";
 import Cookies from "js-cookie";
 import { notification } from "antd";
 import { useDispatch } from "react-redux";
 import { setLoginState } from "./authSlice";
+import { PwsBtn, SubmitBtn, ErrorMsg } from "@/components";
 
 const Login = () => {
-    const [showPassword, setShowPassword] = useState(false);
+    const [isShowed, setIsShowed] = useState(false);
     const [canSave, setCanSave] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [apiError, setApiError] = useState("");
@@ -86,7 +85,7 @@ const Login = () => {
     }, [formData]);
 
     const handleShowPassword = () => {
-        setShowPassword(!showPassword);
+        setIsShowed(!isShowed);
     };
 
     return (
@@ -94,33 +93,37 @@ const Login = () => {
             {contextHolder}
             <div className="p-5 rounded-md shadow-md max-w-2xl w-full border bg-white">
                 <h2 className="form-tlt"> Login Account </h2>
-
-                {apiError ? (
-                    <p className=" p-3 rounded-md bg-red-700/60 border border-red-500 text-white  my-5">
-                        {" "}
-                        {apiError}{" "}
-                    </p>
-                ) : (
-                    ""
-                )}
+                {apiError && <ErrorMsg message={apiError} isFromApi={true} />}
                 <form action="#" onSubmit={handleSubmit(onSubmit)}>
+                    {/* email */}
                     <div className="mb-5">
                         <label htmlFor="email">Email</label>
                         <input
                             type="email"
-                            {...register("email")}
+                            {...register("email", {
+                                required: {
+                                    value: true,
+                                    message: "Email is required!",
+                                },
+                                pattern: {
+                                    value: /^([\w.]{4,10})+@([\w-]+\.)+[\w-]{2,4}$/,
+                                    message: "Invalid email address!",
+                                },
+                            })}
                             id="email"
                             className={`form-input ${
                                 errors.email?.message ? "input-error" : ""
                             }`}
                         />
-                        <p className="error"> {errors.email?.message} </p>
+                        <ErrorMsg message={errors.email?.message} />
                     </div>
+
+                    {/* password */}
                     <div className="mb-5">
                         <label htmlFor="password">Password</label>
                         <div className="relative">
                             <input
-                                type={showPassword ? "text" : "password"}
+                                type={isShowed ? "text" : "password"}
                                 {...register("password")}
                                 id="password"
                                 className={`form-input ${
@@ -129,20 +132,14 @@ const Login = () => {
                                         : ""
                                 }`}
                             />
-                            <button
-                                onClick={handleShowPassword}
-                                type="button"
-                                className="pws-btn"
-                            >
-                                {showPassword ? (
-                                    <BsEyeFill />
-                                ) : (
-                                    <BsEyeSlashFill />
-                                )}
-                            </button>
+                            <PwsBtn
+                                event={handleShowPassword}
+                                isShowed={isShowed}
+                            />
                         </div>
-                        <p className="error"> {errors.password?.message} </p>
+                        <ErrorMsg message={errors.password?.message} />
                     </div>
+
                     <div className="flex items-center gap-2 mb-5">
                         <p>Don't have an account? </p>
                         <Link
@@ -153,14 +150,12 @@ const Login = () => {
                             Register{" "}
                         </Link>
                     </div>
-                    <button
-                        className={` btn submit-btn ${
-                            canSave && !isSubmitting ? "" : "disabled"
-                        }`}
-                        disabled={!canSave || isSubmitting}
-                    >
-                        {isSubmitting ? <Spinner /> : "Login"}
-                    </button>
+                    <SubmitBtn
+                        isSubmitting={isSubmitting}
+                        label={"Login"}
+                        canSave={canSave}
+                        isDisabled={true}
+                    />
                 </form>
             </div>
         </section>

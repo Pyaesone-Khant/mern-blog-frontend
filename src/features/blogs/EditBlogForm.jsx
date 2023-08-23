@@ -2,14 +2,12 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useGetBlogByIdQuery, useUpdateBlogMutation } from "./blogApi";
 import { useNavigate, useParams } from "react-router-dom";
-import { Spinner } from "@/components";
-import { Loader } from "@/components";
+import { Loader, SubmitBtn, ErrorMsg } from "@/components";
 
 const EditBlogForm = () => {
     const { blogId } = useParams();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [apiError, setApiError] = useState("");
-
     const { data, isLoading, isFetching } = useGetBlogByIdQuery(blogId);
     const currentBlog = data?.data;
 
@@ -63,15 +61,9 @@ const EditBlogForm = () => {
             <div className="p-5 rounded-md shadow-md max-w-2xl w-full border bg-white mx-auto">
                 <h2 className="form-tlt"> Create New Blog </h2>
 
-                {apiError ? (
-                    <p className=" p-3 rounded-md bg-red-700/60 border border-red-500 text-white  my-5">
-                        {" "}
-                        {apiError}{" "}
-                    </p>
-                ) : (
-                    ""
-                )}
+                {apiError && <ErrorMsg message={apiError} isFromApi={true} />}
                 <form action="#" onSubmit={handleSubmit(onSubmit)}>
+                    {/* title */}
                     <div className="mb-5">
                         <label htmlFor="title">Title</label>
                         <input
@@ -84,7 +76,7 @@ const EditBlogForm = () => {
                                 pattern: {
                                     value: /^\b([A-Z])+[\w -!$_.]*/,
                                     message:
-                                        "First letter of the content must be capital !",
+                                        "First letter of the title must be capital !",
                                 },
                                 minLength: {
                                     value: 5,
@@ -97,8 +89,9 @@ const EditBlogForm = () => {
                                 errors.title?.message ? "input-error" : ""
                             }`}
                         />
-                        <p className="error"> {errors.title?.message} </p>
+                        <ErrorMsg message={errors.title?.message} />
                     </div>
+                    {/* content / description */}
                     <div className="mb-5">
                         <label htmlFor="description">Content</label>
                         <textarea
@@ -124,16 +117,9 @@ const EditBlogForm = () => {
                                 errors.description?.message ? "input-error" : ""
                             }`}
                         ></textarea>
-                        <p className="error"> {errors.description?.message} </p>
+                        <ErrorMsg message={errors.description?.message} />
                     </div>
-                    <button
-                        className={`btn submit-btn ${
-                            !isSubmitting ? "" : "disabled"
-                        }`}
-                        disabled={isSubmitting}
-                    >
-                        {isSubmitting ? <Spinner /> : "Save"}
-                    </button>
+                    <SubmitBtn isSubmitting={isSubmitting} label="Save" />
                 </form>
             </div>
         </section>

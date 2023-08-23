@@ -4,17 +4,17 @@ import { useDispatch } from "react-redux";
 import { setKeyword, setTitle } from "./categoriesSlice";
 
 const CategoriesList = ({ categories }) => {
-    const [filterKeyword, setFilterKeyword] = useState("All");
+    const [filterId, setFilterId] = useState("All");
     const [catTitle, setCatTitle] = useState("All");
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(setKeyword(filterKeyword));
+        dispatch(setKeyword(filterId));
         dispatch(setTitle(catTitle));
-    }, [filterKeyword, catTitle]);
+    }, [filterId, catTitle]);
 
     const handleCategory = (id, title) => {
-        setFilterKeyword(id);
+        setFilterId(id);
         setCatTitle(title);
     };
 
@@ -23,7 +23,7 @@ const CategoriesList = ({ categories }) => {
             <CategoryBtn
                 title={"All"}
                 event={handleCategory}
-                isActive={filterKeyword}
+                isActive={filterId}
                 id={"All"}
             />
 
@@ -33,7 +33,7 @@ const CategoriesList = ({ categories }) => {
                         key={item._id}
                         title={item.title}
                         event={handleCategory}
-                        isActive={filterKeyword}
+                        isActive={filterId}
                         id={item._id}
                     />
                 );

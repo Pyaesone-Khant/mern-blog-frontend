@@ -39,14 +39,6 @@ const App = () => {
 
                 {/* user routes */}
                 <Route
-                    path="change_password"
-                    element={
-                        <IsAuth>
-                            <CPForm />
-                        </IsAuth>
-                    }
-                />
-                <Route
                     path="change_profile"
                     element={
                         <IsAuth>

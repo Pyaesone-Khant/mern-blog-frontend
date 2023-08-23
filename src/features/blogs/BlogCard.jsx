@@ -1,11 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useGetUserByIdQuery } from "../users/UserApi";
 import { useGetCategoryByIdQuery } from "../categories/categoriesApi";
-import { memo, useState } from "react";
-import { useSelector } from "react-redux";
-import { useSetUserReactionMutation } from "./blogApi";
-import { BsHandThumbsUp, BsHandThumbsUpFill } from "react-icons/bs";
-import { Skeleton, Tooltip } from "antd";
+import { memo } from "react";
+import { Skeleton } from "antd";
+import { LikeBtn } from "@/components";
 
 const BlogCard = ({ blog, isDetail }) => {
     const id = blog?._id;
@@ -15,29 +13,7 @@ const BlogCard = ({ blog, isDetail }) => {
     const author = userData?.data;
     const { data: categoryData, isLoading: isCLoading } =
         useGetCategoryByIdQuery(blog?.categoryId);
-    const [setUserReaction] = useSetUserReactionMutation();
     const blogCategory = categoryData?.data;
-    const { user: currentUser, isLoggedIn } = useSelector(
-        (state) => state.auth
-    );
-    const reactionsCount = blog?.reactions.length;
-    const isAlreadyLiked = blog?.reactions.includes(currentUser?._id);
-    const [isLiked, setIsLiked] = useState(isAlreadyLiked);
-    const nav = useNavigate();
-
-    const handleBlogReaction = async () => {
-        if (isLoggedIn) {
-            const requiredIds = { userId: currentUser?._id, blogId: id };
-            try {
-                await setUserReaction(requiredIds);
-                setIsLiked(!isLiked);
-            } catch (error) {
-                throw new Error(error);
-            }
-        } else {
-            return nav("/login", { state: "Please login first!" });
-        }
-    };
     const date = new Date(blog?.createdAt).toLocaleString().split(",")[0];
 
     if (isULoading || isCLoading) {
@@ -52,9 +28,9 @@ const BlogCard = ({ blog, isDetail }) => {
         <article
             className={` rounded-md ${isDetail ? "detail-card" : "card"} `}
         >
-            <div className="text-xl font-bold  duration-200 w-fit flex flex-col-reverse md:items-center gap-2 md:flex-row ">
+            <div className="text-2xl font-bold  duration-200 w-fit flex flex-col-reverse md:items-center gap-2 md:flex-row ">
                 {isDetail ? (
-                    <h2 className="text-2xl"> {blog?.title} </h2>
+                    <h2> {blog?.title} </h2>
                 ) : (
                     <Link
                         to={`/blogs/${id}`}
@@ -69,26 +45,17 @@ const BlogCard = ({ blog, isDetail }) => {
                     {blogCategory?.title}{" "}
                 </span>
             </div>
-            {isDetail ? (
-                <p
-                    className={`text-gray-500 ${
-                        isDetail ? " whitespace-pre-line" : "line-clamp-2"
-                    }  `}
-                >
-                    {" "}
-                    {blog?.description}{" "}
-                </p>
-            ) : (
-                <Link
-                    to={`/blogs/${id}`}
-                    className={`text-gray-500 ${
-                        isDetail ? " whitespace-pre-line" : "line-clamp-2"
-                    }  `}
-                >
-                    {" "}
-                    {blog?.description}{" "}
-                </Link>
-            )}
+            <div
+                className={`text-gray-500 ${
+                    isDetail ? " whitespace-pre-line" : "line-clamp-2"
+                }  `}
+            >
+                {isDetail ? (
+                    <p> {blog?.description} </p>
+                ) : (
+                    <Link to={`/blogs/${id}`}> {blog?.description} </Link>
+                )}
+            </div>
             <div className="flex flex-col-reverse md:flex-row md:items-center justify-between mt-auto gap-2">
                 <p className=" font-medium">
                     {" "}
@@ -103,43 +70,7 @@ const BlogCard = ({ blog, isDetail }) => {
                 </p>
                 <p> {date} </p>
             </div>
-            <div className="flex items-end gap-3">
-                <Tooltip
-                    placement="top"
-                    className="font-sans"
-                    title={
-                        <p
-                            className="font-sans tracking-wide
-                        "
-                        >
-                            {isLiked ? "Liked" : "Un-Liked"}
-                        </p>
-                    }
-                >
-                    <button
-                        onClick={handleBlogReaction}
-                        className={`reaction-btn`}
-                    >
-                        {isLiked && isLoggedIn ? (
-                            <BsHandThumbsUpFill />
-                        ) : isLiked && !isLoggedIn ? (
-                            <BsHandThumbsUp />
-                        ) : (
-                            <BsHandThumbsUp />
-                        )}
-                    </button>{" "}
-                </Tooltip>
-
-                <p className="font-medium text-blue-600">
-                    {" "}
-                    {reactionsCount > 0 ? reactionsCount : ""}
-                    {reactionsCount > 1
-                        ? "Likes"
-                        : reactionsCount === 1
-                        ? "Like"
-                        : ""}{" "}
-                </p>
-            </div>
+            <LikeBtn blog={blog} />
         </article>
     );
 };

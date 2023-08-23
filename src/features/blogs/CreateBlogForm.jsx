@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useCreateBlogMutation } from "./blogApi";
 import { useNavigate } from "react-router-dom";
-import { Spinner } from "@/components";
 import { useSelector } from "react-redux";
 import { useGetAllCategoriesQuery } from "../categories/categoriesApi";
-import { Loader } from "@/components";
+import { Loader, SubmitBtn, ErrorMsg } from "@/components";
 
 const CreateBlogForm = () => {
     const [canSave, setCanSave] = useState(false);
@@ -67,15 +66,9 @@ const CreateBlogForm = () => {
             <div className="p-5 rounded-md shadow-md max-w-2xl w-full border bg-white mx-auto">
                 <h2 className="form-tlt"> Create New Blog </h2>
 
-                {apiError ? (
-                    <p className=" p-3 rounded-md bg-red-700/60 border border-red-500 text-white  my-5">
-                        {" "}
-                        {apiError}{" "}
-                    </p>
-                ) : (
-                    ""
-                )}
+                {apiError && <ErrorMsg message={apiError} isFromApi={true} />}
                 <form action="#" onSubmit={handleSubmit(onSubmit)}>
+                    {/* title */}
                     <div className="mb-5">
                         <label htmlFor="title">Title</label>
                         <input
@@ -84,6 +77,11 @@ const CreateBlogForm = () => {
                                 required: {
                                     value: true,
                                     message: "Blog title is required!",
+                                },
+                                pattern: {
+                                    value: /^\b([A-Z])+[\w -!$_.]*/,
+                                    message:
+                                        "First letter of the title must be capital !",
                                 },
                                 minLength: {
                                     value: 5,
@@ -96,9 +94,10 @@ const CreateBlogForm = () => {
                                 errors.title?.message ? "input-error" : ""
                             }`}
                         />
-                        <p className="error"> {errors.title?.message} </p>
+                        <ErrorMsg message={errors.title?.message} />
                     </div>
 
+                    {/* category */}
                     <div className="mb-5">
                         <label htmlFor="categoryId">Category</label>
                         <select
@@ -126,9 +125,10 @@ const CreateBlogForm = () => {
                                 );
                             })}
                         </select>
-                        <p className="error"> {errors.categoryId?.message} </p>
+                        <ErrorMsg message={errors.categoryId?.message} />
                     </div>
 
+                    {/* content/description */}
                     <div className="mb-5">
                         <label htmlFor="description">Content</label>
                         <textarea
@@ -154,16 +154,14 @@ const CreateBlogForm = () => {
                                 errors.description?.message ? "input-error" : ""
                             }`}
                         ></textarea>
-                        <p className="error"> {errors.description?.message} </p>
+                        <ErrorMsg message={errors.description?.message} />
                     </div>
-                    <button
-                        className={`btn submit-btn ${
-                            canSave && !isSubmitting ? "" : "disabled"
-                        }`}
-                        disabled={!canSave || isSubmitting}
-                    >
-                        {isSubmitting ? <Spinner /> : "Create"}
-                    </button>
+                    <SubmitBtn
+                        isSubmitting={isSubmitting}
+                        label={"Create"}
+                        canSave={canSave}
+                        isDisabled={true}
+                    />
                 </form>
             </div>
         </section>

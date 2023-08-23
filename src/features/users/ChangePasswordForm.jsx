@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { BsEyeSlashFill, BsEyeFill } from "react-icons/bs";
-import { Spinner } from "@/components";
+import { PwsBtn, SubmitBtn, ErrorMsg } from "@/components";
 import { useNavigate } from "react-router-dom";
 import { useChangeUserPasswordMutation } from "./UserApi";
 import Cookies from "js-cookie";
@@ -69,20 +68,13 @@ const ChangePasswordForm = () => {
             <div className="p-5 rounded-md shadow-md max-w-2xl w-full border bg-white">
                 <h2 className="form-tlt"> Change Password </h2>
 
-                {apiError ? (
-                    <p className=" p-3 rounded-md bg-red-700/60 border border-red-500 text-white  my-5">
-                        {" "}
-                        {apiError}{" "}
-                    </p>
-                ) : (
-                    ""
-                )}
+                {apiError && <ErrorMsg message={apiError} isFromApi={true} />}
                 <form action="#" onSubmit={handleSubmit(onSubmit)}>
                     <div className="mb-5">
                         <label htmlFor="password"> Current Password</label>
                         <div className="relative">
                             <input
-                                type={showNewPassword ? "text" : "password"}
+                                type={showPassword ? "text" : "password"}
                                 {...register("password", {
                                     required: {
                                         value: true,
@@ -97,25 +89,18 @@ const ChangePasswordForm = () => {
                                         : ""
                                 }`}
                             />
-                            <button
-                                onClick={handleShowNewPassword}
-                                type="button"
-                                className="pws-btn"
-                            >
-                                {showNewPassword ? (
-                                    <BsEyeFill />
-                                ) : (
-                                    <BsEyeSlashFill />
-                                )}
-                            </button>
+                            <PwsBtn
+                                isShowed={showPassword}
+                                event={handleShowPassword}
+                            />
                         </div>
-                        <p className="error"> {errors.password?.message} </p>
+                        <ErrorMsg message={errors.password?.message} />
                     </div>
                     <div className="mb-5">
                         <label htmlFor="newPassword"> New Password</label>
                         <div className="relative">
                             <input
-                                type={showPassword ? "text" : "password"}
+                                type={showNewPassword ? "text" : "password"}
                                 {...register("newPassword", {
                                     required: {
                                         value: true,
@@ -134,28 +119,19 @@ const ChangePasswordForm = () => {
                                         : ""
                                 }`}
                             />
-                            <button
-                                onClick={handleShowPassword}
-                                type="button"
-                                className="pws-btn"
-                            >
-                                {showPassword ? (
-                                    <BsEyeFill />
-                                ) : (
-                                    <BsEyeSlashFill />
-                                )}
-                            </button>
+                            <PwsBtn
+                                isShowed={showNewPassword}
+                                event={handleShowNewPassword}
+                            />
                         </div>
-                        <p className="error"> {errors.newPassword?.message} </p>
+                        <ErrorMsg message={errors.newPassword?.message} />
                     </div>
-                    <button
-                        className={` btn submit-btn ${
-                            canSave && !isSubmitting ? "" : "disabled"
-                        }`}
-                        disabled={!canSave || isSubmitting}
-                    >
-                        {isSubmitting ? <Spinner /> : "Save"}
-                    </button>
+                    <SubmitBtn
+                        label={"Submit"}
+                        isSubmitting={isSubmitting}
+                        canSave={canSave}
+                        isDisabled={true}
+                    />
                 </form>
             </div>
         </section>
