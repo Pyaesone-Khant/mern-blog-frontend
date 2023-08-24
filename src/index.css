@@ -7,7 +7,7 @@
 @layer components{
 
   .form-tlt{
-    @apply font-semibold text-xl mb-8
+    @apply font-semibold text-xl mb-6
   ;}
 
   label{
@@ -27,7 +27,7 @@
   ;}
 
   .api-error{
-    @apply p-3 rounded-md bg-red-700/60 border border-red-500 text-white  my-5
+    @apply p-3 rounded-md bg-red-700/60 border border-red-500 text-white flex items-center gap-2 my-5
   ;}
 
   .btn{

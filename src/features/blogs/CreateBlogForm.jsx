@@ -37,7 +37,10 @@ const CreateBlogForm = () => {
                 nav("/");
             } else {
                 setIsSubmitting(false);
-                setApiError(data?.error?._message || data?.message);
+                setApiError(data?.message);
+                setTimeout(() => {
+                    setApiError(null);
+                }, 3000);
             }
         } catch (error) {
             throw new Error(error);

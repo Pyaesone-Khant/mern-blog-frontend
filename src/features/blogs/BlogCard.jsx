@@ -5,7 +5,7 @@ import { memo } from "react";
 import { Skeleton } from "antd";
 import { LikeBtn } from "@/components";
 
-const BlogCard = ({ blog, isDetail }) => {
+let BlogCard = ({ blog, isDetail }) => {
     const id = blog?._id;
     const { data: userData, isLoading: isULoading } = useGetUserByIdQuery(
         blog?.userId
@@ -75,4 +75,6 @@ const BlogCard = ({ blog, isDetail }) => {
     );
 };
 
-export default memo(BlogCard);
+BlogCard = memo(BlogCard);
+
+export default BlogCard;

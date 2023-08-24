@@ -5,6 +5,7 @@ export const userApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: "https://blogapp-apis.onrender.com/users",
     }),
+    //baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3500/users" }),
     tagTypes: ["user"],
     endpoints: (builder) => ({
         getAllUsers: builder.query({
@@ -25,10 +26,10 @@ export const userApi = createApi({
         }),
 
         deleteUser: builder.mutation({
-            query: (id) => ({
+            query: (userData) => ({
                 url: `/`,
                 method: "DELETE",
-                body: id,
+                body: userData,
             }),
             invalidatesTags: ["user"],
         }),

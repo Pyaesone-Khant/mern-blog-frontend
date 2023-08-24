@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import CategoryBtn from "./CategoryBtn";
 import { useDispatch } from "react-redux";
 import { setKeyword, setTitle } from "./categoriesSlice";
@@ -42,4 +42,4 @@ const CategoriesList = ({ categories }) => {
     );
 };
 
-export default CategoriesList;
+export default memo(CategoriesList);

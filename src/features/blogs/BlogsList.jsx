@@ -55,4 +55,4 @@ const BlogsList = ({ blogs }) => {
     );
 };
 
-export default memo(BlogsList);
+export default BlogsList;

@@ -10,7 +10,7 @@ const Register = () => {
         useState(false);
     const [canSave, setCanSave] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [apiError, setApiErrors] = useState("");
+    const [apiError, setApiError] = useState("");
     const form = useForm();
     const {
         register,
@@ -46,8 +46,11 @@ const Register = () => {
                 setIsSubmitting(false);
                 nav("/login", { state: data?.message });
             } else {
-                setApiErrors(data?.message);
+                setApiError(data?.message);
                 setIsSubmitting(false);
+                setTimeout(() => {
+                    setApiError(null);
+                }, 3000);
             }
         } catch (error) {
             throw new Error(error);

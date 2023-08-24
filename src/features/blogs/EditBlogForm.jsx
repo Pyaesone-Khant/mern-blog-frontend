@@ -35,6 +35,9 @@ const EditBlogForm = () => {
             } else {
                 setIsSubmitting(false);
                 setApiError(data?.message);
+                setTimeout(() => {
+                    setApiError(null);
+                }, 3000);
             }
         } catch (error) {
             throw new Error(error);

@@ -5,6 +5,8 @@ export const blogApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: "https://blogapp-apis.onrender.com/blogs",
     }),
+    //baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3500/blogs" }),
+
     tagTypes: ["blog"],
     endpoints: (builder) => ({
         getAllBlogs: builder.query({
@@ -58,6 +60,14 @@ export const blogApi = createApi({
             }),
             invalidatesTags: ["blog"],
         }),
+
+        getBlogByUserId: builder.query({
+            query: (userId) => ({
+                url: `/getUserBlogs/${userId}`,
+                method: "GET",
+            }),
+            providesTags: ["blog"],
+        }),
     }),
 });
 
@@ -68,4 +78,5 @@ export const {
     useDeleteBlogMutation,
     useGetBlogByIdQuery,
     useSetUserReactionMutation,
+    useGetBlogByUserIdQuery,
 } = blogApi;

@@ -49,25 +49,11 @@ const AccountMenu = ({ user, token, event }) => {
         {
             key: 1,
             label: (
-                <MenuLink
-                    event={event}
-                    path={`users/${user?._id}`}
-                    title={"my blogs"}
-                />
+                <MenuLink event={event} path={"profile"} title={"Profile"} />
             ),
         },
         {
             key: 2,
-            label: (
-                <MenuLink
-                    event={event}
-                    path={"change_profile"}
-                    title={"Update profile"}
-                />
-            ),
-        },
-        {
-            key: 3,
             label: <MenuLink title={"Logout"} event={handleLogout} />,
             danger: true,
         },
@@ -77,6 +63,7 @@ const AccountMenu = ({ user, token, event }) => {
         <div className="font-sans mx-auto">
             {contextHolder}
             <Dropdown
+                className="min-w-[130px]"
                 arrow
                 menu={{
                     items: menuItems,
@@ -84,7 +71,7 @@ const AccountMenu = ({ user, token, event }) => {
                 placement="bottom"
                 trigger={["click"]}
             >
-                <button className=" min-w-max px-3 py-2 rounded-md bg-slate-800 text-white hover:bg-slate-700 duration-200">
+                <button className=" min-w-max px-5 w-fit py-2 rounded-md bg-slate-800 text-white hover:bg-slate-700 duration-200">
                     {" "}
                     {user?.name}{" "}
                 </button>

@@ -19,23 +19,36 @@ const UserBlogs = () => {
         );
     }
     return (
-        <section>
+        <section className="w-full max-w-2xl mx-auto">
             <h2 className="text-2xl font-semibold mb-5">
                 {" "}
                 {user?.name}'s Blogs{" "}
             </h2>
-            <ul className=" list-inside list-decimal text-xl font-medium flex flex-col gap-1">
-                {userBlogs?.map((blog) => {
-                    return (
-                        <Link to={`/blogs/${blog?._id}`} key={blog?._id}>
-                            <li className="hover:text-blue-600 duration-200">
-                                {" "}
-                                {blog.title}{" "}
-                            </li>
-                        </Link>
-                    );
-                })}
-            </ul>
+
+            <div className="font-medium text-xl p-3 rounded-md bg-white">
+                {userBlogs?.length > 0 ? (
+                    <ul className=" list-inside list-decimal flex flex-col gap-1">
+                        {userBlogs?.map((blog) => {
+                            return (
+                                <Link
+                                    to={`/blogs/${blog?._id}`}
+                                    key={blog?._id}
+                                >
+                                    <li className="hover:text-blue-600 duration-200">
+                                        {" "}
+                                        {blog.title}{" "}
+                                    </li>
+                                </Link>
+                            );
+                        })}
+                    </ul>
+                ) : (
+                    <p className="text-xl font-semibold">
+                        {" "}
+                        {user?.name} hasn't post any blogs yet!{" "}
+                    </p>
+                )}
+            </div>
         </section>
     );
 };

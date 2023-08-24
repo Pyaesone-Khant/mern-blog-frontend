@@ -5,6 +5,7 @@ export const categoriesApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: "https://blogapp-apis.onrender.com/categories",
     }),
+    //baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3500/categories" }),
     tagTypes: ["category"],
     endpoints: (builder) => ({
         getAllCategories: builder.query({

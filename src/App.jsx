@@ -6,10 +6,13 @@ import {
     RegisterPage,
     BlogDetail,
     EditBlog,
+    CUserD,
+    UBlogs,
+    ADForm,
+    UProfile,
 } from "@/features";
 import { ErrorPage, HomePage } from "./pages";
 import { IsAuth, IsNotAuth } from "@/components";
-import { CPForm, CUserD, UBlogs } from "./features";
 
 const App = () => {
     return (
@@ -46,6 +49,25 @@ const App = () => {
                         </IsAuth>
                     }
                 />
+
+                <Route
+                    path="delete_account"
+                    element={
+                        <IsAuth>
+                            <ADForm />
+                        </IsAuth>
+                    }
+                />
+
+                <Route
+                    path="profile"
+                    element={
+                        <IsAuth>
+                            <UProfile />
+                        </IsAuth>
+                    }
+                />
+
                 <Route path="users/:userId" element={<UBlogs />} />
                 {/* user routes end */}
 
