@@ -5,10 +5,10 @@
   ;}
   
    .navLink{
-    @apply relative p-2 text-[17px] font-semibold capitalize opacity-60 duration-300 
+    @apply relative p-2 text-[17px] font-semibold capitalize opacity-60 dark:opacity-50 duration-200 min-w-max
   ;}
 
   .navLink:hover, .navLink.active{
-    @apply opacity-100 text-blue-600 !important
+    @apply opacity-100 text-blue-600 dark:text-darkTer !important 
   ;}
 }

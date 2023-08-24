@@ -53,7 +53,7 @@ const ReactionBtn = ({ blog }) => {
                     )}
                 </button>{" "}
             </Tooltip>
-            <p className="font-medium text-blue-600">
+            <p className="font-medium text-blue-600 dark:text-darkTer">
                 {" "}
                 {reactionsCount > 0 ? reactionsCount : ""}
                 {reactionsCount > 1

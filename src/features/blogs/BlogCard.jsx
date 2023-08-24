@@ -34,19 +34,19 @@ let BlogCard = ({ blog, isDetail }) => {
                 ) : (
                     <Link
                         to={`/blogs/${id}`}
-                        className="text-truncate hover:text-blue-500 duration-200"
+                        className="text-truncate hover:text-blue-500 dark:hover:text-darkTer duration-200"
                     >
                         {" "}
                         {blog?.title}{" "}
                     </Link>
                 )}
-                <span className="text-sm px-2 py-1 rounded-md bg-blue-600 text-white font-normal w-fit">
+                <span className="text-sm px-2 py-1 rounded-md bg-blue-600 dark:bg-darkTer text-white font-normal w-fit">
                     {" "}
                     {blogCategory?.title}{" "}
                 </span>
             </div>
             <div
-                className={`text-gray-500 ${
+                className={`text-gray-500 dark:text-gray-400 ${
                     isDetail ? " whitespace-pre-line" : "line-clamp-2"
                 }  `}
             >
@@ -62,7 +62,7 @@ let BlogCard = ({ blog, isDetail }) => {
                     By{" "}
                     <Link
                         to={`/users/${blog?.userId}`}
-                        className=" italic underline underline-offset-2 hover:text-blue-600 duration-200"
+                        className=" italic underline underline-offset-2 hover:text-blue-500 dark:hover:text-darkTer duration-200"
                     >
                         {" "}
                         {author?.name}{" "}

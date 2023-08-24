@@ -94,7 +94,7 @@ const Login = () => {
     return (
         <section className="flex items-center justify-center w-full">
             {contextHolder}
-            <div className="p-5 rounded-md shadow-md max-w-2xl w-full border bg-white">
+            <div className="common-card">
                 <h2 className="form-tlt"> Login Account </h2>
                 {apiError && <ErrorMsg message={apiError} isFromApi={true} />}
                 <form action="#" onSubmit={handleSubmit(onSubmit)}>
@@ -147,7 +147,7 @@ const Login = () => {
                         <p>Don't have an account? </p>
                         <Link
                             to={"/register"}
-                            className=" text-blue-600 border-b border-blue-600 "
+                            className=" text-blue-600 border-b border-blue-600 dark:text-darkTer dark:border-darkTer "
                         >
                             {" "}
                             Register{" "}

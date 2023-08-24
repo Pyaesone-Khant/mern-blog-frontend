@@ -16,3 +16,4 @@ export { default as UProfile } from "./users/UserProfile";
 
 //categories
 export { default as CatList } from "./categories/CategoriesList";
+

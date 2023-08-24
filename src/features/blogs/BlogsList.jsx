@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 import BlogCard from "./BlogCard";
-import { memo, useEffect, useState } from "react";
-import { Pagination } from "antd";
+import { useEffect, useState } from "react";
 import BlogNotFound from "./BlogNotFound";
+import { CPagination } from "@/components";
 
 const BlogsList = ({ blogs }) => {
     const { keyword } = useSelector((state) => state.category);
@@ -29,12 +29,6 @@ const BlogsList = ({ blogs }) => {
         }
     }, [keyword, blogs, currentPage]);
 
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-        const subsetPages = blogs?.slice(startIndex, endIndex);
-        setRenderedBlogs(subsetPages);
-    };
-
     return (
         <div className=" w-full h-full flex flex-col gap-5 items-center">
             {renderedBlogs?.length > 0 ? (
@@ -44,12 +38,14 @@ const BlogsList = ({ blogs }) => {
             ) : (
                 <BlogNotFound />
             )}
-            <Pagination
-                className="mt-auto"
-                current={currentPage}
-                total={blogs?.length}
-                onChange={handlePageChange}
-                pageSize={itemsPerPage}
+            <CPagination
+                blogs={blogs}
+                setRenderedBlogs={setRenderedBlogs}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                itemsPerPage={itemsPerPage}
+                startIndex={startIndex}
+                endIndex={endIndex}
             />
         </div>
     );

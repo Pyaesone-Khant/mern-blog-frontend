@@ -1,6 +1,6 @@
 import { useGetAllBlogsQuery } from "../blogs/blogApi";
-import { Loader } from "../../components";
-import { Link, useParams } from "react-router-dom";
+import { Loader, BTLink } from "@/components";
+import { useParams } from "react-router-dom";
 import { useGetUserByIdQuery } from "./UserApi";
 
 const UserBlogs = () => {
@@ -25,20 +25,16 @@ const UserBlogs = () => {
                 {user?.name}'s Blogs{" "}
             </h2>
 
-            <div className="font-medium text-xl p-3 rounded-md bg-white">
+            <div className="font-medium text-xl p-5 shadow-md rounded-md bg-white dark:bg-slate-700">
                 {userBlogs?.length > 0 ? (
                     <ul className=" list-inside list-decimal flex flex-col gap-1">
                         {userBlogs?.map((blog) => {
                             return (
-                                <Link
-                                    to={`/blogs/${blog?._id}`}
+                                <BTLink
                                     key={blog?._id}
-                                >
-                                    <li className="hover:text-blue-600 duration-200">
-                                        {" "}
-                                        {blog.title}{" "}
-                                    </li>
-                                </Link>
+                                    title={blog?.title}
+                                    blogId={blog?._id}
+                                />
                             );
                         })}
                     </ul>

@@ -16,6 +16,10 @@ export { default as LikeBtn } from "./antd/btns/ReactionBtn";
 export { default as SubmitBtn } from "./antd/btns/SubmitBtn";
 export { default as PwsBtn } from "./antd/btns/PasswordBtn";
 export { default as IconBtn } from "./antd/btns/IconBtn";
+export { default as CPagination } from "./antd/pagination/CPagination";
 
 //errortexts
 export { default as ErrorMsg } from "./errortexts/ErrorMessage";
+
+//titleLink
+export { default as BTLink } from "./titleLink/TitleLink";

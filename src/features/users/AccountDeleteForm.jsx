@@ -87,7 +87,7 @@ const AccountDeleteForm = () => {
 
     return (
         <section className="  flex items-center justify-center  w-full">
-            <div className="p-5 rounded-md shadow-md max-w-2xl w-full border bg-white">
+            <div className="common-card">
                 <h2 className="form-tlt"> Confirm Account Deletion </h2>
 
                 {apiError && <ErrorMsg message={apiError} isFromApi={true} />}

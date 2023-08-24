@@ -6,6 +6,10 @@
 
 @layer components{
 
+  .common-card{
+    @apply bg-white shadow-md rounded-md max-w-2xl p-5 dark:bg-slate-700 mx-auto w-full
+  ;}
+
   .form-tlt{
     @apply font-semibold text-xl mb-6
   ;}
@@ -15,19 +19,19 @@
   ;}
 
   .form-input{
-    @apply p-2 rounded-md w-full outline-none mt-1 border border-black/30 select-none
+    @apply p-2 rounded-md w-full outline-none mt-1 border border-black/30 select-none dark:bg-slate-900 duration-200
   ;}
 
   .form-input.input-error{
-    @apply border-red-600 text-red-600
+    @apply border-red-600 text-red-600 dark:text-yellow-400 dark:border-yellow-400 
   ;}
 
   .error{
-    @apply text-sm text-red-600 mt-1
+    @apply text-sm text-red-600 mt-1 dark:text-yellow-400
   ;}
 
   .api-error{
-    @apply p-3 rounded-md bg-red-700/60 border border-red-500 text-white flex items-center gap-2 my-5
+    @apply p-3 rounded-md bg-red-700 text-white flex items-center gap-2 my-5
   ;}
 
   .btn{
@@ -43,27 +47,35 @@
   ;}
 
   .comment-btn{
-    @apply border border-green-700 text-green-700 hover:bg-green-700 hover:text-white
-  ;}
+    @apply border border-green-700 text-green-700 hover:bg-green-700 hover:text-white dark:border-gray-200 dark:text-gray-200 dark:hover:bg-gray-200 dark:hover:text-green-700 duration-200;}
 
   .submit-btn.disabled{
-    @apply bg-gray-600 text-gray-400
+    @apply bg-gray-600 text-gray-400 dark:bg-gray-500 dark:text-gray-300 duration-200
   ;}
   
   .pws-btn{
-    @apply absolute right-4 top-1/2 transform -translate-y-1/2 text-lg outline-none border-none text-gray-700
+    @apply absolute right-4 top-1/2 transform -translate-y-1/2 text-lg outline-none border-none text-gray-700 dark:text-gray-200
   ;}
 
   .card{
-    @apply flex flex-col gap-3 p-3 shadow tracking-wider w-full bg-white hover:shadow-xl duration-200 h-fit rounded-md
+    @apply flex flex-col gap-3 p-3 shadow tracking-wider w-full bg-white hover:shadow-xl duration-200 h-fit rounded-md dark:text-white dark:bg-slate-700 duration-200
   ;}
 
   .detail-card{
-    @apply flex flex-col gap-3 tracking-wider
+    @apply flex flex-col gap-3 tracking-wider 
   ;}
 
   .reaction-btn{
     @apply text-blue-600 text-xl hover:scale-[1.2] duration-200
+    dark:text-darkTer 
+  ;}
+
+  .paginate-btn{
+    @apply h-9 w-9 rounded-md bg-white dark:bg-gray-300 text-black text-xl flex items-center justify-center font-medium shadow duration-200
+  ;}
+
+  .paginate-btn.active, .paginate-btn:hover{
+    @apply bg-blue-600 text-white dark:bg-darkTer duration-200
   ;}
 }
 

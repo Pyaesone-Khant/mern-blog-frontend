@@ -71,7 +71,7 @@ const AccountMenu = ({ user, token, event }) => {
                 placement="bottom"
                 trigger={["click"]}
             >
-                <button className=" min-w-max px-5 w-fit py-2 rounded-md bg-slate-800 text-white hover:bg-slate-700 duration-200">
+                <button className=" min-w-max px-5 w-fit py-2 rounded-md bg-slate-900 text-white hover:bg-slate-800 duration-200">
                     {" "}
                     {user?.name}{" "}
                 </button>

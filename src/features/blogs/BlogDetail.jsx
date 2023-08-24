@@ -59,8 +59,8 @@ const BlogDetail = () => {
     }
 
     return data?.success === true ? (
-        <section className="w-full">
-            <div className="p-5 rounded-md shadow-md max-w-2xl w-full border bg-white flex flex-col mx-auto">
+        <section className="w-full ">
+            <div className="p-5 rounded-md shadow-md max-w-2xl w-full border bg-white flex flex-col mx-auto dark:text-white dark:bg-slate-700 dark:border-none">
                 <BlogCard blog={blog} isDetail={true} />
 
                 {currentUser?._id === blog?.userId ||
@@ -84,7 +84,6 @@ const BlogDetail = () => {
                     ""
                 )}
             </div>
-
             {/* comments */}
             <div className=" max-w-2xl mx-auto flex items-center justify-between mt-5">
                 <h2 className="text-xl font-bold"> Comments </h2>

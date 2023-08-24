@@ -5,12 +5,17 @@ const token = Cookies.get("token") ? Cookies.get("token") : null;
 
 const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
 
+const theme = window.localStorage.getItem("theme")
+    ? window.localStorage.getItem("theme")
+    : false;
+
 export const authSlice = createSlice({
     name: "auth",
     initialState: {
         isLoggedIn: !!token,
         user,
         token,
+        theme,
     },
     reducers: {
         setLoginState: (state, { payload }) => {

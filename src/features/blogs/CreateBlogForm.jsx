@@ -66,7 +66,7 @@ const CreateBlogForm = () => {
 
     return (
         <section className=" w-full">
-            <div className="p-5 rounded-md shadow-md max-w-2xl w-full border bg-white mx-auto">
+            <div className="common-card">
                 <h2 className="form-tlt"> Create New Blog </h2>
 
                 {apiError && <ErrorMsg message={apiError} isFromApi={true} />}
@@ -135,7 +135,7 @@ const CreateBlogForm = () => {
                     <div className="mb-5">
                         <label htmlFor="description">Content</label>
                         <textarea
-                            rows={5}
+                            rows={6}
                             {...register("description", {
                                 required: {
                                     value: true,

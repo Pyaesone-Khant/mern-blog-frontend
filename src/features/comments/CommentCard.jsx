@@ -27,17 +27,20 @@ const CommentCard = ({ commentItem }) => {
     };
 
     return (
-        <section className="p-3 rounded-md bg-white ">
+        <section className="p-3 rounded-md bg-white dark:bg-slate-700 ">
             {!isEditing ? (
                 <div>
-                    <p className={`text-black`}> {commentItem?.comment} </p>
+                    <p className={`text-black dark:text-white`}>
+                        {" "}
+                        {commentItem?.comment}{" "}
+                    </p>
                     <div className="flex items-center gap-5 mt-3">
-                        <p className="text-sm font-medium text-gray-500">
+                        <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
                             {" "}
                             Commented By{" "}
                             <Link
                                 to={`/users/${author?._id}`}
-                                className=" italic underline underline-offset-2 hover:text-blue-600 duration-200"
+                                className=" italic underline underline-offset-2 hover:text-blue-500 dark:hover:text-darkTer duration-200"
                             >
                                 {" "}
                                 {author?.name}{" "}

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useGetBlogByUserIdQuery } from "../blogs/blogApi";
 import { Link } from "react-router-dom";
-import { Loader } from "@/components";
+import { Loader, BTLink } from "@/components";
 
 const UserProfile = () => {
     const { user } = useSelector((state) => state.auth);
@@ -20,12 +20,12 @@ const UserProfile = () => {
         <section className="flex flex-col gap-5 w-full max-w-2xl mx-auto">
             <h2 className="text-2xl font-bold"> Profile </h2>
 
-            <div className="flex items-center gap-8 text-lg font-medium p-3 rounded-md bg-white">
+            <div className="flex items-center gap-8 text-lg font-medium p-5 rounded-md bg-white dark:bg-slate-700">
                 <h3 className="min-w-[100px]s"> Name : </h3>
                 <p className="font-bold text-xl"> {user?.name} </p>
             </div>
 
-            <div className="font-medium text-lg p-3 rounded-md bg-white">
+            <div className="font-medium text-lg p-5 rounded-md bg-white dark:bg-slate-700">
                 {userBlogs?.length > 1 ? (
                     <div className="flex items-start gap-8">
                         {" "}
@@ -33,15 +33,11 @@ const UserProfile = () => {
                         <ul className=" list-inside list-decimal flex flex-col gap-1">
                             {userBlogs?.map((blog) => {
                                 return (
-                                    <Link
-                                        to={`/blogs/${blog?._id}`}
+                                    <BTLink
                                         key={blog?._id}
-                                    >
-                                        <li className="hover:text-blue-600 duration-200 text-xl font-semibold">
-                                            {" "}
-                                            {blog.title}{" "}
-                                        </li>
-                                    </Link>
+                                        title={blog?.title}
+                                        blogId={blog?._id}
+                                    />
                                 );
                             })}
                         </ul>
@@ -59,7 +55,7 @@ const UserProfile = () => {
                     to={"/change_profile"}
                     className="px-5 py-2 rounded-md bg-green-600 text-white hover:bg-green-500 duration-200 block w-fit"
                 >
-                    Update Profile
+                    Edit Profile
                 </Link>
 
                 <Link
