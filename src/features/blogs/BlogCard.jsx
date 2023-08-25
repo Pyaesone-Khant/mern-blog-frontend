@@ -8,7 +8,7 @@ import BlogCardHeader from "./BlogCardHeader";
 import BlogCardDesc from "./BlogCardDesc";
 import Author from "./Author";
 
-let BlogCard = ({ blog, isDetail }) => {
+let BlogCard = ({ blog, isDetail, isBFetching }) => {
     const id = blog?._id;
     const { data: userData, isLoading: isULoading } = useGetUserByIdQuery(
         blog?.userId
@@ -20,7 +20,7 @@ let BlogCard = ({ blog, isDetail }) => {
     const blogCategory = categoryData?.data;
     const date = new Date(blog?.createdAt).toLocaleString().split(",")[0];
 
-    if (isULoading || isCLoading) {
+    if (isULoading || isCLoading || isBFetching) {
         return (
             <div className="card">
                 <Skeleton active />

@@ -2,15 +2,20 @@ import { Loader } from "@/components";
 import { BlogsList, CatList } from "@/features";
 import { useGetAllBlogsQuery } from "@/features/blogs/blogApi";
 import { useGetAllCategoriesQuery } from "@/features/categories/categoriesApi";
-import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const Home = () => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(3);
+    const { itemsPerPage, currentPage } = useSelector((state) => state.blog);
+    const { keyword } = useSelector((state) => state.category);
 
-    const { data: blogsData, isLoading: isBLoading } = useGetAllBlogsQuery({
+    const {
+        data: blogsData,
+        isLoading: isBLoading,
+        isFetching: isBFetching,
+    } = useGetAllBlogsQuery({
         page: currentPage,
         size: itemsPerPage,
+        categoryId: keyword,
     });
     const { data: categoriesData, isLoading: isCLoading } =
         useGetAllCategoriesQuery();
@@ -30,14 +35,14 @@ const Home = () => {
 
     return (
         <section className=" flex flex-col md:flex-row md:items-start md:gap-10 w-full">
-            <CatList categories={categories} />
+            <CatList
+                categories={categories}
+                totalBlogs={blogsData?.totalBlogs}
+            />
             <BlogsList
                 blogs={blogs}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
                 totalBlogs={blogsData?.totalBlogs}
-                setItemsPerPage={setItemsPerPage}
-                itemsPerPage={itemsPerPage}
+                isBFetching={isBFetching}
             />
         </section>
     );

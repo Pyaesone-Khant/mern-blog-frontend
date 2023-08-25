@@ -42,7 +42,7 @@ const SaveBtn = ({ blogId }) => {
         >
             <button
                 onClick={handleSaveBlog}
-                className={`outline-none border-none text-blue-500 dark:text-darkTer text-2xl duration-200`}
+                className={`outline-none border-none text-blue-600 dark:text-darkTer text-2xl duration-200`}
             >
                 {isSaved && isLoggedIn ? (
                     <BsBookmarkCheckFill />

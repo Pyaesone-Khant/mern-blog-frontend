@@ -1,26 +1,26 @@
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import PaginateBtn from "../btns/PaginateBtn";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentPage, setItemsPerPage } from "@/features/blogs/blogSlice";
+import ItemSelectBox from "./ItemSelectBox";
+import DisplayedStatus from "./DisplayedStatus";
 
-const CPagination = ({
-    totalBlogs,
-    currentPage,
-    setCurrentPage,
-    setItemsPerPage,
-    itemsPerPage,
-    displayedBlogs,
-}) => {
-    const totalPaginateBtn = Math.ceil(totalBlogs / itemsPerPage);
+const CPagination = ({ totalBlogs, displayedBlogs }) => {
+    const { itemsPerPage, currentPage } = useSelector((state) => state.blog);
+    const dispatch = useDispatch();
+
+    const totalPages = Math.ceil(totalBlogs / itemsPerPage);
     const handlePageChange = (e) => {
-        setCurrentPage(Number(e.target.value));
+        dispatch(setCurrentPage(Number(e.target.value)));
     };
     const handlePrevious = () => {
         if (currentPage > 0) {
-            setCurrentPage(currentPage - 1);
+            dispatch(setCurrentPage(currentPage - 1));
         }
     };
     const handleNext = () => {
-        if (currentPage < totalPaginateBtn) {
-            setCurrentPage(currentPage + 1);
+        if (currentPage < totalPages) {
+            dispatch(setCurrentPage(currentPage + 1));
         }
     };
 
@@ -28,21 +28,30 @@ const CPagination = ({
         const count = e.target.value;
         const pageToJump = Math.ceil(totalBlogs / count);
 
-        setItemsPerPage(count);
+        dispatch(setItemsPerPage(count));
         if (currentPage > pageToJump) {
-            setCurrentPage(pageToJump);
+            dispatch(setCurrentPage(pageToJump));
         }
     };
 
     return (
         <section className="mt-auto w-full">
             {/* for tablet & pc */}
-            <div className="md:flex hidden items-center justify-center gap-16">
-                <p className="text-lg font-medium flex items-center h-9 rounded-md px-2 border border-blue-500 dark:border-darkTer shadow text-blue-500 dark:text-darkTer">
-                    {" "}
-                    {`${displayedBlogs}  /  ${totalBlogs} `} Blogs
-                </p>
-                <div className="flex items-center gap-3">
+            <div className="md:flex md:flex-col lg:flex-row hidden items-center justify-center gap-5">
+                <div className="flex items-center md:justify-between w-full lg:w-auto">
+                    <DisplayedStatus
+                        displayed={displayedBlogs}
+                        total={totalBlogs}
+                        type={totalBlogs > 1 ? "Blogs" : "Blog"}
+                    />
+                    <div className="md:block lg:hidden">
+                        <ItemSelectBox
+                            handleItems={handleItems}
+                            itemsPerPage={itemsPerPage}
+                        />
+                    </div>
+                </div>
+                <div className="flex items-center gap-3 ">
                     <PaginateBtn
                         label={<IoIosArrowBack />}
                         event={handlePrevious}
@@ -50,7 +59,7 @@ const CPagination = ({
                         breakPoint={1}
                         isArrow={true}
                     />
-                    {new Array(totalPaginateBtn).fill(null).map((_, index) => {
+                    {new Array(totalPages).fill(null).map((_, index) => {
                         return (
                             <PaginateBtn
                                 key={index + 1}
@@ -67,40 +76,45 @@ const CPagination = ({
                         label={<IoIosArrowForward />}
                         event={handleNext}
                         currentPage={currentPage}
-                        breakPoint={Number(totalPaginateBtn)}
+                        breakPoint={Number(totalPages)}
                         isArrow={true}
                     />
                 </div>
-
-                <select
-                    onChange={handleItems}
-                    defaultValue={itemsPerPage}
-                    className="w-28 h-9 rounded-md px-2 bg-white shadow dark:bg-gray-300 text-black text-lg outline-none cursor-pointer"
-                >
-                    <option value="3"> 3 Blogs </option>
-                    <option value="5"> 5 Blogs </option>
-                    <option value="7"> 7 Blogs </option>
-                </select>
+                <div className="hidden lg:block">
+                    <ItemSelectBox
+                        handleItems={handleItems}
+                        itemsPerPage={itemsPerPage}
+                    />
+                </div>
             </div>
             {/* for mobile */}
-            <div className="flex md:hidden items-center justify-between w-full gap-3">
-                <PaginateBtn
-                    label={"Previous"}
-                    event={handlePrevious}
-                    currentPage={currentPage}
-                    breakPoint={1}
-                    isArrow={true}
-                    isMobile={true}
+
+            <div className="md:hidden flex flex-col gap-3">
+                <DisplayedStatus
+                    displayed={currentPage}
+                    total={totalPages}
+                    type={"Pages"}
                 />
-                <div className="ml-auto w-full max-w-[150px]">
+
+                <div className="flex items-center justify-between w-full gap-3">
                     <PaginateBtn
-                        label={"Next"}
-                        event={handleNext}
+                        label={"Previous"}
+                        event={handlePrevious}
                         currentPage={currentPage}
-                        breakPoint={Number(totalPaginateBtn)}
+                        breakPoint={1}
                         isArrow={true}
                         isMobile={true}
                     />
+                    <div className="ml-auto w-full max-w-[150px]">
+                        <PaginateBtn
+                            label={"Next"}
+                            event={handleNext}
+                            currentPage={currentPage}
+                            breakPoint={Number(totalPages)}
+                            isArrow={true}
+                            isMobile={true}
+                        />
+                    </div>
                 </div>
             </div>
         </section>

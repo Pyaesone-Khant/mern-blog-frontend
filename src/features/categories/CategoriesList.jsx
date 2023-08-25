@@ -1,21 +1,18 @@
 import { memo, useEffect, useState } from "react";
 import CategoryBtn from "./CategoryBtn";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setKeyword, setTitle } from "./categoriesSlice";
+import { setCurrentPage } from "../blogs/blogSlice";
 
 const CategoriesList = ({ categories }) => {
-    const [filterId, setFilterId] = useState("All");
-    const [catTitle, setCatTitle] = useState("All");
+    const { keyword } = useSelector((state) => state.category);
+
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(setKeyword(filterId));
-        dispatch(setTitle(catTitle));
-    }, [filterId, catTitle]);
-
     const handleCategory = (id, title) => {
-        setFilterId(id);
-        setCatTitle(title);
+        dispatch(setCurrentPage(1));
+        dispatch(setKeyword(id));
+        dispatch(setTitle(title));
     };
 
     return (
@@ -23,7 +20,7 @@ const CategoriesList = ({ categories }) => {
             <CategoryBtn
                 title={"All"}
                 event={handleCategory}
-                isActive={filterId}
+                isActive={keyword}
                 id={"All"}
             />
 
@@ -33,7 +30,7 @@ const CategoriesList = ({ categories }) => {
                         key={item._id}
                         title={item.title}
                         event={handleCategory}
-                        isActive={filterId}
+                        isActive={keyword}
                         id={item._id}
                     />
                 );

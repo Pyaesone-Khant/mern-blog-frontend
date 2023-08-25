@@ -6,6 +6,7 @@ import authSlice from "./auth/authSlice";
 import { categoriesApi } from "./categories/categoriesApi";
 import categoriesSlice from "./categories/categoriesSlice";
 import { commentsApi } from "./comments/commentsApi";
+import blogSlice from "./blogs/blogSlice";
 
 export const store = configureStore({
     reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
         [commentsApi.reducerPath]: commentsApi.reducer,
         auth: authSlice,
         category: categoriesSlice,
+        blog: blogSlice,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(
