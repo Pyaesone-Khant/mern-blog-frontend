@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import {
     useSaveBlogsMutation,
     useGetUserByIdQuery,
-} from "@/features/users/userApi";
+} from "@/features/users/UserApi";
 import { useNavigate } from "react-router-dom";
 
 const SaveBtn = ({ blogId }) => {
