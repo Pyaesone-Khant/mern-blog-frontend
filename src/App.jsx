@@ -7,7 +7,6 @@ import {
     BlogDetail,
     EditBlog,
     CUserD,
-    UBlogs,
     ADForm,
     UProfile,
 } from "@/features";
@@ -59,16 +58,7 @@ const App = () => {
                     }
                 />
 
-                <Route
-                    path="profile"
-                    element={
-                        <IsAuth>
-                            <UProfile />
-                        </IsAuth>
-                    }
-                />
-
-                <Route path="users/:userId" element={<UBlogs />} />
+                <Route path="profile/:userId" element={<UProfile />} />
                 {/* user routes end */}
 
                 {/* auth routes */}

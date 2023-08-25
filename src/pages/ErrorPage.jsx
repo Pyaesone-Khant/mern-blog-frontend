@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 const ErrorPage = ({ type }) => {
     return (
-        <section className=" flex items-center justify-center w-full text-black">
-            <div className=" min-w-max flex flex-col gap-10 text-center">
+        <section className=" flex items-center justify-center w-full text-black dark:text-white duration-200">
+            <div className=" flex flex-col gap-10 text-center">
                 <h2 className="text-6xl font-bold"> Oops! </h2>
                 <p className="text-2xl font-semibold">
                     {" "}

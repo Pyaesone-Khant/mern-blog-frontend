@@ -4,12 +4,16 @@ import { useGetCategoryByIdQuery } from "../categories/categoriesApi";
 import { memo } from "react";
 import { Skeleton } from "antd";
 import { LikeBtn } from "@/components";
+import BlogCardHeader from "./BlogCardHeader";
+import BlogCardDesc from "./BlogCardDesc";
+import Author from "./Author";
 
 let BlogCard = ({ blog, isDetail }) => {
     const id = blog?._id;
     const { data: userData, isLoading: isULoading } = useGetUserByIdQuery(
         blog?.userId
     );
+
     const author = userData?.data;
     const { data: categoryData, isLoading: isCLoading } =
         useGetCategoryByIdQuery(blog?.categoryId);
@@ -28,45 +32,18 @@ let BlogCard = ({ blog, isDetail }) => {
         <article
             className={` rounded-md ${isDetail ? "detail-card" : "card"} `}
         >
-            <div className="text-2xl font-bold  duration-200 w-fit flex flex-col-reverse md:items-center gap-2 md:flex-row ">
-                {isDetail ? (
-                    <h2> {blog?.title} </h2>
-                ) : (
-                    <Link
-                        to={`/blogs/${id}`}
-                        className="text-truncate hover:text-blue-500 dark:hover:text-darkTer duration-200"
-                    >
-                        {" "}
-                        {blog?.title}{" "}
-                    </Link>
-                )}
-                <span className="text-sm px-2 py-1 rounded-md bg-blue-600 dark:bg-darkTer text-white font-normal w-fit">
-                    {" "}
-                    {blogCategory?.title}{" "}
-                </span>
-            </div>
-            <div
-                className={`text-gray-500 dark:text-gray-400 ${
-                    isDetail ? " whitespace-pre-line" : "line-clamp-2"
-                }  `}
-            >
-                {isDetail ? (
-                    <p> {blog?.description} </p>
-                ) : (
-                    <Link to={`/blogs/${id}`}> {blog?.description} </Link>
-                )}
-            </div>
+            <BlogCardHeader
+                blog={blog}
+                blogCategory={blogCategory}
+                isDetail={isDetail}
+            />
+
+            <BlogCardDesc blog={blog} isDetail={isDetail} />
+
             <div className="flex flex-col-reverse md:flex-row md:items-center justify-between mt-auto gap-2">
                 <p className=" font-medium">
                     {" "}
-                    By{" "}
-                    <Link
-                        to={`/users/${blog?.userId}`}
-                        className=" italic underline underline-offset-2 hover:text-blue-500 dark:hover:text-darkTer duration-200"
-                    >
-                        {" "}
-                        {author?.name}{" "}
-                    </Link>{" "}
+                    By <Author name={author?.name} userId={blog?.userId} />
                 </p>
                 <p> {date} </p>
             </div>

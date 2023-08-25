@@ -49,7 +49,11 @@ const AccountMenu = ({ user, token, event }) => {
         {
             key: 1,
             label: (
-                <MenuLink event={event} path={"profile"} title={"Profile"} />
+                <MenuLink
+                    event={event}
+                    path={`/profile/${user?._id}`}
+                    title={"Profile"}
+                />
             ),
         },
         {
@@ -63,7 +67,6 @@ const AccountMenu = ({ user, token, event }) => {
         <div className="font-sans mx-auto">
             {contextHolder}
             <Dropdown
-                className="min-w-[130px]"
                 arrow
                 menu={{
                     items: menuItems,
@@ -71,7 +74,7 @@ const AccountMenu = ({ user, token, event }) => {
                 placement="bottom"
                 trigger={["click"]}
             >
-                <button className=" min-w-max px-5 w-fit py-2 rounded-md bg-slate-900 text-white hover:bg-slate-800 duration-200">
+                <button className=" min-w-[120px] w-full py-2 rounded-md bg-slate-900 text-white hover:bg-slate-800 duration-200">
                     {" "}
                     {user?.name}{" "}
                 </button>

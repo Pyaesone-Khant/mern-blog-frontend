@@ -17,6 +17,7 @@ export { default as SubmitBtn } from "./antd/btns/SubmitBtn";
 export { default as PwsBtn } from "./antd/btns/PasswordBtn";
 export { default as IconBtn } from "./antd/btns/IconBtn";
 export { default as CPagination } from "./antd/pagination/CPagination";
+export { default as SaveBtn } from "./antd/btns/SaveBtn";
 
 //errortexts
 export { default as ErrorMsg } from "./errortexts/ErrorMessage";

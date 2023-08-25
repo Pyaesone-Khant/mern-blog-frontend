@@ -10,10 +10,8 @@ export { default as BlogDetail } from "./blogs/BlogDetail";
 
 //users
 export { default as CUserD } from "./users/ChangeUserDetail";
-export { default as UBlogs } from "./users/UserBlogs";
 export { default as ADForm } from "./users/AccountDeleteForm";
 export { default as UProfile } from "./users/UserProfile";
 
 //categories
 export { default as CatList } from "./categories/CategoriesList";
-

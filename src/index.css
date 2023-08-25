@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -35,11 +35,11 @@
   ;}
 
   .btn{
-    @apply h-10 min-w-[150px] flex items-center justify-center rounded-md text-white duration-200 border-transparent text-[17px] font-medium 
+    @apply h-10 max-w-[150px] w-full flex items-center justify-center rounded-md text-white duration-200 border-transparent text-[17px] font-medium 
   ;}
 
   .submit-btn{
-    @apply bg-blue-600 hover:bg-blue-500
+    @apply bg-blue-600 hover:bg-blue-500 dark:bg-darkTer/70 dark:hover:bg-darkTer
   ;}
 
   .delete-btn{
@@ -47,7 +47,7 @@
   ;}
 
   .comment-btn{
-    @apply border border-green-700 text-green-700 hover:bg-green-700 hover:text-white dark:border-gray-200 dark:text-gray-200 dark:hover:bg-gray-200 dark:hover:text-green-700 duration-200;}
+    @apply text-sm h-9 border border-green-700 text-green-700 hover:bg-green-700 hover:text-white dark:border-gray-200 dark:text-gray-200 dark:hover:bg-gray-200 dark:hover:text-green-700 duration-200;}
 
   .submit-btn.disabled{
     @apply bg-gray-600 text-gray-400 dark:bg-gray-500 dark:text-gray-300 duration-200
@@ -58,7 +58,7 @@
   ;}
 
   .card{
-    @apply flex flex-col gap-3 p-3 shadow tracking-wider w-full bg-white hover:shadow-xl duration-200 h-fit rounded-md dark:text-white dark:bg-slate-700 duration-200
+    @apply flex flex-col gap-3 p-5 shadow tracking-wider w-full bg-white hover:shadow-xl duration-200 h-fit rounded-md dark:text-white dark:bg-slate-700
   ;}
 
   .detail-card{
@@ -71,11 +71,23 @@
   ;}
 
   .paginate-btn{
-    @apply h-9 w-9 rounded-md bg-white dark:bg-gray-300 text-black text-xl flex items-center justify-center font-medium shadow duration-200
+    @apply h-9 rounded-md bg-white dark:bg-gray-300 text-black  flex items-center justify-center font-medium shadow duration-200 border-none outline-none
   ;}
 
-  .paginate-btn.active, .paginate-btn:hover{
+  .paginate-btn.icon{
+    @apply  w-9 text-xl
+  ;}
+
+  .paginate-btn.active, .paginate-btn:not(.arrow-btn):hover{
     @apply bg-blue-600 text-white dark:bg-darkTer duration-200
+  ;}
+
+  .paginate-btn.disabled{
+    @apply bg-gray-500 dark:bg-gray-600/80 text-gray-400 
+  ;}
+
+  .paginate-btn.text{
+    @apply max-w-[150px] h-10 w-full
   ;}
 }
 

@@ -20,8 +20,8 @@ const ReactionBtn = ({ blog }) => {
         if (isLoggedIn) {
             const requiredIds = { userId: currentUser?._id, blogId: blog?._id };
             try {
-                await setUserReaction(requiredIds);
                 setIsLiked(!isLiked);
+                await setUserReaction(requiredIds);
             } catch (error) {
                 throw new Error(error);
             }

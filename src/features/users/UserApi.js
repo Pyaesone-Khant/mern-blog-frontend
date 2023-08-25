@@ -2,10 +2,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const userApi = createApi({
     reducerPath: "userApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: "https://blogapp-apis.onrender.com/users",
-    }),
-    //baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3500/users" }),
+    //baseQuery: fetchBaseQuery({
+    //baseUrl: "https://blogapp-apis.onrender.com/users",
+    //}),
+    baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3500/users" }),
     tagTypes: ["user"],
     endpoints: (builder) => ({
         getAllUsers: builder.query({
@@ -50,6 +50,23 @@ export const userApi = createApi({
             }),
             invalidatesTags: ["user"],
         }),
+
+        saveBlogs: builder.mutation({
+            query: ({ userId, blogId }) => ({
+                url: `/save_blogs/${userId}`,
+                method: "POST",
+                body: { blogId },
+            }),
+            invalidatesTags: ["user"],
+        }),
+
+        getSavedBlogs: builder.query({
+            query: (userId) => ({
+                url: `/save_blogs/${userId}`,
+                method: "GET",
+            }),
+            providesTags: ["user"],
+        }),
     }),
 });
 
@@ -59,4 +76,6 @@ export const {
     useDeleteUserMutation,
     useGetUserByIdQuery,
     useChangeUserPasswordMutation,
+    useSaveBlogsMutation,
+    useGetSavedBlogsQuery,
 } = userApi;

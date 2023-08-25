@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import EditCommentForm from "./EditCommentForm";
 import { IconBtn } from "@/components";
+import Author from "../blogs/Author";
 
 const CommentCard = ({ commentItem }) => {
     const [deleteComment] = useDeleteCommentMutation();
@@ -38,13 +39,7 @@ const CommentCard = ({ commentItem }) => {
                         <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
                             {" "}
                             Commented By{" "}
-                            <Link
-                                to={`/users/${author?._id}`}
-                                className=" italic underline underline-offset-2 hover:text-blue-500 dark:hover:text-darkTer duration-200"
-                            >
-                                {" "}
-                                {author?.name}{" "}
-                            </Link>{" "}
+                            <Author name={author?.name} userId={author?._id} />
                         </p>
                         {currentUser?._id === author?._id ||
                         currentUser?.email === "admin123@gmail.com" ? (

@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { RxCross1, RxHamburgerMenu } from "react-icons/rx";
 import ThemeBtn from "../antd/btns/ThemeBtn";
+import "./link.css";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +16,7 @@ const Navbar = () => {
     };
 
     return (
-        <header className="py-5 sticky top-0 shadow-md border-b z-10 backdrop-blur-md bg-white dark:bg-slate-700 dark:border-none dark:text-white duration-200">
+        <header className="py-5 sticky top-0 shadow-lg border-b z-10 backdrop-blur-md bg-white dark:bg-slate-700 dark:border-none dark:text-white dark:border-slate-600 duration-200">
             <nav className="w-[90%] mx-auto flex items-center justify-between flex-col md:flex-row">
                 <div className="w-full md:w-auto flex items-center justify-between">
                     <h1
@@ -30,14 +31,14 @@ const Navbar = () => {
                         </div>
                         <button
                             onClick={handleMenu}
-                            className="outline-none w-fit p-2 px-3 rounded-md text-black md:hidden text-3xl active:bg-none dark:text-white"
+                            className=" outline-none w-fit p-2 px-3 rounded-md text-black md:hidden text-3xl active:bg-none dark:text-white"
                         >
                             {isOpen ? <RxCross1 /> : <RxHamburgerMenu />}
                         </button>
                     </div>
                 </div>
                 <nav
-                    className={`w-full md:w-auto pt-16 top-0 md:pt-0 bg-white md:bg-transparent dark:bg-slate-700 fixed md:relative transform pb-5 md:pb-0 shadow-md md:shadow-none border-b dark:border-none md:border-none md:translate-y-0 md:opacity-100 ${
+                    className={`w-full md:w-auto pt-[72px] top-0 md:pt-0 bg-white md:bg-transparent dark:bg-slate-700 fixed md:relative transform pb-5 md:pb-0 shadow-md md:shadow-none border-b dark:border-none md:border-none md:translate-y-0 md:opacity-100 ${
                         isOpen
                             ? "  opacity-100 translate-y-0  "
                             : " opacity-0 -translate-y-[100vh]"

@@ -135,7 +135,7 @@ const CreateBlogForm = () => {
                     <div className="mb-5">
                         <label htmlFor="description">Content</label>
                         <textarea
-                            rows={6}
+                            rows={7}
                             {...register("description", {
                                 required: {
                                     value: true,
@@ -161,7 +161,7 @@ const CreateBlogForm = () => {
                     </div>
                     <SubmitBtn
                         isSubmitting={isSubmitting}
-                        label={"Create"}
+                        label={"Publish"}
                         canSave={canSave}
                         isDisabled={true}
                     />
