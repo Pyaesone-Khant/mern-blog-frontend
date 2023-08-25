@@ -1,6 +1,4 @@
-import { useSelector } from "react-redux";
 import BlogCard from "./BlogCard";
-import { useEffect, useState } from "react";
 import BlogNotFound from "./BlogNotFound";
 import { CPagination } from "@/components";
 

@@ -4,6 +4,7 @@ const ItemSelectBox = ({ handleItems, itemsPerPage }) => {
             onChange={handleItems}
             defaultValue={itemsPerPage}
             className="w-28 h-9 rounded-md px-2 bg-white shadow dark:bg-gray-300 text-black text-lg outline-none cursor-pointer"
+            name="selectBox"
         >
             <option value="3"> 3 Blogs </option>
             <option value="5"> 5 Blogs </option>

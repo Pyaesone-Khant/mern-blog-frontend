@@ -8,6 +8,8 @@ const Home = () => {
     const { itemsPerPage, currentPage } = useSelector((state) => state.blog);
     const { keyword } = useSelector((state) => state.category);
 
+    console.log(keyword);
+
     const {
         data: blogsData,
         isLoading: isBLoading,
@@ -22,6 +24,7 @@ const Home = () => {
 
     const blogs = blogsData?.data;
     const categories = categoriesData?.data;
+    const totalBlogs = blogsData?.totalBlogs;
     if (isBLoading || isCLoading) {
         return (
             <div
@@ -35,13 +38,10 @@ const Home = () => {
 
     return (
         <section className=" flex flex-col md:flex-row md:items-start md:gap-10 w-full">
-            <CatList
-                categories={categories}
-                totalBlogs={blogsData?.totalBlogs}
-            />
+            <CatList categories={categories} totalBlogs={totalBlogs} />
             <BlogsList
                 blogs={blogs}
-                totalBlogs={blogsData?.totalBlogs}
+                totalBlogs={totalBlogs}
                 isBFetching={isBFetching}
             />
         </section>

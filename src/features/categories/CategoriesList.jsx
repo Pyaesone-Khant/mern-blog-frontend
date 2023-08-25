@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo } from "react";
 import CategoryBtn from "./CategoryBtn";
 import { useDispatch, useSelector } from "react-redux";
 import { setKeyword, setTitle } from "./categoriesSlice";
@@ -27,11 +27,11 @@ const CategoriesList = ({ categories }) => {
             {categories?.map((item) => {
                 return (
                     <CategoryBtn
-                        key={item._id}
-                        title={item.title}
+                        key={item?._id}
+                        title={item?.title}
                         event={handleCategory}
                         isActive={keyword}
-                        id={item._id}
+                        id={item?._id}
                     />
                 );
             })}

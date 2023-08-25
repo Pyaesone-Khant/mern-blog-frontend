@@ -2,10 +2,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import { authApi } from "./auth/authApi";
 import { blogApi } from "./blogs/blogApi";
 import { userApi } from "./users/UserApi";
-import authSlice from "./auth/authSlice";
 import { categoriesApi } from "./categories/categoriesApi";
-import categoriesSlice from "./categories/categoriesSlice";
 import { commentsApi } from "./comments/commentsApi";
+import authSlice from "./auth/authSlice";
+import categoriesSlice from "./categories/categoriesSlice";
 import blogSlice from "./blogs/blogSlice";
 
 export const store = configureStore({
