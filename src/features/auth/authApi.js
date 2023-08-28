@@ -22,7 +22,7 @@ export const authApi = createApi({
                 method: "POST",
                 body: userData,
             }),
-            //invalidatesTags: ["auth"],
+            invalidatesTags: ["auth"],
         }),
 
         logoutAccount: builder.mutation({
@@ -31,7 +31,7 @@ export const authApi = createApi({
                 method: "POST",
                 body: { token },
             }),
-            //invalidatesTags: ["auth"],
+            invalidatesTags: ["auth"],
         }),
     }),
 });
