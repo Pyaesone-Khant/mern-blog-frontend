@@ -8,8 +8,6 @@ const Home = () => {
     const { itemsPerPage, currentPage } = useSelector((state) => state.blog);
     const { keyword } = useSelector((state) => state.category);
 
-    console.log(keyword);
-
     const {
         data: blogsData,
         isLoading: isBLoading,
