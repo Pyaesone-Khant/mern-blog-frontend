@@ -81,11 +81,11 @@ const CreateBlogForm = () => {
                                     value: true,
                                     message: "Blog title is required!",
                                 },
-                                pattern: {
-                                    value: /^\b([A-Z])+[\w -!$_.]*/,
-                                    message:
-                                        "First letter of the title must be capital !",
-                                },
+                                //pattern: {
+                                //    value: /^\b([A-Z])+[\w -!$_.]*/,
+                                //    message:
+                                //        "First letter of the title must be capital !",
+                                //},
                                 minLength: {
                                     value: 5,
                                     message:
@@ -141,11 +141,11 @@ const CreateBlogForm = () => {
                                     value: true,
                                     message: "Blog content is required!",
                                 },
-                                pattern: {
-                                    value: /^\b([A-Z])+[\w -!$_.]*/,
-                                    message:
-                                        "First letter of the content must be capital !",
-                                },
+                                //pattern: {
+                                //    value: /^\b([A-Z])+[\w -!$_.]*/,
+                                //    message:
+                                //        "First letter of the content must be capital !",
+                                //},
                                 minLength: {
                                     value: 20,
                                     message:

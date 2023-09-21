@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const BlogCardDesc = ({ isDetail, blog }) => {
     return (
         <div
-            className={`text-gray-500 dark:text-gray-400 ${
+            className={`text-gray-500 dark:text-gray-400 capitalize ${
                 isDetail ? " whitespace-pre-line" : "line-clamp-2"
             }  `}
         >

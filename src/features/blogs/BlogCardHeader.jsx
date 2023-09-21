@@ -6,11 +6,11 @@ const BlogCardHeader = ({ isDetail, blog, blogCategory }) => {
         <div className="flex items-start justify-between">
             <div className="text-2xl font-bold  duration-200 w-fit flex flex-col-reverse md:items-center gap-2 md:flex-row ">
                 {isDetail ? (
-                    <h2> {blog?.title} </h2>
+                    <h2 className="capitalize"> {blog?.title} </h2>
                 ) : (
                     <Link
                         to={`/blogs/${blog?._id}`}
-                        className=" line-clamp-1 hover:text-blue-500 dark:hover:text-darkTer duration-200"
+                        className=" line-clamp-1 hover:text-blue-500 dark:hover:text-darkTer duration-200 capitalize "
                     >
                         {" "}
                         {blog?.title}{" "}
