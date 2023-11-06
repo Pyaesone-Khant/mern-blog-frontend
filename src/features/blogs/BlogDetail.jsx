@@ -5,29 +5,31 @@ import { Loader, Spinner } from "@/components";
 import { useState } from "react";
 import { ErrorPage } from "@/pages";
 import CommentForm from "../comments/CommentForm";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import CommentsList from "../comments/CommentsList";
 import { useGetAllCommentsQuery } from "../comments/commentsApi";
+import {setAlertMessage} from "@/core/globalSlice.js";
 
 const BlogDetail = () => {
     const { blogId } = useParams();
     const [isDeleting, setIsDeleting] = useState(false);
     const { data, isLoading } = useGetBlogByIdQuery(blogId);
-    const [deleteBlog] = useDeleteBlogMutation();
     const blog = data?.data;
     const nav = useNavigate();
     const { user: currentUser, isLoggedIn } = useSelector(
         (state) => state.auth
     );
-    const [isCommenting, setIsCommenting] = useState(false);
 
+    const [isCommenting, setIsCommenting] = useState(false);
     const handleCommenting = () => {
         if (isLoggedIn) {
             setIsCommenting(!isCommenting);
         } else {
-            nav("/login", { state: "Please Login first!" });
+            nav("/login");
+            dispatch(setAlertMessage({type : "error", content : "Please Login first!"}))
         }
     };
+    const dispatch = useDispatch()
 
     const { data: commentsData, isLoading: isBCLoading } =
         useGetAllCommentsQuery();
@@ -35,15 +37,18 @@ const BlogDetail = () => {
         (item) => item.blogId === blogId
     );
 
+    const [deleteBlog] = useDeleteBlogMutation();
     const handleDeleteBlog = async () => {
         setIsDeleting(true);
         try {
             const { data } = await deleteBlog(blogId);
             if (data?.success) {
                 setIsDeleting(false);
-                nav("/", { state: data?.message });
+                nav("/");
+                dispatch(setAlertMessage({type : "success", content : data?.message}))
             } else {
                 setIsDeleting(false);
+                dispatch(setAlertMessage({type : "error", content : data?.message}))
             }
         } catch (error) {
             throw new Error(error);

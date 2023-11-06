@@ -3,6 +3,7 @@ import { BlogsList, CatList } from "@/features";
 import { useGetAllBlogsQuery } from "@/features/blogs/blogApi";
 import { useGetAllCategoriesQuery } from "@/features/categories/categoriesApi";
 import { useSelector } from "react-redux";
+import {Select} from "antd";
 
 const Home = () => {
     const { itemsPerPage, currentPage } = useSelector((state) => state.blog);
@@ -34,8 +35,10 @@ const Home = () => {
         );
     }
 
+    //
+
     return (
-        <section className=" flex flex-col md:flex-row md:items-start md:gap-10 w-full">
+        <section className=" flex flex-col gap-5 w-full">
             <CatList categories={categories} totalBlogs={totalBlogs} />
             <BlogsList
                 blogs={blogs}

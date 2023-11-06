@@ -23,8 +23,12 @@ export const authSlice = createSlice({
             state.user = payload.user;
             state.token = payload.token;
         },
+        logoutAccount : (state, _) => {
+            Cookies.remove("token");
+            Cookies.remove("user")
+        }
     },
 });
 
-export const { setLoginState } = authSlice.actions;
+export const { setLoginState, logoutAccount } = authSlice.actions;
 export default authSlice.reducer;

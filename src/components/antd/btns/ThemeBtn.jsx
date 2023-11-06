@@ -1,4 +1,3 @@
-import { Tooltip } from "antd";
 import { BsMoonFill, BsSunFill } from "react-icons/bs";
 
 const ThemeBtn = () => {
@@ -15,18 +14,6 @@ const ThemeBtn = () => {
     };
 
     return (
-        <Tooltip
-            placement="bottom"
-            arrow
-            title={
-                <p className="font-sans">
-                    {" "}
-                    {localStorage.getItem("theme") === "dark"
-                        ? "Light"
-                        : "Dark"}{" "}
-                </p>
-            }
-        >
             <button onClick={handleTheme} className="text-xl">
                 {" "}
                 {localStorage.getItem("theme") === "dark" ? (
@@ -35,7 +22,6 @@ const ThemeBtn = () => {
                     <BsMoonFill />
                 )}{" "}
             </button>
-        </Tooltip>
     );
 };
 

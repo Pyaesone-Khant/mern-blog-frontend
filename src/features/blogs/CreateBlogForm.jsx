@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useCreateBlogMutation } from "./blogApi";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { useGetAllCategoriesQuery } from "../categories/categoriesApi";
 import { Loader, SubmitBtn, ErrorMsg } from "@/components";
+import {setAlertMessage} from "@/core/globalSlice.js";
 
 const CreateBlogForm = () => {
     const [canSave, setCanSave] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [apiError, setApiError] = useState("");
     const { user } = useSelector((state) => state.auth);
     const [createBlog] = useCreateBlogMutation();
     const nav = useNavigate();
@@ -17,6 +17,8 @@ const CreateBlogForm = () => {
 
     const { data, isLoading, isFetching } = useGetAllCategoriesQuery();
     const categories = data?.data;
+
+    const dispatch = useDispatch()
 
     const {
         register,
@@ -34,13 +36,11 @@ const CreateBlogForm = () => {
             const { data } = await createBlog(blogData);
             if (data?.success) {
                 setIsSubmitting(false);
+                dispatch(setAlertMessage({type : "success", content : data?.message}))
                 nav("/");
             } else {
                 setIsSubmitting(false);
-                setApiError(data?.message);
-                setTimeout(() => {
-                    setApiError(null);
-                }, 3000);
+                dispatch(setAlertMessage({type : "error", content : data?.message}))
             }
         } catch (error) {
             throw new Error(error);
@@ -69,7 +69,6 @@ const CreateBlogForm = () => {
             <div className="common-card">
                 <h2 className="form-tlt"> Create New Blog </h2>
 
-                {apiError && <ErrorMsg message={apiError} isFromApi={true} />}
                 <form action="#" onSubmit={handleSubmit(onSubmit)}>
                     {/* title */}
                     <div className="mb-5">

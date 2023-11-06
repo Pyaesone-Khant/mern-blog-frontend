@@ -1,48 +1,28 @@
-import { Dropdown, notification } from "antd";
+import { Dropdown } from "antd";
 import MenuLink from "./MenuLink";
-import { useLogoutAccountMutation } from "@/features/auth/authApi";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setLoginState } from "../../features/auth/authSlice";
+import { setLoginState, logoutAccount } from "../../features/auth/authSlice";
+import {setAlertMessage} from "@/core/globalSlice.js";
 
-const AccountMenu = ({ user, token, event }) => {
-    const [logoutAccount] = useLogoutAccountMutation();
+const AccountMenu = ({ user, event }) => {
     const nav = useNavigate();
 
     const dispatch = useDispatch();
 
-    const [api, contextHolder] = notification.useNotification();
-    const openNotification = (desc) => {
-        api.error({
-            description: (
-                <p className="font-sans font-medium tracking-wider"> {desc}</p>
-            ),
-            duration: 2,
-        });
-    };
-
     const handleLogout = async () => {
+        dispatch(
+            setLoginState({
+                isLoggedIn: false,
+                user: null,
+                token: null,
+            })
+        );
+        dispatch(logoutAccount())
+        dispatch(setAlertMessage({type: "success", content : "Logout successful!"}))
         event();
-        try {
-            const { data } = await logoutAccount(token);
-            if (data?.success) {
-                Cookies.remove("token");
-                Cookies.remove("user");
-                dispatch(
-                    setLoginState({
-                        isLoggedIn: false,
-                        user: null,
-                        token: null,
-                    })
-                );
-                nav("/", { state: data?.message });
-            } else {
-                openNotification(data?.message);
-            }
-        } catch (error) {
-            throw new Error(error);
-        }
+        nav("/");
+
     };
 
     const menuItems = [
@@ -65,7 +45,6 @@ const AccountMenu = ({ user, token, event }) => {
 
     return (
         <div className="font-sans mx-auto">
-            {contextHolder}
             <Dropdown
                 arrow
                 menu={{

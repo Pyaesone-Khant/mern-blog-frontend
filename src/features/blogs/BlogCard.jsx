@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useGetUserByIdQuery } from "../users/UserApi";
 import { useGetCategoryByIdQuery } from "../categories/categoriesApi";
 import { memo } from "react";

@@ -32,17 +32,6 @@ const ReactionBtn = ({ blog }) => {
 
     return (
         <div className="flex items-center gap-3">
-            <Tooltip
-                placement="top"
-                title={
-                    <p
-                        className="font-sans tracking-wide
-        "
-                    >
-                        {isLiked ? "Liked" : "Un-Liked"}
-                    </p>
-                }
-            >
                 <button onClick={handleBlogReaction} className={`reaction-btn`}>
                     {isLiked && isLoggedIn ? (
                         <BsHandThumbsUpFill />
@@ -52,7 +41,6 @@ const ReactionBtn = ({ blog }) => {
                         <BsHandThumbsUp />
                     )}
                 </button>{" "}
-            </Tooltip>
             <p className="font-medium text-blue-600 dark:text-darkTer">
                 {" "}
                 {reactionsCount > 0 ? reactionsCount : ""}

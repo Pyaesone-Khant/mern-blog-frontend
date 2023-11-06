@@ -1,39 +1,18 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLoginAccountMutation } from "./authApi";
 import Cookies from "js-cookie";
-import { notification } from "antd";
 import { useDispatch } from "react-redux";
 import { setLoginState } from "./authSlice";
 import { PwsBtn, SubmitBtn, ErrorMsg } from "@/components";
+import {setAlertMessage} from "@/core/globalSlice.js";
 
 const Login = () => {
     const [isShowed, setIsShowed] = useState(false);
     const [canSave, setCanSave] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [apiError, setApiError] = useState("");
-    const [api, contextHolder] = notification.useNotification();
-    const message = useLocation().state;
     const dispatch = useDispatch();
-
-    const openNotification = () => {
-        api.success({
-            description: (
-                <p className="font-sans font-medium tracking-wider">
-                    {" "}
-                    {message}
-                </p>
-            ),
-            duration: 2,
-        });
-    };
-
-    useEffect(() => {
-        if (message?.trim().length) {
-            openNotification();
-        }
-    }, []);
 
     const form = useForm();
     const {
@@ -66,13 +45,11 @@ const Login = () => {
                         token: data?.token,
                     })
                 );
-                nav("..");
+                dispatch(setAlertMessage({type : "success", content : "Login successful!"}))
+                nav("/");
             } else {
                 setIsSubmitting(false);
-                setApiError(data?.message);
-                setTimeout(() => {
-                    setApiError(null);
-                }, 3000);
+                dispatch(setAlertMessage({type : "error", content : data?.message}))
             }
         } catch (error) {
             throw new Error(error);
@@ -93,10 +70,8 @@ const Login = () => {
 
     return (
         <section className="flex items-center justify-center w-full">
-            {contextHolder}
             <div className="common-card">
                 <h2 className="form-tlt"> Login Account </h2>
-                {apiError && <ErrorMsg message={apiError} isFromApi={true} />}
                 <form action="#" onSubmit={handleSubmit(onSubmit)}>
                     {/* email */}
                     <div className="mb-5">

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -23,7 +24,7 @@
   ;}
 
   .form-input.input-error{
-    @apply border-red-600 text-red-600 dark:text-yellow-400 dark:border-yellow-400 
+    @apply border-red-600 text-red-600 dark:text-yellow-400 dark:border-yellow-400
   ;}
 
   .error{
@@ -35,7 +36,7 @@
   ;}
 
   .btn{
-    @apply h-10 max-w-[150px] w-full flex items-center justify-center rounded-md text-white duration-200 border-transparent text-[17px] font-medium 
+    @apply h-10 max-w-[150px] w-full flex items-center justify-center rounded-md text-white duration-200 border-transparent text-[17px] font-medium
   ;}
 
   .submit-btn{
@@ -52,7 +53,7 @@
   .submit-btn.disabled{
     @apply bg-gray-600 text-gray-400 dark:bg-gray-500 dark:text-gray-300 duration-200
   ;}
-  
+
   .pws-btn{
     @apply absolute right-4 top-1/2 transform -translate-y-1/2 text-lg outline-none border-none text-gray-700 dark:text-gray-200
   ;}
@@ -62,12 +63,12 @@
   ;}
 
   .detail-card{
-    @apply flex flex-col gap-3 tracking-wider 
+    @apply flex flex-col gap-3 tracking-wider
   ;}
 
   .reaction-btn{
     @apply text-blue-600 text-xl hover:scale-[1.2] duration-200
-    dark:text-darkTer 
+    dark:text-darkTer
   ;}
 
   .paginate-btn{
@@ -83,7 +84,7 @@
   ;}
 
   .paginate-btn.disabled{
-    @apply bg-gray-500 dark:bg-gray-600/80 text-gray-400 
+    @apply bg-gray-500 dark:bg-gray-600/80 text-gray-400
   ;}
 
   .paginate-btn.text{
@@ -91,4 +92,8 @@
   ;}
 }
 
+/*notification*/
+.ant-notification-notice-message{
+  font-family: "Montserrat", "sans-serif" !important;
+}
 

@@ -1,0 +1,91 @@
+/* select box */
+.ant-select{
+    border: none !important;
+}
+
+.ant-select-selection-item{
+    font-family: "Montserrat", sans-serif !important;
+    /*background-color: #262626 !important;*/
+}
+
+.dark .ant-select-selection-item{
+    color: #FFF !important;
+}
+
+.dark .ant-select-selector{
+    background-color: #0f172a !important;
+    border: none !important;
+    outline: none !important;
+}
+
+/*.ant-select-dropdown{*/
+/*    background-color: #0f172a !important;*/
+/*    border: none !important;*/
+/*    outline: none !important;*/
+/*}*/
+
+/* pagination */
+.ant-pagination{
+    display: flex !important;
+    align-items: center;
+    /*justify-content: center;*/
+}
+
+.ant-pagination :where(.ant-pagination-prev, .ant-pagination-next), .ant-pagination .ant-pagination-item {
+    min-width: 35px !important;
+    height: 35px !important;
+    border: none !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    font-family: "Montserrat", sans-serif !important;
+}
+
+.ant-pagination :where(.ant-pagination-prev, .ant-pagination-next) button{
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.ant-pagination :where(.ant-pagination-prev, .ant-pagination-next) button, .ant-pagination .ant-pagination-item a{
+    color : #262626 !important;
+}
+
+.ant-pagination .ant-pagination-item-active{
+    background-color: #2563EB !important;
+}
+.ant-pagination .ant-pagination-item-active a {
+    color: #FFF !important;
+}
+.dark .ant-pagination .ant-pagination-item-active{
+    background-color: #10B981 !important;
+}
+
+.dark .ant-pagination-item-ellipsis{
+    color : rgba(255, 255, 255, 0.5) !important;
+}
+
+.dark .ant-pagination :where(.ant-pagination-prev, .ant-pagination-next) button, .dark .ant-pagination .ant-pagination-item a {
+    color: #FFF !important;
+}
+
+.ant-pagination-simple-pager{
+    color: #262626 !important;
+    font-family: "Montserrat", sans-serif !important;
+    height: 30px !important;
+}
+
+.dark .ant-pagination-simple-pager{
+    color: #FFF !important;
+}
+
+.ant-pagination-simple-pager input{
+    background-color: #2563EB !important;
+    color : #FFF !important;
+    border: none !important;
+    outline: none !important;
+}
+
+.dark .ant-pagination-simple-pager input{
+    background-color: #10B981 !important
+}

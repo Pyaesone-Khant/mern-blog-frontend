@@ -1,16 +1,12 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {baseApi} from "@/core/baseApi.js";
 
-export const blogApi = createApi({
-    reducerPath: "blogApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: "https://blogapp-apis.onrender.com/blogs",
-    }),
-    //baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3500/blogs" }),
-    tagTypes: ["blog"],
+const endPonint = "/blogs"
+
+export const blogApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllBlogs: builder.query({
             query: ({ page, size, categoryId }) => ({
-                url: `?page=${page}&size=${size}&cId=${categoryId}`,
+                url: `${endPonint}?page=${page}&size=${size}&cId=${categoryId}`,
                 method: "GET",
             }),
             providesTags: ["blog"],
@@ -18,7 +14,7 @@ export const blogApi = createApi({
 
         createBlog: builder.mutation({
             query: (blog) => ({
-                url: "/",
+                url: `${endPonint}`,
                 method: "POST",
                 body: blog,
             }),
@@ -27,7 +23,7 @@ export const blogApi = createApi({
 
         updateBlog: builder.mutation({
             query: (blog) => ({
-                url: `/`,
+                url: `${endPonint}`,
                 method: "PUT",
                 body: blog,
             }),
@@ -36,7 +32,7 @@ export const blogApi = createApi({
 
         deleteBlog: builder.mutation({
             query: (id) => ({
-                url: `/`,
+                url: `${endPonint}`,
                 method: "DELETE",
                 body: { id },
             }),
@@ -45,7 +41,7 @@ export const blogApi = createApi({
 
         getBlogById: builder.query({
             query: (id) => ({
-                url: `/${id}`,
+                url: `${endPonint}/${id}`,
                 method: "GET",
             }),
             providesTags: ["blog"],
@@ -53,7 +49,7 @@ export const blogApi = createApi({
 
         setUserReaction: builder.mutation({
             query: (ids) => ({
-                url: "/reactions",
+                url: `${endPonint}/reactions`,
                 method: "POST",
                 body: ids,
             }),
@@ -62,7 +58,7 @@ export const blogApi = createApi({
 
         getBlogByUserId: builder.query({
             query: (userId) => ({
-                url: `/getUserBlogs/${userId}`,
+                url: `${endPonint}/getUserBlogs/${userId}`,
                 method: "GET",
             }),
             providesTags: ["blog"],

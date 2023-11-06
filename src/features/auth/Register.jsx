@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { SubmitBtn, PwsBtn, ErrorMsg } from "@/components";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterAccountMutation } from "./authApi";
+import {useDispatch} from "react-redux";
+import {setAlertMessage} from "@/core/globalSlice.js";
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -21,9 +23,10 @@ const Register = () => {
     } = form;
     const formData = watch();
 
-    const [registerAccount] = useRegisterAccountMutation();
     const nav = useNavigate();
+    const dispatch = useDispatch()
 
+    const [registerAccount] = useRegisterAccountMutation();
     const onSubmit = async (data) => {
         if (data.name?.trim().length < 5) {
             setError("name", { message: "Name is too short!" });
@@ -44,13 +47,12 @@ const Register = () => {
             const { data } = await registerAccount(userObj);
             if (data?.success) {
                 setIsSubmitting(false);
-                nav("/login", { state: data?.message });
+                nav("/login");
+                dispatch(setAlertMessage({type : "success", content : data?.message}))
             } else {
                 setApiError(data?.message);
                 setIsSubmitting(false);
-                setTimeout(() => {
-                    setApiError(null);
-                }, 3000);
+                dispatch(setAlertMessage({type : "error", content : data?.message}))
             }
         } catch (error) {
             throw new Error(error);

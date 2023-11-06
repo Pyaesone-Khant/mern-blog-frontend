@@ -3,16 +3,18 @@ import { useForm } from "react-hook-form";
 import { useGetBlogByIdQuery, useUpdateBlogMutation } from "./blogApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { Loader, SubmitBtn, ErrorMsg } from "@/components";
+import {useDispatch} from "react-redux";
+import {setAlertMessage} from "@/core/globalSlice.js";
 
 const EditBlogForm = () => {
     const { blogId } = useParams();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [apiError, setApiError] = useState("");
     const { data, isLoading, isFetching } = useGetBlogByIdQuery(blogId);
     const currentBlog = data?.data;
 
     const [updateBlog] = useUpdateBlogMutation();
     const nav = useNavigate();
+    const dispatch = useDispatch()
 
     const {
         register,
@@ -32,12 +34,10 @@ const EditBlogForm = () => {
             if (data?.success) {
                 setIsSubmitting(false);
                 nav("/");
+                dispatch(setAlertMessage({type : "success", content : data?.message}))
             } else {
                 setIsSubmitting(false);
-                setApiError(data?.message);
-                setTimeout(() => {
-                    setApiError(null);
-                }, 3000);
+                dispatch(setAlertMessage({type : "error", content : data?.message}))
             }
         } catch (error) {
             throw new Error(error);
@@ -64,7 +64,6 @@ const EditBlogForm = () => {
             <div className="common-card">
                 <h2 className="form-tlt"> Create New Blog </h2>
 
-                {apiError && <ErrorMsg message={apiError} isFromApi={true} />}
                 <form action="#" onSubmit={handleSubmit(onSubmit)}>
                     {/* title */}
                     <div className="mb-5">

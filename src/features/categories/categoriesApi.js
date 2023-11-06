@@ -1,16 +1,13 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {baseApi} from "@/core/baseApi.js";
 
-export const categoriesApi = createApi({
-    reducerPath: "categoriesApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: "https://blogapp-apis.onrender.com/categories",
-    }),
-    //baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3500/categories" }),
-    tagTypes: ["category"],
+const endPonint = "/categories"
+
+
+export const categoriesApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllCategories: builder.query({
             query: () => ({
-                url: "/",
+                url: `${endPonint}`,
                 method: "GET",
             }),
             providesTags: ["category"],
@@ -18,7 +15,7 @@ export const categoriesApi = createApi({
 
         createCategory: builder.mutation({
             query: (category) => ({
-                url: "/",
+                url: `${endPonint}`,
                 method: "POST",
                 body: category,
             }),
@@ -27,7 +24,7 @@ export const categoriesApi = createApi({
 
         updateCategory: builder.mutation({
             query: (category) => ({
-                url: `/`,
+                url: `${endPonint}`,
                 method: "PUT",
                 body: category,
             }),
@@ -36,7 +33,7 @@ export const categoriesApi = createApi({
 
         deleteCategory: builder.mutation({
             query: (id) => ({
-                url: `/`,
+                url: `${endPonint}`,
                 method: "DELETE",
                 body: { id },
             }),
@@ -45,7 +42,7 @@ export const categoriesApi = createApi({
 
         getCategoryById: builder.query({
             query: (id) => ({
-                url: `/${id}`,
+                url: `${endPonint}/${id}`,
                 method: "GET",
             }),
             providesTags: ["category"],

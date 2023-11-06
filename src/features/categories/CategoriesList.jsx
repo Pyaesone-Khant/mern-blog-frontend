@@ -1,41 +1,26 @@
 import { memo } from "react";
-import CategoryBtn from "./CategoryBtn";
 import { useDispatch, useSelector } from "react-redux";
-import { setKeyword, setTitle } from "./categoriesSlice";
+import { setKeyword } from "./categoriesSlice";
 import { setCurrentPage } from "../blogs/blogSlice";
+import {Select} from "antd";
 
 const CategoriesList = ({ categories }) => {
     const { keyword } = useSelector((state) => state.category);
 
     const dispatch = useDispatch();
 
-    const handleCategory = (id, title) => {
+    const handleCategory = (id) => {
         dispatch(setCurrentPage(1));
         dispatch(setKeyword(id));
-        dispatch(setTitle(title));
     };
 
     return (
-        <section className="flex items-center gap-3 justify-center mb-5 flex-wrap md:flex-col md:w-52 md:sticky md:top-[102px] ">
-            <CategoryBtn
-                title={"All"}
-                event={handleCategory}
-                isActive={keyword}
-                id={"All"}
-            />
-
-            {categories?.map((item) => {
-                return (
-                    <CategoryBtn
-                        key={item?._id}
-                        title={item?.title}
-                        event={handleCategory}
-                        isActive={keyword}
-                        id={item?._id}
-                    />
-                );
-            })}
-        </section>
+        <Select className={"w-full"} defaultValue={keyword} onChange={(value) => handleCategory(value)}   >
+            <Select.Option value={"all"} className={" !font-sans dark:text-white "} > All </Select.Option>
+            {
+                categories?.map(category => <Select.Option key={category._id} className={" !font-sans dark:text-white "} value={category._id}> {category.title} </Select.Option>)
+            }
+        </Select>
     );
 };
 

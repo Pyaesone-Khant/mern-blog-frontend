@@ -1,16 +1,12 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {baseApi} from "@/core/baseApi.js";
 
-export const userApi = createApi({
-    reducerPath: "userApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: "https://blogapp-apis.onrender.com/users",
-    }),
-    //baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3500/users" }),
-    tagTypes: ["user"],
+const endPoint = "/users";
+
+export const userApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllUsers: builder.query({
             query: () => ({
-                url: "/",
+                url: `${endPoint}`,
                 method: "GET",
             }),
             providesTags: ["user"],
@@ -18,7 +14,7 @@ export const userApi = createApi({
 
         updateUser: builder.mutation({
             query: (user) => ({
-                url: `/`,
+                url: `${endPoint}`,
                 method: "PUT",
                 body: user,
             }),
@@ -27,7 +23,7 @@ export const userApi = createApi({
 
         deleteUser: builder.mutation({
             query: (userData) => ({
-                url: `/`,
+                url: `${endPoint}`,
                 method: "DELETE",
                 body: userData,
             }),
@@ -36,7 +32,7 @@ export const userApi = createApi({
 
         getUserById: builder.query({
             query: (id) => ({
-                url: `/${id}`,
+                url: `${endPoint}/${id}`,
                 method: "GET",
             }),
             providesTags: ["user"],
@@ -44,7 +40,7 @@ export const userApi = createApi({
 
         changeUserPassword: builder.mutation({
             query: (passwords) => ({
-                url: "/change_password",
+                url: `${endPoint}/change_password`,
                 method: "PUT",
                 body: passwords,
             }),
@@ -53,7 +49,7 @@ export const userApi = createApi({
 
         saveBlogs: builder.mutation({
             query: ({ userId, blogId }) => ({
-                url: `/save_blogs/${userId}`,
+                url: `${endPoint}/save_blogs/${userId}`,
                 method: "POST",
                 body: { blogId },
             }),
@@ -62,7 +58,7 @@ export const userApi = createApi({
 
         getSavedBlogs: builder.query({
             query: (userId) => ({
-                url: `/save_blogs/${userId}`,
+                url: `${endPoint}/save_blogs/${userId}`,
                 method: "GET",
             }),
             providesTags: ["user"],

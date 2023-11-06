@@ -6,7 +6,6 @@ import { useDeleteUserMutation } from "./UserApi";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoginState } from "../auth/authSlice";
-import { BsExclamationCircleFill } from "react-icons/bs";
 import Swal from "sweetalert2";
 
 const AccountDeleteForm = () => {

@@ -1,17 +1,12 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {baseApi} from "@/core/baseApi.js";
 
-export const commentsApi = createApi({
-    reducerPath: "commentsApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: "https://blogapp-apis.onrender.com/comments",
-    }),
+const endPoint = "/comments"
 
-    //baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3500/comments" }),
-    tagTypes: ["comment"],
+export const commentsApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllComments: builder.query({
             query: () => ({
-                url: "/",
+                url: `${endPoint}`,
                 method: "GET",
             }),
             providesTags: ["comment"],
@@ -19,7 +14,7 @@ export const commentsApi = createApi({
 
         createComment: builder.mutation({
             query: (commentData) => ({
-                url: "/",
+                url: `${endPoint}`,
                 method: "POST",
                 body: commentData,
             }),
@@ -28,7 +23,7 @@ export const commentsApi = createApi({
 
         updateComment: builder.mutation({
             query: (commentData) => ({
-                url: `/`,
+                url: `${endPoint}`,
                 method: "PUT",
                 body: commentData,
             }),
@@ -37,7 +32,7 @@ export const commentsApi = createApi({
 
         deleteComment: builder.mutation({
             query: (id) => ({
-                url: `/`,
+                url: `${endPoint}`,
                 method: "DELETE",
                 body: { id },
             }),
@@ -46,7 +41,7 @@ export const commentsApi = createApi({
 
         getCommentById: builder.query({
             query: (id) => ({
-                url: `/${id}`,
+                url: `${endPoint}/${id}`,
                 method: "GET",
             }),
             providesTags: ["comment"],

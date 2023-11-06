@@ -3,16 +3,15 @@ import { useForm } from "react-hook-form";
 import { ErrorMsg, PwsBtn, SubmitBtn } from "@/components";
 import { useNavigate } from "react-router-dom";
 import { useUpdateUserMutation } from "./UserApi";
-import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoginState } from "../auth/authSlice";
+import {logoutAccount, setLoginState} from "../auth/authSlice";
+import {setAlertMessage} from "@/core/globalSlice.js";
 
 const ChangeUserDetail = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [canSave, setCanSave] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [apiError, setApiError] = useState("");
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
 
@@ -41,8 +40,6 @@ const ChangeUserDetail = () => {
         try {
             const { data } = await updateUser(updatedUser);
             if (data?.success) {
-                Cookies.remove("token");
-                Cookies.remove("user");
                 setIsSubmitting(false);
                 dispatch(
                     setLoginState({
@@ -51,13 +48,12 @@ const ChangeUserDetail = () => {
                         token: null,
                     })
                 );
-                nav("/login", { state: data?.message });
+                dispatch(logoutAccount())
+                nav("/login");
+                dispatch(setAlertMessage({type : "success", content : data?.message}))
             } else {
                 setIsSubmitting(false);
-                setApiError(data?.message);
-                setTimeout(() => {
-                    setApiError(null);
-                }, 3000);
+                dispatch(setAlertMessage({type : "error", content : data?.message}))
             }
         } catch (error) {
             throw new Error(error);
@@ -84,7 +80,6 @@ const ChangeUserDetail = () => {
             <div className="common-card">
                 <h2 className="form-tlt"> Change Password </h2>
 
-                {apiError && <ErrorMsg message={apiError} isFromApi={true} />}
                 <form action="#" onSubmit={handleSubmit(onSubmit)}>
                     <div className="mb-5">
                         <label htmlFor="name"> Name</label>

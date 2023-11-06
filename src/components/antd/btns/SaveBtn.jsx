@@ -34,12 +34,7 @@ const SaveBtn = ({ blogId }) => {
     };
 
     return (
-        <Tooltip
-            placement="top"
-            title={
-                <p className="font-sans"> {isSaved ? "Saved" : "Un-Saved"} </p>
-            }
-        >
+
             <button
                 onClick={handleSaveBlog}
                 className={`outline-none border-none text-blue-600 dark:text-darkTer text-2xl duration-200`}
@@ -52,7 +47,6 @@ const SaveBtn = ({ blogId }) => {
                     <BsBookmarkPlus />
                 )}
             </button>
-        </Tooltip>
     );
 };
 

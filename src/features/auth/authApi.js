@@ -1,11 +1,8 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {baseApi} from "@/core/baseApi.js";
 
-export const authApi = createApi({
-    reducerPath: "authApi",
-    baseQuery: fetchBaseQuery({ baseUrl: "https://blogapp-apis.onrender.com" }),
-    //baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3500" }),
+const endPoint = "/"
 
-    tagTypes: ["auth"],
+export const authApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         registerAccount: builder.mutation({
             query: (user) => ({
