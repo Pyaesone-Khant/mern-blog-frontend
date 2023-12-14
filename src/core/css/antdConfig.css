@@ -9,13 +9,16 @@
 }
 
 .dark .ant-select-selection-item{
-    color: #FFF !important;
+    color: var(--darkBgSec) !important;
 }
 
 .dark .ant-select-selector{
-    background-color: #0f172a !important;
     border: none !important;
     outline: none !important;
+}
+
+.ant-select-selection-placeholder, ::placeholder{
+    color : #333333aa !important;
 }
 
 /*.ant-select-dropdown{*/
@@ -23,6 +26,37 @@
 /*    border: none !important;*/
 /*    outline: none !important;*/
 /*}*/
+
+label{
+    font-size: 16px !important;
+}
+
+.avatar label{
+    font-size: 14px !important;
+}
+
+/*input*/
+.ant-input{
+    /*font-weight: 500;*/
+    color : var(--darkBgSec)
+}
+
+/*collapse*/
+.ant-collapse,.ant-collapse-item, .ant-collapse-content{
+    border: none !important;
+    background: transparent !important;
+}
+
+.ant-collapse-content-box{
+    padding: 0 !important;
+    font-size: 15px;
+}
+
+.ant-collapse-header{
+    display: none !important;
+}
+
+
 
 /* pagination */
 .ant-pagination{
@@ -88,4 +122,55 @@
 
 .dark .ant-pagination-simple-pager input{
     background-color: #10B981 !important
+}
+
+.dark .ant-form-item-explain-error{
+    color : #CF6679 !important;
+}
+
+/* modal */
+.auth-modal .ant-modal-content{
+    padding : 0 !important;
+    overflow: hidden !important;
+}
+
+.auth-modal .modal-header{
+    background-color: var(--cblue) !important;
+    color : #FFF !important;
+    padding: 16px 24px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dark .auth-modal .modal-header{
+    background-color: var(--darkTer) !important;
+}
+
+/*upload*/
+.ant-upload {
+    width: 100% !important;
+}
+
+.ant-upload-list-item,.anticon-paper-clip svg{
+    color: var(--cblue) !important;
+}
+
+.dark .ant-upload-list-item,.dark .anticon-paper-clip svg{
+    color: var(--darkTer) !important;
+}
+
+.anticon-delete{
+    color: rgba(255, 0, 0, 0.8) !important;
+}
+
+.avatar .ant-upload-wrapper{
+    width: 150px !important;
+    aspect-ratio: 1 / 1;
+}
+
+.avatar .ant-upload{
+    width: 100% !important;
+    height: 100% !important;
+    aspect-ratio: 1 / 1 !important;  ;
 }

@@ -1,84 +1,60 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { useCreateCommentMutation } from "./commentsApi";
-import { useNavigate } from "react-router-dom";
-import { ErrorMsg, SubmitBtn } from "@/components";
+import {useGetUserDataQuery} from "@/features/users/UserApi.js";
+import {Collapse, Form, Input} from "antd";
+import {useDispatch} from "react-redux";
+import {setAlertMessage} from "@/core/globalSlice.js";
 
-const CommentForm = ({ blogId, isCommenting, setIsCommenting }) => {
-    const form = useForm();
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const { user: currentUser } = useSelector((state) => state.auth);
+const CommentForm = ({ blogId, activeKey, form, setIsSubmitting, closeCollapse}) => {
     const [createComment] = useCreateCommentMutation();
-    const nav = useNavigate();
+    const dispatch = useDispatch()
+    // const [form] = Form.useForm()
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        setValue,
-    } = form;
+    const {data : userData} = useGetUserDataQuery();
+    const currentUser = userData?.data;
 
     const onFormSubmit = async (data) => {
         const commentData = {
             userId: currentUser?._id,
             blogId: blogId,
-            comment: data.comment,
+            comment: data?.comment,
         };
-        setIsSubmitting(true);
         try {
+            setIsSubmitting(true)
             const { data } = await createComment(commentData);
+            console.log(data)
             if (data?.success) {
-                setValue("comment", "");
-                setIsSubmitting(false);
-                setIsCommenting(false);
-                nav(`/blogs/${blogId}`);
+                closeCollapse()
+                dispatch(setAlertMessage({type : "success", content : data?.message}))
             } else {
-                setIsSubmitting(false);
-                nav(`/blogs/${blogId}`);
+                dispatch(setAlertMessage({type : "error", content : data?.message}))
+                setIsSubmitting(false)
             }
         } catch (error) {
             throw new Error(error);
+        }finally {
+            setIsSubmitting(false)
         }
     };
+
+    const items = [
+        {
+            key : 1,
+            label : '',
+            children: <Form form={form} onFinish={onFormSubmit}>
+                        <Form.Item name={"comment"} rules={[
+                            {
+                                required : true, message : "Please enter your comment!"
+                            }
+                        ]} >
+                            <Input.TextArea placeholder={`Commenting as ${currentUser?.name}`} className={` !min-h-[80px]`}/>
+                        </Form.Item>
+                    </Form>
+        }
+    ]
+
     return (
-        <section className="max-w-2xl w-full mx-auto">
-            {isCommenting ? (
-                <form
-                    action=""
-                    className="my-1"
-                    onSubmit={handleSubmit(onFormSubmit)}
-                >
-                    <div className="mb-1">
-                        <textarea
-                            placeholder={`Commenting as ${currentUser?.name} . . .`}
-                            rows={3}
-                            {...register("comment", {
-                                required: {
-                                    value: true,
-                                    message: "Blog comment is required!",
-                                },
-                                minLength: {
-                                    value: 1,
-                                    message:
-                                        "Blog comment must have at least 1 character!",
-                                },
-                            })}
-                            className={`form-input resize-none ${
-                                errors.comment?.message ? "input-error" : ""
-                            }`}
-                        ></textarea>
-                        <ErrorMsg message={errors.comment?.message} />
-                    </div>
-                    <SubmitBtn
-                        isCommentBtn={true}
-                        label="Send"
-                        isSubmitting={isSubmitting}
-                    />
-                </form>
-            ) : (
-                ""
-            )}
+        <section className="max-w-2xl w-full mx-auto mt-2">
+            <Collapse activeKey={activeKey} items={items} />
         </section>
     );
 };

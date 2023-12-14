@@ -4,17 +4,19 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLoginState, logoutAccount } from "../../features/auth/authSlice";
 import {setAlertMessage} from "@/core/globalSlice.js";
+import {MdAccountCircle} from "react-icons/md";
+import {useGetUserDataQuery} from "@/features/users/UserApi.js";
+import {PROFILE_IMAGE_URL} from "@/Constants.js";
 
-const AccountMenu = ({ user, event }) => {
+const AccountMenu = ({ event }) => {
+    const { data : userData } = useGetUserDataQuery();
+    const user = userData?.data;
     const nav = useNavigate();
-
     const dispatch = useDispatch();
-
     const handleLogout = async () => {
         dispatch(
             setLoginState({
                 isLoggedIn: false,
-                user: null,
                 token: null,
             })
         );
@@ -53,7 +55,10 @@ const AccountMenu = ({ user, event }) => {
                 placement="bottom"
                 trigger={["click"]}
             >
-                <button className=" min-w-[120px] w-full py-2 rounded-md bg-slate-900 text-white hover:bg-slate-800 duration-200">
+                <button className=" px-3 py-2 duration-200 flex items-center gap-2 font-medium text-base ">
+                    {
+                        user?.profileImage ?  <img src={ PROFILE_IMAGE_URL + user?.profileImage} alt={"Profile Image"}  className={`w-7 aspect-square rounded-full border border-darkBgSec/50`} /> : <MdAccountCircle className={`text-2xl text-blue-600 dark:text-darkTer `}/>
+                    }
                     {" "}
                     {user?.name}{" "}
                 </button>

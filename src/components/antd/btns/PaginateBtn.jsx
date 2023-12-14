@@ -1,27 +1,18 @@
+import {useSelector} from "react-redux";
+
 const PaginateBtn = ({
     label,
     event,
-    currentPage,
     breakPoint,
-    activePoint,
-    value,
-    isArrow,
-    isMobile,
 }) => {
+
+    const {currentPage} = useSelector(state => state.blog)
+
     return (
         <button
             onClick={event}
             disabled={currentPage === breakPoint}
-            className={`paginate-btn  ${
-                currentPage == activePoint ? "active" : ""
-            } ${isArrow ? "arrow-btn" : ""} ${
-                isArrow && currentPage === breakPoint ? "disabled" : ""
-            } ${
-                isMobile
-                    ? `text ${currentPage === breakPoint ? "hidden" : ""}`
-                    : "icon"
-            } `}
-            value={value}
+            className={`paginate-btn disabled:paginate-btn-disabled`}
         >
             {label}
         </button>

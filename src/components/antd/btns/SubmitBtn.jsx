@@ -1,31 +1,10 @@
-import { Spinner } from "@/components";
+import {Button} from "antd";
 
 const SubmitBtn = ({
     isSubmitting,
     label,
-    canSave,
-    isDisabled,
-    isCommentBtn,
 }) => {
-    return isDisabled ? (
-        <button
-            className={`btn submit-btn ${
-                canSave && !isSubmitting ? "" : "disabled"
-            }`}
-            disabled={!canSave || isSubmitting}
-        >
-            {isSubmitting ? <Spinner /> : label}
-        </button>
-    ) : (
-        <button
-            className={`btn submit-btn ${!isSubmitting ? "" : "disabled"} ${
-                isCommentBtn ? "ml-auto" : ""
-            } `}
-            disabled={isSubmitting}
-        >
-            {isSubmitting ? <Spinner /> : label}
-        </button>
-    );
+    return <Button type={"primary"} htmlType={"submit"} loading={isSubmitting} className={`submit-btn !shadow-none `} > {label} </Button>
 };
 
 export default SubmitBtn;

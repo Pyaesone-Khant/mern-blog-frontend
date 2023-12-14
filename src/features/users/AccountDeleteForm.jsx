@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { PwsBtn, SubmitBtn, ErrorMsg } from "@/components";
 import { useNavigate } from "react-router-dom";
-import { useDeleteUserMutation } from "./UserApi";
+import {useDeleteUserMutation, useGetUserDataQuery} from "./UserApi";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoginState } from "../auth/authSlice";
@@ -14,7 +14,8 @@ const AccountDeleteForm = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [apiError, setApiError] = useState("");
     const dispatch = useDispatch();
-    const { user } = useSelector((state) => state.auth);
+    const {data : userData} = useGetUserDataQuery();
+    const user = userData?.data;
 
     const form = useForm();
     const {

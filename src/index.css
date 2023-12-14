@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
+@import "src/core/css/colors.css";
 
 @tailwind base;
 @tailwind components;
@@ -8,11 +9,11 @@
 @layer components{
 
   .common-card{
-    @apply bg-white shadow-md rounded-md max-w-2xl p-5 dark:bg-slate-700 mx-auto w-full
+    @apply bg-white shadow-md rounded-md max-w-lg p-5 dark:bg-slate-700 mx-auto w-full
   ;}
 
   .form-tlt{
-    @apply font-semibold text-xl mb-6
+    @apply font-semibold text-xl mb-1 dark:text-white text-darkBgSec text-center
   ;}
 
   label{
@@ -20,7 +21,7 @@
   ;}
 
   .form-input{
-    @apply p-2 rounded-md w-full outline-none mt-1 border border-black/30 select-none dark:bg-slate-900 duration-200
+    @apply p-2 rounded-md w-full outline-none mt-1 border border-black/30 select-none duration-200 text-darkBgSec
   ;}
 
   .form-input.input-error{
@@ -36,19 +37,19 @@
   ;}
 
   .btn{
-    @apply h-10 max-w-[150px] w-full flex items-center justify-center rounded-md text-white duration-200 border-transparent text-[17px] font-medium
+    @apply capitalize h-10 w-full flex items-center justify-center rounded-md text-white duration-200 border-transparent text-[16px] font-medium
   ;}
 
   .submit-btn{
-    @apply bg-blue-600 hover:bg-blue-500 dark:bg-darkTer/70 dark:hover:bg-darkTer
+    @apply btn !bg-cBlue hover:!bg-blue-500 dark:!bg-darkTer/70 dark:hover:!bg-darkTer
   ;}
 
   .delete-btn{
-    @apply bg-red-600 hover:bg-red-500
+    @apply btn !bg-red-600 hover:!bg-red-500
   ;}
 
   .comment-btn{
-    @apply text-sm h-9 border border-green-700 text-green-700 hover:bg-green-700 hover:text-white dark:border-gray-200 dark:text-gray-200 dark:hover:bg-gray-200 dark:hover:text-green-700 duration-200;}
+    @apply w-full max-w-[150px] rounded-md text-sm h-9 border border-green-700 text-green-700 hover:bg-green-700 hover:text-white dark:border-gray-200 dark:text-gray-200 dark:hover:bg-gray-200 dark:hover:text-green-700 duration-200;}
 
   .submit-btn.disabled{
     @apply bg-gray-600 text-gray-400 dark:bg-gray-500 dark:text-gray-300 duration-200
@@ -59,7 +60,7 @@
   ;}
 
   .card{
-    @apply flex flex-col gap-3 p-5 shadow tracking-wider w-full bg-white hover:shadow-xl duration-200 h-fit rounded-md dark:text-white dark:bg-slate-700
+    @apply flex flex-col gap-3 tracking-wider p-5 shadow bg-white text-darkBgSec dark:text-white dark:bg-slate-700 rounded-md hover:shadow-xl duration-200 w-full h-full ;
   ;}
 
   .detail-card{
@@ -72,28 +73,54 @@
   ;}
 
   .paginate-btn{
-    @apply h-9 rounded-md bg-white dark:bg-gray-300 text-black  flex items-center justify-center font-medium shadow duration-200 border-none outline-none
+    @apply h-8 max-w-[100px] w-full bg-cBlue dark:bg-darkTer rounded-md text-white text-sm hover:bg-blue-500 dark:hover:bg-darkTer/80 duration-200
   ;}
 
-  .paginate-btn.icon{
-    @apply  w-9 text-xl
+  .paginate-btn-disabled{
+    @apply bg-gray-400 dark:bg-gray-500 text-gray-300 dark:text-gray-400 hover:bg-gray-400 dark:hover:bg-gray-500 hover:text-gray-300 hover:dark:text-gray-400
+    duration-200 cursor-not-allowed
   ;}
 
-  .paginate-btn.active, .paginate-btn:not(.arrow-btn):hover{
-    @apply bg-blue-600 text-white dark:bg-darkTer duration-200
-  ;}
+  .form-label{
+    @apply font-medium dark:text-white text-darkBgSec capitalize
+  }
 
-  .paginate-btn.disabled{
-    @apply bg-gray-500 dark:bg-gray-600/80 text-gray-400
-  ;}
+  /* verification form */
+  .otp-form {
+    @apply flex justify-between
+    ;
+  }
 
-  .paginate-btn.text{
-    @apply max-w-[150px] h-10 w-full
-  ;}
+  .otp-form input {
+    @apply !w-12  h-12 rounded text-black text-center outline-none border border-[#14224A] caret-black
+    ;
+  }
+
+ .modal-trigger{
+   @apply px-5 py-2 border rounded-md text-sm border-blue-600 text-blue-600 hover:bg-cBlue hover:text-white dark:border-darkTer dark:text-darkTer dark:hover:bg-darkTer dark:hover:text-white duration-200
+ }
+
+  .dPrimary{
+    @apply bg-gray-600 text-gray-400 dark:bg-gray-500 dark:text-gray-300 duration-200 border-gray-600 dark:border-gray-500 disabled:hover:bg-gray-600 cursor-not-allowed
+  }
+
+  .dOutline{
+    @apply border-gray-400 text-gray-400 dark:border-gray-500 dark:text-gray-400 duration-200 cursor-not-allowed
+  }
+
+}
+
+*{
+  font-family: "Montserrat", "sans-serif";
 }
 
 /*notification*/
 .ant-notification-notice-message{
   font-family: "Montserrat", "sans-serif" !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  display: none;
 }
 

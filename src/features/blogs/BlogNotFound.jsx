@@ -8,13 +8,15 @@ const BlogNotFound = () => {
     const category = data?.data
 
     return (
-        <h2 className="text-2xl font-semibold text-center flex items-center justify-center p-5 rounded-md bg-white h-full w-full dark:bg-slate-700">
-            There is no blogs with the category title
-            <span className="text-blue-600 dark:text-darkTer ml-2">
+        <section className={`flex items-center justify-center h-full rounded-md bg-white dark:bg-slate-700`} >
+            <h2 className="text-xl p-5 ">
+                There is no blogs with the category title
+                <span className="text-blue-600 dark:text-darkTer ml-2 font-medium ">
                 {`"${category?.title || "All"}"`}
             </span>
-            !
-        </h2>
+                !
+            </h2>
+        </section>
     );
 };
 

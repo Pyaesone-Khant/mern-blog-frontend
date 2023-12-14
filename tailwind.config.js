@@ -4,14 +4,21 @@ export default {
     theme: {
         extend: {
             colors: {
-                darkBg: "#16161a",
-                darkPara: "#94a1b2",
-                darkHead: "#fffffe",
+                darkBg: "#09091F",
+                darkBgSec: "#09192F",
+                darkHead: "#5d97a9",
+                darkPara: "#8babb8",
                 darkBtn: "#7f5af0",
-                darkSec: "#72757e",
-                //darkTer: "#2cb67d",
+                darkSec: "#153B47",
                 darkTer: "#10b981",
-                //darkTer: "#14b8a6",
+                cBlue : "#2563eb"
+                // darkBg: "#1d2416",
+                // darkBgSec: "#374d13",
+                // darkPara: "#2e4c11",
+                // darkHead: "#5a7929",
+                // darkBtn: "#7f5af0",
+                // darkSec: "#374d13",
+                // darkTer: "#10b981",
             },
             screens: {
                 xs: "300px",

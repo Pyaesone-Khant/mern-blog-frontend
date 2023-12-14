@@ -1,19 +1,23 @@
 import { Link } from "react-router-dom";
 import CNavlink from "./CNavlink";
 import AccountMenu from "./AccountMenu";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { useState } from "react";
 import { RxCross1, RxHamburgerMenu } from "react-icons/rx";
 import ThemeBtn from "../antd/btns/ThemeBtn";
 import "./link.css";
+import {setCurrentPage} from "@/features/blogs/blogSlice.js";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { token, isLoggedIn, user } = useSelector((state) => state.auth);
+    const { isLoggedIn } = useSelector((state) => state.auth);
 
     const handleMenu = () => {
         setIsOpen(!isOpen);
     };
+
+    const dispatch = useDispatch()
+
 
     return (
         <header className="py-5 sticky top-0 shadow-lg border-b z-10 backdrop-blur-md bg-white dark:bg-slate-700 dark:border-none dark:text-white dark:border-slate-600 duration-200">
@@ -21,9 +25,9 @@ const Navbar = () => {
                 <div className="w-full md:w-auto flex items-center justify-between">
                     <h1
                         onClick={() => setIsOpen(false)}
-                        className="text-4xl font-bold"
+                        className="text-3xl md:text-4xl  font-bold"
                     >
-                        <Link to={"/"}>LOGO</Link>
+                        <Link to={"/"} onClick={() => dispatch(setCurrentPage(1))} >PK-Blog</Link>
                     </h1>
                     <div className="flex items-center gap-3 md:justify-end">
                         <div className="md:hidden flex items-center justify-center">
@@ -38,7 +42,7 @@ const Navbar = () => {
                     </div>
                 </div>
                 <nav
-                    className={`w-full md:w-auto pt-[72px] top-0 md:pt-0 bg-white md:bg-transparent dark:bg-slate-700 fixed md:relative transform pb-5 md:pb-0 shadow-md md:shadow-none border-b dark:border-none md:border-none md:translate-y-0 md:opacity-100 ${
+                    className={`w-full md:w-auto pt-[72px] top-0 md:pt-0 bg-white md:dark:bg-transparent dark:bg-slate-700 fixed md:relative transform pb-5 md:pb-0 shadow-md md:shadow-none border-b dark:border-none md:border-none md:translate-y-0 md:opacity-100 ${
                         isOpen
                             ? "  opacity-100 translate-y-0  "
                             : " opacity-0 -translate-y-[100vh]"
@@ -61,8 +65,6 @@ const Navbar = () => {
                             />
                             <AccountMenu
                                 event={() => setIsOpen(false)}
-                                user={user}
-                                token={token}
                             />
                         </ul>
                     ) : (

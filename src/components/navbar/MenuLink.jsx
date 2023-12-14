@@ -5,7 +5,7 @@ const MenuLink = ({ path, title, event }) => {
         <Link
             onClick={event}
             to={path}
-            className=" text-[16px] font-sans capitalize w-full min-w-[120px]"
+            className=" text-sm font-sans capitalize w-full min-w-[120px]"
         >
             {" "}
             {title}{" "}

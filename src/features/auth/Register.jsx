@@ -1,232 +1,120 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { SubmitBtn, PwsBtn, ErrorMsg } from "@/components";
+import {  useState } from "react";
+import {SubmitBtn, FormLabel} from "@/components";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterAccountMutation } from "./authApi";
 import {useDispatch} from "react-redux";
 import {setAlertMessage} from "@/core/globalSlice.js";
+import {Form, Input} from "antd";
 
 const Register = () => {
-    const [showPassword, setShowPassword] = useState(false);
-    const [showPasswordConfirmation, setShowPasswordConfirmation] =
-        useState(false);
-    const [canSave, setCanSave] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [apiError, setApiError] = useState("");
-    const form = useForm();
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        watch,
-        setError,
-    } = form;
-    const formData = watch();
 
     const nav = useNavigate();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const currentRoute = location.pathname;
 
     const [registerAccount] = useRegisterAccountMutation();
-    const onSubmit = async (data) => {
-        if (data.name?.trim().length < 5) {
-            setError("name", { message: "Name is too short!" });
-        }
-        if (data.password !== data.password_confirmation) {
-            setError("password_confirmation", {
-                message: "Password confirmation does not match!",
-            });
-            return;
-        }
-        const userObj = {
-            name: data.name,
-            email: data.email,
-            password: data.password,
-        };
+    const onSubmit = async (values) => {
         try {
+            delete values.password_confirmation;
             setIsSubmitting(true);
-            const { data } = await registerAccount(userObj);
+            const { data } = await registerAccount(values);
             if (data?.success) {
                 setIsSubmitting(false);
-                nav("/login");
+                nav("/verifyOtp", {state : {
+                    email : values?.email, prevRoute : currentRoute
+                    }});
                 dispatch(setAlertMessage({type : "success", content : data?.message}))
             } else {
-                setApiError(data?.message);
                 setIsSubmitting(false);
                 dispatch(setAlertMessage({type : "error", content : data?.message}))
             }
         } catch (error) {
             throw new Error(error);
+        }finally {
+            setIsSubmitting(false)
         }
     };
 
-    useEffect(() => {
-        if (
-            formData.name &&
-            formData.email &&
-            formData.password &&
-            formData.password_confirmation
-        ) {
-            setCanSave(true);
-        } else {
-            setCanSave(false);
-        }
-    }, [formData]);
-
-    const handleShowPassword = () => {
-        setShowPassword(!showPassword);
-    };
-    const handleShowPasswordConfirmation = () => {
-        setShowPasswordConfirmation(!showPasswordConfirmation);
-    };
     return (
         <section className=" w-full flex items-center justify-center">
             <div className="common-card">
+
+                {/*<p>Dear {name}, </p>*/}
+                {/*<br/><br/>*/}
+                {/*<p> Thank you for registering on our website! To complete the registration process and verify your email, please user this One-Time Password (OTP).</p>*/}
+                {/*<p> Your OTP : <strong> otp </strong> </p>*/}
+                {/*<p>Thank you for using our blog app!</p>*/}
+                {/*<br/><br/>*/}
+                {/*<p> Best regards, <br/> PK-Blog Team. </p>*/}
+
+                <div className="text-center mb-8">
                 <h2 className="form-tlt"> Register Account </h2>
+                    <p className={` text-gray-500 dark:text-gray-300`} >Already have an account? <Link
+                        to={"/login"}
+                        className=" text-blue-600 border-b border-blue-600 dark:text-darkTer dark:border-darkTer "
+                    >
+                        {" "}
+                        Login{" "}
+                    </Link></p>
 
-                {apiError && <ErrorMsg message={apiError} isFromApi={true} />}
+                </div>
 
-                <form action="#" onSubmit={handleSubmit(onSubmit)}>
-                    {/* name */}
-                    <div className="mb-5">
-                        <label htmlFor="name">Name</label>
-                        <input
-                            type="text"
-                            {...register("name", {
-                                required: {
-                                    value: true,
-                                    message: "Name is required!",
-                                },
-                                pattern: {
-                                    value: /\b([A-ZÀ-ÿ][-,a-zA-Z. ']+[ ]*)+/,
-                                    message:
-                                        "First letter of the name must be a capital letter!",
-                                },
-                                minLength: {
-                                    value: 5,
-                                    message: "Name should not be too short!",
-                                },
-                            })}
-                            id="name"
-                            className={`form-input ${
-                                errors.name?.message ? "input-error" : ""
-                            }`}
-                        />
-                        <ErrorMsg message={errors.name?.message} />
-                    </div>
-
-                    {/* email */}
-                    <div className="mb-5">
-                        <label htmlFor="email">Email</label>
-                        <input
-                            type="email"
-                            {...register("email", {
-                                required: {
-                                    value: true,
-                                    message: "Email is required!",
-                                },
-                                pattern: {
-                                    value: /^([\w.]{4,10})+@([\w-]+\.)+[\w-]{2,4}$/,
-                                    message: "Invalid email address!",
-                                },
-                            })}
-                            id="email"
-                            className={`form-input ${
-                                errors.email?.message ? "input-error" : ""
-                            }`}
-                        />
-                        <ErrorMsg message={errors.email?.message} />
-                    </div>
-
-                    {/* password */}
-                    <div className="mb-5">
-                        <label htmlFor="password">Password</label>
-                        <div className="relative">
-                            <input
-                                type={showPassword ? "text" : "password"}
-                                {...register("password", {
-                                    required: {
-                                        value: true,
-                                        message: "Password is required!",
-                                    },
-                                    pattern: {
-                                        value: /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                                        message:
-                                            "Password must have minimum eight characters, at least one uppercase letter, one number and one special character.",
-                                    },
-                                    minLength: {
-                                        value: 8,
-                                        message:
-                                            "Password must have at least 8 characters!",
-                                    },
-                                })}
-                                id="password"
-                                className={`form-input ${
-                                    errors.password?.message
-                                        ? "input-error"
-                                        : ""
-                                }`}
-                            />
-                            <PwsBtn
-                                event={handleShowPassword}
-                                isShowed={showPassword}
-                            />
-                        </div>
-                        <ErrorMsg message={errors.password?.message} />
-                    </div>
-
-                    {/* password confirmation */}
-                    <div className="mb-5">
-                        <label htmlFor="password_confirmation">
-                            Confirm Password
-                        </label>
-                        <div className="relative">
-                            <input
-                                type={
-                                    showPasswordConfirmation
-                                        ? "text"
-                                        : "password"
+                <Form layout={"vertical"} onFinish={onSubmit} >
+                    <Form.Item label={<FormLabel label={"name"}/>} name={"name"} rules={[
+                        {
+                            required : true, message : "Name is required!"
+                        },{
+                        pattern: /\b([A-ZÀ-ÿ][-,a-zA-Z. ']+[ ]*)+/,
+                        message:
+                        "First letter of the name must be a capital letter!",
+                    },{
+                        min: 5,
+                        message: "Name should not be too short!",
+                    },
+                    ]} >
+                        <Input placeholder={"Enter your name"} />
+                    </Form.Item>
+                    <Form.Item label={<FormLabel label={"email"}/>} name={"email"} rules={[
+                        {
+                            required : true, message : "Email address is required!"
+                        },{
+                        type: "email",
+                            pattern: /^([\w.]{4,10})+@([\w-]+\.)+[\w-]{2,4}$/,
+                            message: "Invalid email address!",
+                        }
+                    ]} >
+                        <Input placeholder={"example@gmail.com"} />
+                    </Form.Item>
+                    <Form.Item label={<FormLabel label={"password" +
+                        ""}/>} name={"password"} rules={[
+                        {
+                            required : true, message : "Password is required!"
+                        },{
+                            pattern: /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                            message:
+                                "Password must have minimum eight characters, at least one uppercase letter, one number and one special character.",
+                        }
+                    ]} >
+                        <Input.Password placeholder={"Enter your password"} />
+                    </Form.Item>
+                    <Form.Item label={<FormLabel label={"Confirm Password"}/>} name={"password_confirmation"} dependencies={["password"]} rules={[
+                        {
+                            required : true, message : "Password confirmation is required!"
+                        },({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (!value || getFieldValue('password') === value) {
+                                    return Promise.resolve();
                                 }
-                                {...register("password_confirmation", {
-                                    required: {
-                                        value: true,
-                                        message:
-                                            "Please confirm your password!",
-                                    },
-                                })}
-                                id="password_confirmation"
-                                className={`form-input ${
-                                    errors.password_confirmation?.message
-                                        ? "input-error"
-                                        : ""
-                                }`}
-                            />
-                            <PwsBtn
-                                event={handleShowPasswordConfirmation}
-                                isShowed={showPasswordConfirmation}
-                            />
-                        </div>
-                        <ErrorMsg
-                            message={errors.password_confirmation?.message}
-                        />
-                    </div>
-
-                    <div className="flex items-center gap-2 mb-5">
-                        <p>Already have an account? </p>
-                        <Link
-                            to={"/login"}
-                            className=" text-blue-600 border-b border-blue-600 dark:text-darkTer dark:border-darkTer "
-                        >
-                            {" "}
-                            Login{" "}
-                        </Link>
-                    </div>
-                    <SubmitBtn
-                        isSubmitting={isSubmitting}
-                        label={"Register"}
-                        canSave={canSave}
-                        isDisabled={true}
-                    />
-                </form>
+                                return Promise.reject(new Error('The password confirmation does not match!'));
+                            },
+                        }),
+                    ]} >
+                        <Input.Password placeholder={"Confirm your password"} />
+                    </Form.Item>
+                    <div className={`py-3`} ></div>
+                    <SubmitBtn label={"Register"} isSubmitting={isSubmitting} />
+                </Form>
             </div>
         </section>
     );

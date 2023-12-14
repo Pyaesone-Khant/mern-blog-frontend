@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const blogSlice = createSlice({
     name: "blog",
     initialState: {
-        itemsPerPage: 3,
+        itemsPerPage: 6,
         currentPage: 1,
     },
     reducers: {

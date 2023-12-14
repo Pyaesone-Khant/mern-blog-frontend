@@ -1,66 +1,38 @@
-import { BsTrash3Fill, BsPencilFill } from "react-icons/bs";
-import { useDeleteCommentMutation } from "./commentsApi";
-import { useGetUserByIdQuery } from "../users/UserApi";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import {useGetUserByIdQuery, useGetUserDataQuery} from "../users/UserApi";
 import { useState } from "react";
 import EditCommentForm from "./EditCommentForm";
-import { IconBtn } from "@/components";
 import Author from "../blogs/Author";
+import CommentActionsMenu from "@/features/comments/CommentActionsMenu.jsx";
+import {PROFILE_IMAGE_URL} from "@/Constants.js";
 
 const CommentCard = ({ commentItem }) => {
-    const [deleteComment] = useDeleteCommentMutation();
     const { data: commentedUser } = useGetUserByIdQuery(commentItem?.userId);
     const author = commentedUser?.data;
     const [isEditing, setIsEditing] = useState(false);
-    const { user: currentUser } = useSelector((state) => state.auth);
-    const nav = useNavigate();
-
-    const handleDelete = async () => {
-        try {
-            const { data } = await deleteComment(commentItem?._id);
-            if (data?.success) {
-                nav(`/blogs/${commentItem?.blogId}`);
-            }
-        } catch (error) {
-            throw new Error(error);
-        }
-    };
+    const {data : userData} = useGetUserDataQuery();
+    const currentUser = userData?.data;
 
     return (
         <section className="p-3 rounded-md bg-white dark:bg-slate-700 ">
             {!isEditing ? (
                 <div>
-                    <p className={`text-black dark:text-white`}>
-                        {" "}
-                        {commentItem?.comment}{" "}
-                    </p>
-                    <div className="flex items-center gap-5 mt-3">
-                        <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                            {" "}
-                            Commented By{" "}
-                            <Author name={author?.name} userId={author?._id} />
-                        </p>
+                    <div className="flex items-center justify-between mb-1">
+                        <Author author={author} userId={author?._id} isComment={true} />
                         {currentUser?._id === author?._id ||
                         currentUser?.email === "admin123@gmail.com" ? (
                             <div className="flex items-center gap-3 ">
-                                <IconBtn
-                                    event={() => setIsEditing(true)}
-                                    action={"edit"}
-                                    icon={<BsPencilFill />}
-                                    tooltip="Edit"
-                                />
-                                <IconBtn
-                                    event={handleDelete}
-                                    action={"delete"}
-                                    icon={<BsTrash3Fill />}
-                                    tooltip="Delete"
-                                />
+                                <CommentActionsMenu handleEdit={() => setIsEditing(true)}
+                                            commentId={commentItem?._id}        returnPath={`/blogs/${commentItem?.blogId}`} />
                             </div>
+
                         ) : (
                             ""
                         )}
                     </div>
+                    <p className={`text-darkBgSec dark:text-gray-300 text-sm pl-8`}>
+                        {" "}
+                        {commentItem?.comment}{" "}
+                    </p>
                 </div>
             ) : (
                 <EditCommentForm

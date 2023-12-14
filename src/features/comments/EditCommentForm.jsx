@@ -1,5 +1,3 @@
-import { ErrorMsg } from "@/components";
-import { useForm } from "react-hook-form";
 import { BsCheck2 } from "react-icons/bs";
 import {
     useGetCommentByIdQuery,
@@ -7,24 +5,22 @@ import {
 } from "./commentsApi";
 import { useEffect } from "react";
 import { IconBtn } from "@/components";
+import {RxCross1} from "react-icons/rx";
+import {Form, Input} from "antd";
 
 const EditCommentForm = ({ setIsEditing, commentItem }) => {
-    const { data: currentCommentData } = useGetCommentByIdQuery(
+    const { data: commentData } = useGetCommentByIdQuery(
         commentItem?._id
     );
+    const currentComment = commentData?.data;
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        setValue,
-    } = useForm();
+    const [form] = Form.useForm()
 
     useEffect(() => {
-        if (currentCommentData) {
-            setValue("comment", currentCommentData?.data.comment);
+        if (currentComment) {
+            form.setFieldsValue(currentComment);
         }
-    }, [currentCommentData]);
+    }, [currentComment]);
 
     const [updateComment] = useUpdateCommentMutation();
 
@@ -42,34 +38,22 @@ const EditCommentForm = ({ setIsEditing, commentItem }) => {
     };
 
     return (
-        <form action="#" onSubmit={handleSubmit(handleCommentUpdate)}>
-            <div className="mb-2">
-                <textarea
-                    rows={2}
-                    {...register("comment", {
-                        required: {
-                            value: true,
-                            message: "Blog comment is required!",
-                        },
-                        minLength: {
-                            value: 1,
-                            message:
-                                "Blog content must have at least 1 character!",
-                        },
-                    })}
-                    className={`form-input resize-none ${
-                        errors.comment?.message ? "input-error" : ""
-                    }`}
-                ></textarea>
-                <ErrorMsg message={errors.comment?.message} />
+        <Form form={form} onFinish={handleCommentUpdate}>
+            <Form.Item name={"comment"} rules={[
+                {required : true, message : "Please enter your comment!"}
+            ]}>
+                <Input.TextArea className={"!min-h-[80px]"} />
+            </Form.Item>
+            <div className={`flex items-center gap-3`}>
+                <IconBtn
+                    event={() => form.submit()}
+                    icon={<BsCheck2/>}
+                    tooltip={"Save"}
+                    action={"submit"}
+                />
+                <IconBtn event={() => setIsEditing(false)} icon={<RxCross1 />} action={"delete"} tooltip={"Cancel"} />
             </div>
-            <IconBtn
-                event={handleCommentUpdate}
-                icon={<BsCheck2 />}
-                tooltip={"Save"}
-                action={"submit"}
-            />
-        </form>
+        </Form>
     );
 };
 

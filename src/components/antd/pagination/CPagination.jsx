@@ -105,7 +105,7 @@ const CPagination = ({ totalBlogs, displayedBlogs }) => {
                         isArrow={true}
                         isMobile={true}
                     />
-                    <div className="ml-auto w-full max-w-[150px]">
+                    {/*<div className="ml-auto w-full max-w-[150px]">*/}
                         <PaginateBtn
                             label={"Next"}
                             event={handleNext}
@@ -114,7 +114,7 @@ const CPagination = ({ totalBlogs, displayedBlogs }) => {
                             isArrow={true}
                             isMobile={true}
                         />
-                    </div>
+                    {/*</div>*/}
                 </div>
             </div>
         </section>

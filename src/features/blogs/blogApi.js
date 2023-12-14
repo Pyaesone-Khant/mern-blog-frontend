@@ -63,6 +63,15 @@ export const blogApi = baseApi.injectEndpoints({
             }),
             providesTags: ["blog"],
         }),
+
+        searchBlogs: builder.mutation({
+            query : (searchedData) => ({
+                url: `${endPonint}/search`,
+                method: "POST",
+                body: searchedData
+            }),
+            providesTags: ["blog"]
+        })
     }),
 });
 
@@ -74,4 +83,5 @@ export const {
     useGetBlogByIdQuery,
     useSetUserReactionMutation,
     useGetBlogByUserIdQuery,
+    useSearchBlogsMutation
 } = blogApi;

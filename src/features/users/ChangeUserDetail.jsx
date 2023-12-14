@@ -1,180 +1,83 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { ErrorMsg, PwsBtn, SubmitBtn } from "@/components";
+import {useState} from "react";
+import { FormLabel, SubmitBtn} from "@/components";
 import { useNavigate } from "react-router-dom";
-import { useUpdateUserMutation } from "./UserApi";
 import { useDispatch, useSelector } from "react-redux";
 import {logoutAccount, setLoginState} from "../auth/authSlice";
 import {setAlertMessage} from "@/core/globalSlice.js";
+import {Form, Input} from "antd";
 
 const ChangeUserDetail = () => {
-    const [showPassword, setShowPassword] = useState(false);
-    const [showNewPassword, setShowNewPassword] = useState(false);
-    const [canSave, setCanSave] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const dispatch = useDispatch();
-    const { user } = useSelector((state) => state.auth);
-
-    const form = useForm({
-        defaultValues: {
-            name: user?.name,
-            newPassword: null,
-        },
-    });
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        watch,
-    } = form;
-    const formData = watch();
     const nav = useNavigate();
 
-    const [updateUser] = useUpdateUserMutation();
-
-    const onSubmit = async (data) => {
-        const updatedUser = data.newPassword
-            ? { ...data, id: user?._id }
-            : { name: data?.name, password: data?.password, id: user?._id };
-        setIsSubmitting(true);
-        try {
-            const { data } = await updateUser(updatedUser);
-            if (data?.success) {
-                setIsSubmitting(false);
-                dispatch(
-                    setLoginState({
-                        isLoggedIn: false,
-                        user: null,
-                        token: null,
-                    })
-                );
-                dispatch(logoutAccount())
-                nav("/login");
-                dispatch(setAlertMessage({type : "success", content : data?.message}))
-            } else {
-                setIsSubmitting(false);
-                dispatch(setAlertMessage({type : "error", content : data?.message}))
-            }
-        } catch (error) {
-            throw new Error(error);
-        }
-    };
-    useEffect(() => {
-        if (formData.name && formData.password) {
-            setCanSave(true);
-        } else {
-            setCanSave(false);
-        }
-    }, [formData]);
-
-    const handleShowPassword = () => {
-        setShowPassword(!showPassword);
-    };
-
-    const handleShowNewPassword = () => {
-        setShowNewPassword(!showNewPassword);
-    };
+    // const onSubmit = async (values) => {
+    //     delete values?.password_confirmation;
+    {/*    const updatedUser = values.newPassword*/}
+    {/*        ? { ...values, id: user?._id }*/}
+    {/*        : { name: values?.name, password: values?.password, id: user?._id };*/}
+    {/*    setIsSubmitting(true);*/}
+    {/*    try {*/}
+    {/*        const { data } = await updateUser(updatedUser);*/}
+    {/*        if (data?.success) {*/}
+    {/*            setIsSubmitting(false);*/}
+    {/*            dispatch(*/}
+    {/*                setLoginState({*/}
+    {/*                    isLoggedIn: false,*/}
+    //                     user: null,
+    //                     token: null,
+    {/*                })*/}
+    {/*            );*/}
+    //             dispatch(logoutAccount())
+    //             nav("/login");
+    //             dispatch(setAlertMessage({type : "success", content : data?.message}))
+    //         } else {
+    //             setIsSubmitting(false);
+    //             dispatch(setAlertMessage({type : "error", content : data?.message}))
+    //         }
+    //     } catch (error) {
+    //         throw new Error(error);
+    //     }
+    // };
 
     return (
         <section className="  flex items-center justify-center  w-full">
             <div className="common-card">
-                <h2 className="form-tlt"> Change Password </h2>
+                <h2 className="form-tlt text-center mb-8"> Change User Info </h2>
 
-                <form action="#" onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mb-5">
-                        <label htmlFor="name"> Name</label>
-                        <input
-                            type="text"
-                            {...register("name", {
-                                required: {
-                                    value: true,
-                                    message: "Name is required!",
-                                },
-                                pattern: {
-                                    value: /\b([A-ZÀ-ÿ][-,a-zA-Z. ']+[ ]*)+/,
-                                    message:
-                                        "First letter of the name must be a capital letter!",
-                                },
-                                minLength: {
-                                    value: 5,
-                                    message:
-                                        "Name must have at least 5 characters!",
-                                },
-                            })}
-                            id="name"
-                            className={`form-input ${
-                                errors.name?.message ? "input-error" : ""
-                            }`}
-                        />
-
-                        <ErrorMsg message={errors.name?.message} />
-                    </div>
-                    <div className="mb-5">
-                        <label htmlFor="password"> Current Password</label>
-                        <div className="relative">
-                            <input
-                                type={showPassword ? "text" : "password"}
-                                {...register("password", {
-                                    required: {
-                                        value: true,
-                                        message:
-                                            "Current password is required to change a new one!",
-                                    },
-                                })}
-                                id="password"
-                                className={`form-input ${
-                                    errors.password?.message
-                                        ? "input-error"
-                                        : ""
-                                }`}
-                            />
-                            <PwsBtn
-                                isShowed={showPassword}
-                                event={handleShowPassword}
-                            />
-                        </div>
-                        <ErrorMsg message={errors.password?.message} />
-                    </div>
-                    <div className="mb-5">
-                        <label htmlFor="newPassword">
-                            {" "}
-                            New Password{" "}
-                            <span className="text-gray-400">
-                                {" "}
-                                (Optional){" "}
-                            </span>{" "}
-                        </label>
-                        <div className="relative">
-                            <input
-                                type={showNewPassword ? "text" : "password"}
-                                {...register("newPassword", {
-                                    pattern: {
-                                        value: /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                                        message:
-                                            "Password must have minimum eight characters, at least one uppercase letter, one number and one special character.",
-                                    },
-                                })}
-                                id="newPassword"
-                                className={`form-input ${
-                                    errors.newPassword?.message
-                                        ? "input-error"
-                                        : ""
-                                }`}
-                            />
-                            <PwsBtn
-                                isShowed={showNewPassword}
-                                event={handleShowNewPassword}
-                            />
-                        </div>
-                        <ErrorMsg message={errors.newPassword?.message} />
-                    </div>
-                    <SubmitBtn
-                        label={"Submit"}
-                        isSubmitting={isSubmitting}
-                        canSave={canSave}
-                        isDisabled={true}
-                    />
-                </form>
+                <Form layout={"vertical"} >
+                    <Form.Item label={<FormLabel label={"Name"} />}  hasFeedback={true}  name={"name"} rules={[
+                        {required : true, message : "Name is required!"}
+                    ]} initialValue={user?.name}>
+                        <Input/>
+                    </Form.Item>
+                    <Form.Item label={<FormLabel label={"current password"} />} hasFeedback={true}  name={"password"} rules={[
+                        {required : true, message : "Current password is required!"}
+                    ]} >
+                        <Input.Password/>
+                    </Form.Item>
+                    <Form.Item label={<FormLabel label={"password"} isOptional={true} />}  hasFeedback={true}  name={"newPassword"} rules={[
+                        {pattern: /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                        message:
+                        "Password must have minimum eight characters, at least one uppercase letter, one number and one special character."}
+                    ]} >
+                        <Input.Password/>
+                    </Form.Item>
+                    <Form.Item label={<FormLabel label={"confirm password"} isOptional={true} />} hasFeedback={true}  name={"password_confirmation"} dependencies={["newPassword"]} rules={[
+                        ({getFieldValue}) => ({
+                            validator(_, value) {
+                                if (!value || getFieldValue('newPassword') === value) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(new Error('The password confirmation does not match!'));
+                            },
+                        })
+                    ]}>
+                        <Input.Password/>
+                    </Form.Item>
+                    <div className={'py-3'}></div>
+                    <SubmitBtn label={"Confirm"} isSubmitting={isSubmitting} />
+                </Form>
             </div>
         </section>
     );

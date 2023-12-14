@@ -4,7 +4,8 @@ const endPoint = "/users";
 
 export const userApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-        getAllUsers: builder.query({
+
+        getUserData: builder.query({
             query: () => ({
                 url: `${endPoint}`,
                 method: "GET",
@@ -12,7 +13,7 @@ export const userApi = baseApi.injectEndpoints({
             providesTags: ["user"],
         }),
 
-        updateUser: builder.mutation({
+        changeUsername: builder.mutation({
             query: (user) => ({
                 url: `${endPoint}`,
                 method: "PUT",
@@ -40,9 +41,18 @@ export const userApi = baseApi.injectEndpoints({
 
         changeUserPassword: builder.mutation({
             query: (passwords) => ({
-                url: `${endPoint}/change_password`,
+                url: `${endPoint}/change-password`,
                 method: "PUT",
                 body: passwords,
+            }),
+            invalidatesTags: ["user"],
+        }),
+
+        changeUserEmail : builder.mutation({
+            query: (userData) => ({
+                url: `${endPoint}/change-email`,
+                method: "PUT",
+                body: userData,
             }),
             invalidatesTags: ["user"],
         }),
@@ -63,15 +73,26 @@ export const userApi = baseApi.injectEndpoints({
             }),
             providesTags: ["user"],
         }),
+
+        changeUserAvatar: builder.mutation({
+            query: (formData) => ({
+                url: `${endPoint}/change-avatar`,
+                method: "PUT",
+                body: formData,
+            }),
+            invalidatesTags: ["user"],
+        }),
     }),
 });
 
 export const {
-    useGetAllUsersQuery,
-    useUpdateUserMutation,
+    useGetUserDataQuery,
+    useChangeUsernameMutation,
     useDeleteUserMutation,
     useGetUserByIdQuery,
     useChangeUserPasswordMutation,
+    useChangeUserEmailMutation,
     useSaveBlogsMutation,
     useGetSavedBlogsQuery,
+    useChangeUserAvatarMutation,
 } = userApi;

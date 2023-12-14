@@ -1,12 +1,12 @@
 import {baseApi} from "@/core/baseApi.js";
 
-const endPoint = "/"
+const endPoint = "/auth"
 
 export const authApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         registerAccount: builder.mutation({
             query: (user) => ({
-                url: "/register",
+                url: `${endPoint}/register`,
                 method: "POST",
                 body: user,
             }),
@@ -15,16 +15,52 @@ export const authApi = baseApi.injectEndpoints({
 
         loginAccount: builder.mutation({
             query: (userData) => ({
-                url: "/login",
+                url: `${endPoint}/login`,
                 method: "POST",
                 body: userData,
             }),
-            invalidatesTags: ["auth"],
+            invalidatesTags: ["auth", "user"],
+        }),
+
+        forgotPassword : builder.mutation({
+            query : (email) => ({
+                url : `${endPoint}/forgot-password`,
+                method : "POST",
+                body : email,
+            }),
+            invalidatesTags : ["auth"],
+        }),
+
+        resetPassword : builder.mutation({
+            query : (updatedData) => ({
+                url : `${endPoint}/reset-password`,
+                method : "POST",
+                body : updatedData,
+            }),
+            invalidatesTags : ["auth"],
+        }),
+
+        verifyOTP : builder.mutation({
+            query : (userData) => ({
+                url : `${endPoint}/verify-otp`,
+                method : "POST",
+                body : userData,
+            }),
+            invalidatesTags : ["auth"],
+        }),
+
+        resendOTP : builder.mutation({
+            query : (email) => ({
+                url : `${endPoint}/resend-otp`,
+                method : "POST",
+                body : email,
+            }),
+            invalidatesTags : ["auth"]
         }),
 
         logoutAccount: builder.mutation({
             query: (token) => ({
-                url: "/logout",
+                url: `${endPoint}/logout`,
                 method: "POST",
                 body: { token },
             }),
@@ -37,4 +73,8 @@ export const {
     useLoginAccountMutation,
     useLogoutAccountMutation,
     useRegisterAccountMutation,
+    useForgotPasswordMutation,
+    useResetPasswordMutation,
+    useVerifyOTPMutation,
+    useResendOTPMutation,
 } = authApi;
