@@ -14,8 +14,6 @@ const BlogsList = ({ blogs, totalBlogs, isBFetching }) => {
     const dispatch = useDispatch();
     const totalPages = Math.ceil(totalBlogs / itemsPerPage);
 
-    console.log(blogs)
-
     const goToNextPage = () => {
         if (currentPage < totalPages) {
             dispatch(setCurrentPage(currentPage + 1));
