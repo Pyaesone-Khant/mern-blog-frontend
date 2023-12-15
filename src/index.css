@@ -60,11 +60,11 @@
   ;}
 
   .card{
-    @apply flex flex-col gap-3 tracking-wider p-5 shadow bg-white text-darkBgSec dark:text-white dark:bg-slate-700 rounded-md hover:shadow-xl duration-200 w-full h-full ;
+    @apply flex flex-col gap-3 tracking-wider p-5 shadow bg-white text-darkBgSec dark:text-white dark:bg-slate-700 rounded-md hover:shadow-xl duration-200 w-full min-h-max h-full ;
   ;}
 
   .detail-card{
-    @apply flex flex-col gap-3 tracking-wider
+    @apply flex flex-col gap-4 tracking-wider
   ;}
 
   .reaction-btn{

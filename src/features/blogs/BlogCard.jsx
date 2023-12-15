@@ -6,10 +6,25 @@ import { LikeBtn } from "@/components";
 import BlogCardHeader from "./BlogCardHeader";
 import BlogCardDesc from "./BlogCardDesc";
 import Author from "./Author";
-import {AWS_IMAGE_URL, BLOG_IMAGE_URL} from "@/Constants.js";
+import {AWS_IMAGE_URL} from "@/Constants.js";
 import {Link} from "react-router-dom";
 
-let BlogCard = ({ blog, isDetail, isBFetching }) => {
+const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "June",
+    "July",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec",
+]
+
+let BlogCard = ({ blog, isDetail }) => {
     const {_id : blogId, blogImage, userId, createdAt, categoryId, title} = blog
     
     const { data: userData, isLoading: isULoading } = useGetUserByIdQuery(
@@ -21,6 +36,11 @@ let BlogCard = ({ blog, isDetail, isBFetching }) => {
         useGetCategoryByIdQuery(categoryId);
     const blogCategory = categoryData?.data;
     const date = new Date(createdAt).toLocaleString().split(",")[0];
+
+    const day = new Date(createdAt).getDate();
+    const month = months[new Date(createdAt).getMonth()];
+    const year = new Date(createdAt).getFullYear();
+
 
     if (isULoading || isCLoading) {
         return (
@@ -34,26 +54,27 @@ let BlogCard = ({ blog, isDetail, isBFetching }) => {
             <article
                 className={` rounded-md ${isDetail ? "detail-card" : "card group"} overflow-hidden`}
             >
+                <div className="flex flex-row items-center gap-1 mb-1">
+                    <Author author={author} userId={userId} isComment={true} />
+                    <p className={`md:text-sm text-xs dark:text-gray-300 text-gray-600 `}>· {month} {day} {year} </p>
+                </div>
+
                     <BlogCardHeader
                         blog={blog}
                         blogCategory={blogCategory}
                         isDetail={isDetail}
                     />
 
-                    <Link to={`/blogs/${blogId}`} className={` w-full h-full overflow-hidden rounded ${isDetail ? " max-h-80 pointer-events-none" : " max-h-60 shadow"}`}>
-                        <img src={blogImage ? AWS_IMAGE_URL + blogImage : "https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg" } alt={`${title} Image`} className={`w-full h-full object-center object-cover group-hover:scale-110 duration-200`} />
-                    </Link>
+                    <div className={`overflow-hidden flex ${ isDetail ? " flex-col" : "flex-col-reverse" } gap-3`}>
+                        <Link to={`/blogs/${blogId}`} className={` w-full h-full overflow-hidden rounded ${isDetail ? " max-h-80 pointer-events-none" :  "max-h-60"}`}>
+                            <img src={blogImage ? AWS_IMAGE_URL + blogImage : "https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg" } alt={`${title} Image`} className={`w-full h-full object-center object-cover group-hover:scale-110 duration-200`} />
+                        </Link>
 
-                    <BlogCardDesc blog={blog} isDetail={isDetail} />
-
-                    <div className="flex flex-col-reverse md:flex-row md:items-center justify-between mt-auto gap-2">
-                        <p className="font-medium flex gap-1 ">
-                            {" "}
-                            By <Author author={author} userId={userId} />
-                        </p>
-                        <p> {date} </p>
+                        <BlogCardDesc blog={blog} isDetail={isDetail} />
                     </div>
-                    <div className={` ${isDetail ? "py-1" : ""} `}>
+
+
+                    <div className={` ${isDetail ? "py-1" : " hidden "} `}>
                         <LikeBtn blog={blog} />
                     </div>
             </article>

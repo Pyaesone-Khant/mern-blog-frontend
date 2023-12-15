@@ -5,7 +5,7 @@
   ;}
   
    .navLink{
-    @apply relative p-2 text-base capitalize opacity-60 dark:opacity-50 duration-200 min-w-max
+    @apply relative px-2 py-1 text-base capitalize opacity-60 dark:opacity-50 duration-200 min-w-max flex items-center gap-2
   ;}
 
   .navLink:hover, .navLink.active{

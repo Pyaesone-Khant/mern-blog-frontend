@@ -5,6 +5,7 @@ import {useChangeUserAvatarMutation} from "@/features/users/UserApi.js";
 import {useDispatch} from "react-redux";
 import {setAlertMessage} from "@/core/globalSlice.js";
 import {AWS_IMAGE_URL} from "@/Constants.js";
+import {Spinner} from "@/components/index.js";
 const UserAvatar = ({user, isUserAuth}) => {
     const [previewOpen, setPreviewOpen] = useState(false);
     const [image, setImage] = useState(null)
@@ -54,13 +55,19 @@ const UserAvatar = ({user, isUserAuth}) => {
         }
     }
 
+    if(isLoading){
+        return <div className={` w-full h-full z-20 bg-black/40 fixed top-0 left-0 flex items-center justify-center `} >
+            <Spinner/>
+        </div>
+    }
+
     return (
         <section className={`p-5 dark:bg-slate-700 bg-white rounded-md flex flex-col gap-3 items-center avatar w-full min-w-max`} >
             <input disabled={isLoading} type="file" id="file" accept={".jpg,.jpeg,.png,.webp"} className={"hidden"} onChange={handleChange} />
             <label htmlFor={isUserAuth ? "file" : ""} className={`w-32 aspect-square flex items-center justify-center rounded-full border dark:border-white border-darkBgSec overflow-hidden ${isUserAuth ? "cursor-pointer" : ""} relative group`}>
                 { user?.profileImage ? <img src={AWS_IMAGE_URL + user?.profileImage} alt={"Profile Image"} className={`p-1 w-full h-full rounded-full object-cover object-center`} /> : <MdAccountCircle className={`w-full h-full`} /> }
                 {
-                    isUserAuth && <div className={`absolute bg-black/30 text-white w-full h-full flex group-hover:opacity-100 opacity-0 items-center justify-center duration-200 `}>
+                    isUserAuth && !isLoading && <div className={`absolute bg-black/30 text-white w-full h-full flex group-hover:opacity-100 opacity-0 items-center justify-center duration-200 `}>
                         <MdOutlineAdd className={`text-4xl`} />
                     </div>
                 }

@@ -1,12 +1,15 @@
-import { Link } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import CNavlink from "./CNavlink";
 import AccountMenu from "./AccountMenu";
 import {useDispatch, useSelector} from "react-redux";
 import { useState } from "react";
-import { RxCross1, RxHamburgerMenu } from "react-icons/rx";
+import {RxCross1, RxHamburgerMenu, RxHome, RxPencil2} from "react-icons/rx";
 import ThemeBtn from "../antd/btns/ThemeBtn";
 import "./link.css";
 import {setCurrentPage} from "@/features/blogs/blogSlice.js";
+import {setKeyword} from "@/features/categories/categoriesSlice.js";
+import logo from "@/assets/images/img_logo3.png";
+import logoDark from "@/assets/images/img_logo2.png";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -16,18 +19,27 @@ const Navbar = () => {
         setIsOpen(!isOpen);
     };
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const nav = useNavigate();
 
+    const backToHome = () => {
+        dispatch(setCurrentPage(1));
+        dispatch(setKeyword("all"))
+        setIsOpen(false)
+        nav("/");
+    }
 
     return (
         <header className="py-5 sticky top-0 shadow-lg border-b z-10 backdrop-blur-md bg-white dark:bg-slate-700 dark:border-none dark:text-white dark:border-slate-600 duration-200">
             <nav className="w-[90%] mx-auto flex items-center justify-between flex-col md:flex-row">
                 <div className="w-full md:w-auto flex items-center justify-between">
                     <h1
-                        onClick={() => setIsOpen(false)}
-                        className="text-3xl md:text-4xl  font-bold"
+                        onClick={backToHome}
+                        className="cursor-pointer dark:text-white "
                     >
-                        <Link to={"/"} onClick={() => dispatch(setCurrentPage(1))} >PK-Blog</Link>
+                        <img src={logo} className={`max-h-9 dark:hidden`} />
+                        <img src={logoDark} className={`max-h-9 dark:block hidden`} />
+
                     </h1>
                     <div className="flex items-center gap-3 md:justify-end">
                         <div className="md:hidden flex items-center justify-center">
@@ -54,14 +66,16 @@ const Navbar = () => {
                                 <ThemeBtn />
                             </div>
                             <CNavlink
-                                event={() => setIsOpen(false)}
+                                event={backToHome}
                                 path={"/"}
                                 title={"home"}
+                                icon={<RxHome/>}
                             />
                             <CNavlink
                                 event={() => setIsOpen(false)}
                                 path={"/create_blog"}
-                                title={"create blog"}
+                                title={"write"}
+                                icon={<RxPencil2/>}
                             />
                             <AccountMenu
                                 event={() => setIsOpen(false)}
