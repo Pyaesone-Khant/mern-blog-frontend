@@ -3,7 +3,6 @@ import { useState } from "react";
 import EditCommentForm from "./EditCommentForm";
 import Author from "../blogs/Author";
 import CommentActionsMenu from "@/features/comments/CommentActionsMenu.jsx";
-import {PROFILE_IMAGE_URL} from "@/Constants.js";
 
 const CommentCard = ({ commentItem }) => {
     const { data: commentedUser } = useGetUserByIdQuery(commentItem?.userId);

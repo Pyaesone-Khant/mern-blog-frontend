@@ -6,7 +6,7 @@ import { LikeBtn } from "@/components";
 import BlogCardHeader from "./BlogCardHeader";
 import BlogCardDesc from "./BlogCardDesc";
 import Author from "./Author";
-import {BLOG_IMAGE_URL} from "@/Constants.js";
+import {AWS_IMAGE_URL, BLOG_IMAGE_URL} from "@/Constants.js";
 import {Link} from "react-router-dom";
 
 let BlogCard = ({ blog, isDetail, isBFetching }) => {
@@ -41,7 +41,7 @@ let BlogCard = ({ blog, isDetail, isBFetching }) => {
                     />
 
                     <Link to={`/blogs/${blogId}`} className={` w-full h-full overflow-hidden rounded ${isDetail ? " max-h-80 pointer-events-none" : " max-h-60 shadow"}`}>
-                        <img src={blogImage ? BLOG_IMAGE_URL + blogImage : "https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg" } alt={`${title} Image`} className={`w-full h-full object-center object-cover group-hover:scale-110 duration-200`} />
+                        <img src={blogImage ? AWS_IMAGE_URL + blogImage : "https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg" } alt={`${title} Image`} className={`w-full h-full object-center object-cover group-hover:scale-110 duration-200`} />
                     </Link>
 
                     <BlogCardDesc blog={blog} isDetail={isDetail} />

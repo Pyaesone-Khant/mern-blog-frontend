@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import {PROFILE_IMAGE_URL} from "@/Constants.js";
+import {AWS_IMAGE_URL} from "@/Constants.js";
 import {MdAccountCircle} from "react-icons/md";
 
 const Author = ({ userId, author, isComment }) => {
@@ -11,7 +11,7 @@ const Author = ({ userId, author, isComment }) => {
             {
                 isComment && <div>
                     {
-                        author?.profileImage ? <img src={PROFILE_IMAGE_URL + author?.profileImage} className={`w-7 aspect-square object-cover rounded-full`} /> : <MdAccountCircle className={`text-3xl`} />
+                        author?.profileImage ? <img src={AWS_IMAGE_URL + author?.profileImage} className={`w-7 aspect-square object-cover rounded-full`} /> : <MdAccountCircle className={`text-3xl`} />
                     }
                 </div>
             }
