@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {Modal} from "antd";
-import {MdAccountCircle, MdImage, MdOutlineAdd} from "react-icons/md";
+import {MdAccountCircle, MdOutlineAdd} from "react-icons/md";
 import {useChangeUserAvatarMutation} from "@/features/users/UserApi.js";
 import {useDispatch} from "react-redux";
 import {setAlertMessage} from "@/core/globalSlice.js";
@@ -8,7 +8,6 @@ import {AWS_IMAGE_URL} from "@/Constants.js";
 import {Spinner} from "@/components/index.js";
 const UserAvatar = ({user, isUserAuth}) => {
     const [previewOpen, setPreviewOpen] = useState(false);
-    const [image, setImage] = useState(null)
 
     const [changeUserAvatar, {isLoading}] = useChangeUserAvatarMutation();
 
@@ -20,11 +19,11 @@ const UserAvatar = ({user, isUserAuth}) => {
         if(file?.size > maxSize){
             dispatch(setAlertMessage({content: "File size must be less than 5MB", type: "error"}))
         }else{
-            setImage(file);
+            await onAvatarChange(file);
         }
     }
 
-    const onAvatarChange = async () =>{
+    const onAvatarChange = async (image) =>{
         try {
             let formData = new FormData();
             formData.append("profileImage", image);
@@ -32,10 +31,8 @@ const UserAvatar = ({user, isUserAuth}) => {
             const {data} = await changeUserAvatar(formData);
             if(data?.success){
                 dispatch(setAlertMessage({content: data.message, type: "success"}))
-                setImage(null);
             }else{
                 dispatch(setAlertMessage({content: data.message, type: "error"}))
-                setImage(null)
             }
         }catch (error){
             throw new Error(error)
@@ -46,19 +43,13 @@ const UserAvatar = ({user, isUserAuth}) => {
         try {
             const {data} = await changeUserAvatar({ id: user?._id, profileImage: null});
             if(data?.success){
-                dispatch(setAlertMessage({content: "Profile picture removed successfully!", type: "success"}))
+                dispatch(setAlertMessage({content: "Your profile picture has been removed successfully!", type: "success"}))
             }else{
                 dispatch(setAlertMessage({content: data.message, type: "error"}))
             }
         }catch (error){
             throw new Error(error)
         }
-    }
-
-    if(isLoading){
-        return <div className={` w-full h-full z-20 bg-black/40 fixed top-0 left-0 flex items-center justify-center `} >
-            <Spinner/>
-        </div>
     }
 
     return (
@@ -73,14 +64,14 @@ const UserAvatar = ({user, isUserAuth}) => {
                 }
             </label>
 
-            {
-                image && <p className={`flex items-center gap-3`} > Selected Image: <span className={`text-blue dark:text-darkTer flex items-center gap-1 `}> <MdImage className={`text-xl`} /> {image?.name}</span> </p>
-            }
+            <button disabled={!user?.profileImage} onClick={onRemove} className={` ${isUserAuth ? "flex" : "hidden"} px-3 rounded-md bg-red-600 py-2 text-sm text-white border border-red-600 hover:bg-red-500 duration-200 disabled:dPrimary`} > Remove Profile </button>
 
-            <div className={`${isUserAuth ? "flex" : "hidden" } items-center justify-center gap-5 w-full`}>
-                <button disabled={!image || isLoading} onClick={onAvatarChange} className={`modal-trigger disabled:dOutline disabled:hover:bg-transparent`}> Change Now </button>
-                <button disabled={!user?.profileImage} onClick={onRemove} className={`px-4 rounded-md bg-red-600 py-2 text-sm text-white border border-red-600 hover:bg-red-500 duration-200 disabled:dPrimary`} > Remove </button>
-            </div>
+
+            {
+                isLoading && <div className={` w-full h-full z-20 bg-black/40 fixed top-0 left-0 flex items-center justify-center `} >
+                    <Spinner/>
+                </div>
+            }
 
             <Modal
                 open={previewOpen}

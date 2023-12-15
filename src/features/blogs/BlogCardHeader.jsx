@@ -28,18 +28,22 @@ const BlogCardHeader = ({ isDetail, blog, blogCategory }) => {
                         {blog?.title}{" "}
                     </Link>
                 )}
-                <span onClick={ !isDetail ? () => dispatch(setKeyword(blog?.categoryId)) : ""} className= {`text-[10px] px-2 h-5 rounded-full bg-cBlue/60 dark:bg-darkTer/60 text-white font-normal w-fit flex items-center ${!isDetail ? "cursor-pointer" : ""} ` }>
+                <span onClick={ !isDetail ? () => dispatch(setKeyword(blog?.categoryId)) : () => {
+                    return;
+                }} className= {`text-[10px] px-2 h-5 rounded-full bg-cBlue dark:bg-darkTer text-white font-normal w-fit flex items-center ${!isDetail ? "cursor-pointer" : ""} ` }>
                     {" "}
                     {blogCategory?.title}{" "}
                 </span>
             </div>
-            {
-                (isAuthor ||
-                currentUser?.email === "admin123@gmail.com") && isLoggedIn ? <ActionsMenu blogId={blog?._id} /> : null
-            }
-            {
-                !isAuthor && isLoggedIn ? <SaveBtn blog={blog} /> : null
-            }
+           <div className={`flex items-center gap-2`}>
+               {
+                   (isAuthor ||
+                       currentUser?.email === "admin123@gmail.com") && isLoggedIn ? <ActionsMenu blogId={blog?._id} /> : null
+               }
+               {
+                   !isAuthor && isLoggedIn ? <SaveBtn blog={blog} /> : null
+               }
+           </div>
         </div>
     );
 };

@@ -28,7 +28,7 @@ const CommentCard = ({ commentItem }) => {
                             ""
                         )}
                     </div>
-                    <p className={`text-darkBgSec dark:text-gray-300 text-sm pl-8`}>
+                    <p className={`text-darkBgSec dark:text-gray-300 text-sm pl-9`}>
                         {" "}
                         {commentItem?.comment}{" "}
                     </p>
@@ -37,6 +37,7 @@ const CommentCard = ({ commentItem }) => {
                 <EditCommentForm
                     setIsEditing={setIsEditing}
                     commentItem={commentItem}
+                    author={author}
                 />
             )}
         </section>

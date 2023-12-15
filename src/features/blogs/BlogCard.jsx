@@ -56,7 +56,7 @@ let BlogCard = ({ blog, isDetail }) => {
             >
                 <div className="flex flex-row items-center gap-1 mb-1">
                     <Author author={author} userId={userId} isComment={true} />
-                    <p className={`md:text-sm text-xs dark:text-gray-300 text-gray-600 `}>· {month} {day} {year} </p>
+                    <p className={` text-sm dark:text-gray-300 text-gray-600 `}>· {month} {day} {year} </p>
                 </div>
 
                     <BlogCardHeader

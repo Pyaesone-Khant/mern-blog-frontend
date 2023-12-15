@@ -2,11 +2,12 @@ import { useSelector } from "react-redux";
 import { useGetBlogByUserIdQuery } from "../blogs/blogApi";
 import {useGetSavedBlogsQuery, useGetUserByIdQuery, useGetUserDataQuery} from "../users/UserApi";
 import {Link, useLocation, useParams} from "react-router-dom";
-import { Loader } from "@/components";
+import {Loader, Spinner} from "@/components";
 import BlogTitlesList from "./BlogTitlesList";
 import ChangeNameModal from "@/features/users/ChangeNameModal.jsx";
 import ChangePasswordModal from "@/features/users/ChangePasswordModal.jsx";
 import UserAvatar from "@/features/users/UserAvatar.jsx";
+import {useState} from "react";
 
 const UserProfile = () => {
     const { userId } = useParams();
@@ -36,7 +37,6 @@ const UserProfile = () => {
             </div>
         );
     }
-
     return (
         <section className="flex flex-col gap-5 w-full max-w-2xl mx-auto">
             <h2 className="text-2xl font-bold">

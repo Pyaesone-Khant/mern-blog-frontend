@@ -80,7 +80,9 @@ const BlogDetail = () => {
                         onClick={toggleCollapse}
                         className={`text-2xl text-blue-600 dark:text-darkTer duration-200`}
                     >
-                        {isCommenting && isLoggedIn ? <RxCross1 className={`text-red-500`}/> :<MdComment/> }
+                        {isCommenting && isLoggedIn ? <RxCross1 className={`text-red-500`}/> : <p className={`flex items-center gap-1 text-sm px-2 comment-btn `}>
+                            <MdComment className={`text-2xl`}/> Comment
+                        </p> }
                     </button>
                 </div>
             </div>

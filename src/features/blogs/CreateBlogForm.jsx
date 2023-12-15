@@ -20,6 +20,8 @@ const CreateBlogForm = () => {
     const { data, isLoading, isFetching } = useGetAllCategoriesQuery();
     const categories = data?.data;
 
+    const [fileList, setFileList] = useState([]);
+
     const dispatch = useDispatch()
 
     const onSubmit = async (values) => {
@@ -51,6 +53,7 @@ const CreateBlogForm = () => {
 
     const supportedFileType = [".jpg", ".jpeg", ".png", ".webp"]
     const uploadProps = {
+        fileList : fileList,
         beforeUpload: () => false,
         accept : [...supportedFileType],
         maxCount : 1,
@@ -105,9 +108,11 @@ const CreateBlogForm = () => {
                     </Form.Item>
                     <Form.Item label={<FormLabel label={"content"} />} name={"description"} rules={[
                         {required : true, message : "Blog content is required!"},
-                        // {min : 50, message : "Blog content must be at least 50 characters!"}
+                        {min : 50, message : "Blog content must be at least 50 characters!"}
                     ]}>
-                        <Input.TextArea bordered={true} className={" !min-h-[200px]"} placeholder={"Enter your blog content"} />
+                        <Input.TextArea bordered={true} placeholder={"Enter your blog content"} autoSize={{
+                            minRows: 3, maxRows: 10
+                        }} />
                     </Form.Item>
                     <div className={`py-3`}></div>
                     <SubmitBtn label={"publish now"} isSubmitting={isSubmitting} />
