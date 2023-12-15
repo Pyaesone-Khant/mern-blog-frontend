@@ -41,7 +41,7 @@ const Home = () => {
     return (
         <section className=" flex flex-col gap-5 w-full">
             <div className={`flex flex-col md:flex-row gap-5`} >
-                <SearchBlogForm setSearchedBlogs={setSearchedBlogs} />
+                {/*<SearchBlogForm setSearchedBlogs={setSearchedBlogs} />*/}
                 <CatList categories={categories}/>
             </div>
             <BlogsList
