@@ -2,12 +2,11 @@ import { useSelector } from "react-redux";
 import { useGetBlogByUserIdQuery } from "../blogs/blogApi";
 import {useGetSavedBlogsQuery, useGetUserByIdQuery, useGetUserDataQuery} from "../users/UserApi";
 import {Link, useLocation, useParams} from "react-router-dom";
-import {Loader, Spinner} from "@/components";
+import { Loader} from "@/components";
 import BlogTitlesList from "./BlogTitlesList";
 import ChangeNameModal from "@/features/users/ChangeNameModal.jsx";
 import ChangePasswordModal from "@/features/users/ChangePasswordModal.jsx";
 import UserAvatar from "@/features/users/UserAvatar.jsx";
-import {useState} from "react";
 
 const UserProfile = () => {
     const { userId } = useParams();

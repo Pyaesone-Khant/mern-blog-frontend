@@ -29,3 +29,6 @@ export { default as BTLink } from "./titleLink/TitleLink";
 
 //formlabel
 export {default as FormLabel} from "./FormLabel.jsx"
+
+//cropeasy
+export {default as CropEasy} from "./crop/CropEasyModal.jsx"

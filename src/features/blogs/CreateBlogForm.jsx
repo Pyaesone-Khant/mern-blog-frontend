@@ -109,10 +109,8 @@ const CreateBlogForm = () => {
                     <Form.Item label={<FormLabel label={"content"} />} name={"description"} rules={[
                         {required : true, message : "Blog content is required!"},
                         {min : 50, message : "Blog content must be at least 50 characters!"}
-                    ]}>
-                        <Input.TextArea bordered={true} placeholder={"Enter your blog content"} autoSize={{
-                            minRows: 3, maxRows: 10
-                        }} />
+                    ]} >
+                        <Input.TextArea bordered={true} placeholder={"Enter your blog content"} autoSize={{minRows : 7, maxRows: 10}}  showCount={true} minLength={50} />
                     </Form.Item>
                     <div className={`py-3`}></div>
                     <SubmitBtn label={"publish now"} isSubmitting={isSubmitting} />

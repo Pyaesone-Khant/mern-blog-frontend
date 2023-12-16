@@ -41,7 +41,7 @@ const BlogCardHeader = ({ isDetail, blog, blogCategory }) => {
                        currentUser?.email === "admin123@gmail.com") && isLoggedIn ? <ActionsMenu blogId={blog?._id} /> : null
                }
                {
-                   !isAuthor && isLoggedIn ? <SaveBtn blog={blog} /> : null
+                   !isAuthor && isLoggedIn ? <SaveBtn blogId={blog?._id} /> : null
                }
            </div>
         </div>

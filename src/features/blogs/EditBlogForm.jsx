@@ -102,7 +102,7 @@ const EditBlogForm = () => {
                     <Form.Item label={<FormLabel label={"content"} />} name={"description"} rules={[
                         {required : true, message : "Blog content is required!"}
                     ]} >
-                        <Input.TextArea bordered={true} className={" !min-h-[200px] "} />
+                        <Input.TextArea bordered={true} autoSize={{minRows : 7, maxRows: 10}} showCount={true} minLength={50} />
                     </Form.Item>
                     <div className={`pt-6 flex items-center gap-4`}>
                         <CancelBtn path={".."}/>

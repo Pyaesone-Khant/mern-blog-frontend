@@ -66,8 +66,8 @@ let BlogCard = ({ blog, isDetail }) => {
                     />
 
                     <div className={`overflow-hidden flex ${ isDetail ? " flex-col" : "flex-col-reverse" } gap-3`}>
-                        <Link to={`/blogs/${blogId}`} className={` w-full h-full overflow-hidden rounded ${isDetail ? " max-h-80 pointer-events-none" :  "max-h-60"}`}>
-                            <img src={blogImage ? AWS_IMAGE_URL + blogImage : "https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg" } alt={`${title} Image`} className={`w-full h-full object-center object-cover group-hover:scale-110 duration-200`} />
+                        <Link to={`/blogs/${blogId}`} className={` w-full h-full overflow-hidden rounded ${isDetail ? " min-h-min pointer-events-none" :  "max-h-60"} border`}>
+                            <img src={blogImage ? AWS_IMAGE_URL + blogImage : "https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg" } alt={`${title} Image`} className={`object-center group-hover:scale-110 duration-200`} />
                         </Link>
 
                         <BlogCardDesc blog={blog} isDetail={isDetail} />

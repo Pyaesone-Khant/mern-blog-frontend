@@ -10,7 +10,6 @@ import {setAlertMessage} from "@/core/globalSlice.js";
 
 const SaveBtn = ({ blogId }) => {
     const { isLoggedIn } = useSelector((state) => state.auth);
-
     const { data } = useGetUserDataQuery();
     const currentUser = data?.data;
 
@@ -27,7 +26,13 @@ const SaveBtn = ({ blogId }) => {
         if (isLoggedIn) {
             try {
                 setIsSaved(!isSaved);
-                await saveBlogs({ userId: currentUser?._id, blogId });
+                const {data} = await saveBlogs({ userId: currentUser?._id, blogId });
+                if(data?.success) {
+                    dispatch(setAlertMessage({type : "success", content : data?.message}));
+                } else {
+                    dispatch(setAlertMessage({type : "error", content : data?.message}));
+                }
+
             } catch (error) {
                 throw new Error(error);
             }
