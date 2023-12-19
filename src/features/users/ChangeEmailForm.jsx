@@ -64,7 +64,7 @@ const ChangeEmailForm = () => {
                         <Input.Password placeholder={"Enter your current password"} />
                     </Form.Item>
                     <div className={`pt-6 flex items-center gap-5 `}>
-                        <CancelBtn path={prevRoute}/>
+                        <CancelBtn event={() => nav(prevRoute)}/>
                         <SubmitBtn
                             isSubmitting={isSubmitting}
                             label={"Confirm"}

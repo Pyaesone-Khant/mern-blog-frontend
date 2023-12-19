@@ -7,6 +7,7 @@ import BlogTitlesList from "./BlogTitlesList";
 import ChangeNameModal from "@/features/users/ChangeNameModal.jsx";
 import ChangePasswordModal from "@/features/users/ChangePasswordModal.jsx";
 import UserAvatar from "@/features/users/UserAvatar.jsx";
+import AccountDeleteForm from "@/features/users/AccountDeleteForm.jsx";
 
 const UserProfile = () => {
     const { userId } = useParams();
@@ -50,7 +51,7 @@ const UserProfile = () => {
             <ChangeNameModal user={user} isUserAuth={isUserAuth} />
 
             {/*email block*/}
-            <div className={` ${!isUserAuth ? "hidden" : ""} flex flex-col md:flex-row md:items-center gap-5 font-medium p-5 rounded-md bg-white dark:bg-slate-700`}>
+            <div className={` ${!isUserAuth ? "hidden" : ""} flex flex-col md:flex-row md:items-center gap-5 font-medium p-5 rounded-md bg-cBlue/10 dark:bg-darkTer/10 `}>
                 <h3 className="md:min-w-[120px] text-lg"> Email : </h3>
                 <div className={`flex justify-between items-center w-full`}>
                     <p className="font-semibold text-xl"> {user?.email} </p>
@@ -74,16 +75,7 @@ const UserProfile = () => {
                 ""
             )}
             {isUserAuth ? (
-                <div className="border border-red-600 rounded-md p-5 text-red-600 mt-10 ">
-                    <h2 className={`text-2xl font-semibold `} > Delete Your Account </h2>
-                    <p className={`text-sm mb-3 text-gray-500 dark:text-gray-400 `}>We&apos;re sorry to see you go!</p>
-                    <p className={`mb-6`}> Deleting your account will remove all of your information & blogs you&apos;ve posted from our database. This can&apos;t be undone.  </p>
-                    <Link to={"/delete_account"}
-                        className="px-5 py-2 rounded-md bg-red-600 text-white hover:bg-red-500 duration-200 block xs:w-fit w-full text-center"
-                    >
-                        Delete Account
-                    </Link>
-                </div>
+                <AccountDeleteForm/>
             ) : (
                 ""
             )}

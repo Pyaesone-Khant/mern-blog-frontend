@@ -1,13 +1,13 @@
 import { useCreateCommentMutation } from "./commentsApi";
 import {useGetUserDataQuery} from "@/features/users/UserApi.js";
-import {Collapse, Form, Input} from "antd";
+import {Form, Input} from "antd";
 import {useDispatch} from "react-redux";
 import {setAlertMessage} from "@/core/globalSlice.js";
+import Author from "@/features/blogs/Author.jsx";
 
-const CommentForm = ({ blogId, activeKey, form, setIsSubmitting, closeCollapse}) => {
-    const [createComment] = useCreateCommentMutation();
+const CommentForm = ({ blogId, form}) => {
+    const [createComment, {isLoading}] = useCreateCommentMutation();
     const dispatch = useDispatch()
-    // const [form] = Form.useForm()
 
     const {data : userData} = useGetUserDataQuery();
     const currentUser = userData?.data;
@@ -19,42 +19,33 @@ const CommentForm = ({ blogId, activeKey, form, setIsSubmitting, closeCollapse})
             comment: data?.comment,
         };
         try {
-            setIsSubmitting(true)
             const { data } = await createComment(commentData);
-            console.log(data)
             if (data?.success) {
-                closeCollapse()
-                dispatch(setAlertMessage({type : "success", content : data?.message}))
+                // dispatch(setAlertMessage({type : "success", content : data?.message}))
+                form.resetFields();
             } else {
                 dispatch(setAlertMessage({type : "error", content : data?.message}))
-                setIsSubmitting(false)
             }
         } catch (error) {
             throw new Error(error);
-        }finally {
-            setIsSubmitting(false)
         }
     };
 
-    const items = [
-        {
-            key : 1,
-            label : '',
-            children: <Form form={form} onFinish={onFormSubmit}>
-                        <Form.Item name={"comment"} rules={[
-                            {
-                                required : true, message : "Please enter your comment!"
-                            }
-                        ]} >
-                            <Input.TextArea placeholder={`Commenting as ${currentUser?.name}`} className={` !min-h-[80px]`}/>
-                        </Form.Item>
-                    </Form>
-        }
-    ]
-
     return (
-        <section className="max-w-2xl w-full mx-auto mt-2">
-            <Collapse activeKey={activeKey} items={items} />
+        <section className="max-w-2xl w-full mx-auto p-3 rounded border border-darkBgSec/10 shadow dark:shadow-gray-600 ">
+            <Author author={currentUser} />
+            <Form form={form} onFinish={onFormSubmit} className={`mt-2`} >
+                <Form.Item name={"comment"} validateTrigger={"onSubmit"} rules={[
+                    {
+                        required : true, message : "Please enter your comment!"
+                    }
+                ]} >
+                    <Input.TextArea placeholder={`What's on your thought?`} autoSize={{
+                        minRows : 4, maxRows : 4
+                    }} className={`!bg-transparent !border-none focus:!shadow-none !p-0 !resize-none dark:!placeholder-white/50 dark:!caret-white dark:text-white/80 `}/>
+                </Form.Item>
+                <button disabled={isLoading} type={"submit"} className={`submit-btn h-8 w-fit px-3 text-sm rounded-full disabled:cursor-not-allowed disabled:bg-cBlue/50 dark:disabled:bg-darkTer/50  `}>Send</button>
+            </Form>
         </section>
     );
 };

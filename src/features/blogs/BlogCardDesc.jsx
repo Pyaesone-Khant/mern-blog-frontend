@@ -1,14 +1,13 @@
-import { Link } from "react-router-dom";
-
-const BlogCardDesc = ({ isDetail, blog }) => {
+const BlogCardDesc = ({ isDetail, blog, changeRoute }) => {
     return (
         <div
-            className={`text-gray-500 dark:text-gray-400 capitalize text-sm`}
+            className={`text-darkBgSec dark:text-gray-300 capitalize leading-6`}
         >
             {isDetail ? (
                 <p className={`whitespace-pre-line text-justify`} > {blog?.description} </p>
             ) : (
-                <Link to={`/blogs/${blog?._id}`} className={`line-clamp-3`} > {blog?.description} </Link>
+                <p onClick={changeRoute} className={`line-clamp-3 cursor-pointer text-sm
+                `} > {blog?.description} </p>
             )}
         </div>
     );

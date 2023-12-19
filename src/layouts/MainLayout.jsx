@@ -21,7 +21,7 @@ const MainLayout = () => {
     return (
         <main className={` ${theme === "dark" ? "dark" : ""} `}>
             <section
-                className={`flex flex-col bg-gray-200 text-slate-900 dark:bg-darkBg dark:text-gray-200  min-h-screen duration-200`}
+                className={`flex flex-col bg-cFF text-c1A dark:bg-darkBgSec dark:text-gray-200  min-h-screen duration-200`}
             >
                 <Nav />
                 {/* navbar */}

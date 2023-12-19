@@ -1,11 +1,10 @@
-import { Tooltip } from "antd";
 import { useState } from "react";
-import { BsHandThumbsUp, BsHandThumbsUpFill } from "react-icons/bs";
 import {useDispatch, useSelector} from "react-redux";
 import { useSetUserReactionMutation } from "@/features/blogs/blogApi";
 import { useNavigate } from "react-router-dom";
 import {useGetUserDataQuery} from "@/features/users/UserApi.js";
 import {setAlertMessage} from "@/core/globalSlice.js";
+import {FaHeart, FaRegHeart} from "react-icons/fa";
 
 const ReactionBtn = ({ blog }) => {
     const { isLoggedIn } = useSelector(
@@ -38,26 +37,26 @@ const ReactionBtn = ({ blog }) => {
     };
 
     return (
-        <div className="flex items-center gap-2">
-                <button onClick={handleBlogReaction} className={`reaction-btn`}>
-                    {isLiked && isLoggedIn ? (
-                        <BsHandThumbsUpFill />
-                    ) : isLiked && !isLoggedIn ? (
-                        <BsHandThumbsUp />
-                    ) : (
-                        <BsHandThumbsUp />
-                    )}
-                </button>{" "}
-            <p className=" text-sm font-medium text-blue-600 dark:text-darkTer tracking-widest ">
+            <button onClick={handleBlogReaction} className={`reaction-btn `}>
+                {isLiked && isLoggedIn ? (
+                    <FaHeart />
+                ) : isLiked && !isLoggedIn ? (
+                    <FaRegHeart />
+                ) : (
+                    <FaRegHeart />
+                )}
+            <p className=" text-sm font-medium tracking-widest ">
                 {" "}
-                {reactionsCount > 0 ? reactionsCount : ""}
+                <span className={`font-grm mr-1`}>
+                    {reactionsCount > 0 ? reactionsCount : ""}
+                </span>
                 {reactionsCount > 1
                     ? "Likes"
                     : reactionsCount === 1
                     ? "Like"
-                    : ""}{" "}
+                    : ""}
             </p>
-        </div>
+            </button>
     );
 };
 

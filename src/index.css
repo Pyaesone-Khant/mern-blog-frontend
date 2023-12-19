@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Georama:wght@300;400;500&family=Montserrat:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap');
 
 @import "src/core/css/colors.css";
 
@@ -9,11 +9,11 @@
 @layer components{
 
   .common-card{
-    @apply bg-white shadow-md rounded-md max-w-lg p-5 dark:bg-slate-700 mx-auto w-full
+    @apply max-w-xl  mx-auto w-full md:p-5 rounded-md md:bg-cBlue/10 md:dark:bg-slate-800/70
   ;}
 
   .form-tlt{
-    @apply font-semibold text-xl mb-1 dark:text-white text-darkBgSec text-center
+    @apply font-semibold text-xl mb-1 dark:text-white text-darkBgSec
   ;}
 
   label{
@@ -37,7 +37,7 @@
   ;}
 
   .btn{
-    @apply capitalize h-10 w-full flex items-center justify-center rounded-md text-white duration-200 border-transparent text-[16px] font-medium
+    @apply capitalize h-10 w-full flex items-center justify-center rounded-md text-white duration-200 border-transparent text-[16px] font-medium font-rwy
   ;}
 
   .submit-btn{
@@ -45,7 +45,7 @@
   ;}
 
   .delete-btn{
-    @apply btn !bg-red-600 hover:!bg-red-500 text-sm h-9 px-3
+    @apply btn !bg-red-600 hover:!bg-red-500
   ;}
 
   .comment-btn{
@@ -60,16 +60,15 @@
   ;}
 
   .card{
-    @apply flex flex-col gap-3 tracking-wider p-5 shadow bg-white text-darkBgSec dark:text-white dark:bg-slate-700 rounded-md hover:shadow-xl duration-200 w-full min-h-max h-full ;
+    @apply flex flex-col gap-3 tracking-wider p-4 shadow bg-cBlue/[0.08] text-darkBgSec dark:text-white dark:bg-slate-800/70 rounded-md hover:shadow-xl duration-200 w-full min-h-max h-full ;
   ;}
 
   .detail-card{
-    @apply flex flex-col gap-4 tracking-wider
+    @apply flex flex-col gap-4 tracking-wider max-w-2xl mx-auto
   ;}
 
   .reaction-btn{
-    @apply text-blue-600 text-xl hover:scale-[1.2] duration-200
-    dark:text-darkTer
+    @apply dark:text-gray-400/80 dark:hover:text-gray-400 text-darkBgSec/70 hover:text-darkBgSec text-2xl duration-200 hover:opacity-100 flex items-center gap-2
   ;}
 
   .paginate-btn{
@@ -82,7 +81,7 @@
   ;}
 
   .form-label{
-    @apply font-medium dark:text-white text-darkBgSec capitalize
+    @apply font-medium dark:text-white text-darkBgSec capitalize font-rwy
   }
 
   /* verification form */
@@ -97,7 +96,7 @@
   }
 
  .modal-trigger{
-   @apply px-5 py-2 border rounded-md text-sm border-blue-600 text-blue-600 hover:bg-cBlue hover:text-white dark:border-darkTer dark:text-darkTer dark:hover:bg-darkTer dark:hover:text-white duration-200
+   @apply px-5 py-2 border rounded-md text-sm border-blue-600 text-cBlue hover:bg-cBlue hover:text-white dark:border-darkTer dark:text-darkTer dark:hover:bg-darkTer dark:hover:text-white duration-200
  }
 
   .dPrimary{
@@ -111,12 +110,12 @@
 }
 
 *{
-  font-family: "Montserrat", "sans-serif";
+  font-family: "Raleway", "sans-serif";
 }
 
 /*notification*/
 .ant-notification-notice-message{
-  font-family: "Montserrat", "sans-serif" !important;
+  font-family: "Raleway", "sans-serif" !important;
 }
 
 input::-webkit-outer-spin-button,
@@ -124,3 +123,39 @@ input::-webkit-inner-spin-button {
   display: none;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  /*border-radius: 10px;*/
+}
+
+.rBlogs ::-webkit-scrollbar{
+  height: 10px;
+}
+
+:where(.rBlogs, .comments) ::-webkit-scrollbar-track{
+  background: rgba(0, 0, 255, 0.1);
+}
+
+.dark :where(.rBlogs, .comments) ::-webkit-scrollbar-track{
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.rBlogs ::-webkit-scrollbar-track, .rBlogs ::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+}
+
+:where(.rBlogs, .comments) ::-webkit-scrollbar-thumb{
+  background: var(--cBlue);
+}
+
+.dark :where(.rBlogs,.comments) ::-webkit-scrollbar-thumb{
+  background: var(--darkTer);
+}

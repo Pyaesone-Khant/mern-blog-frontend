@@ -46,7 +46,7 @@ const ChangeNameModal = ({user, isUserAuth}) => {
     };
 
     return (
-        <section className="flex flex-col md:flex-row md:items-center gap-5 font-medium p-5 rounded-md bg-white dark:bg-slate-700">
+        <section className="flex flex-col md:flex-row md:items-center gap-5 font-medium p-5 rounded-md bg-cBlue/10 dark:bg-darkTer/10">
                 <h3 className="md:min-w-[120px] text-lg"> Name : </h3>
                 <div className={`flex justify-between items-center w-full`}>
                     <p className="font-semibold text-xl"> {user?.name} </p>
@@ -54,7 +54,7 @@ const ChangeNameModal = ({user, isUserAuth}) => {
                 </div>
             <Modal centered width={420} open={openModal} footer={null} closeIcon={false} className={`auth-modal`} >
                 <ModalHeader title={"change name"} event={closeModal} />
-                <Form form={form} onFinish={onNameChange} layout={"vertical"} className={`p-6`} >
+                <Form form={form} onFinish={onNameChange} layout={"vertical"} className={`p-6 bg-cBlue/10 `} >
                     <Form.Item label={<FormLabel label={"name"}/>} name={"name"} rules={[
                         {
                             required : true, message : "Name is required!"
@@ -63,7 +63,7 @@ const ChangeNameModal = ({user, isUserAuth}) => {
                             message:
                                 "First letter of the name must be a capital letter!",
                         },{
-                            min: 5,
+                            min: 4,
                             message: "Name should not be too short!",
                         },
                     ]}>

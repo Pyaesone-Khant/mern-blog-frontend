@@ -69,7 +69,7 @@ const Register = () => {
                         message:
                         "First letter of the name must be a capital letter!",
                     },{
-                        min: 5,
+                        min: 4,
                         message: "Name should not be too short!",
                     },
                     ]} >

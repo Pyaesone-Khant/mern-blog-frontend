@@ -1,18 +1,20 @@
 import {useGetUserByIdQuery, useGetUserDataQuery} from "../users/UserApi";
-import { useState } from "react";
 import EditCommentForm from "./EditCommentForm";
 import Author from "../blogs/Author";
 import CommentActionsMenu from "@/features/comments/CommentActionsMenu.jsx";
+import {useSelector} from "react-redux";
 
 const CommentCard = ({ commentItem }) => {
     const { data: commentedUser } = useGetUserByIdQuery(commentItem?.userId);
     const author = commentedUser?.data;
-    const [isEditing, setIsEditing] = useState(false);
+
+    const {isEditing} = useSelector(state => state.comment)
+
     const {data : userData} = useGetUserDataQuery();
     const currentUser = userData?.data;
 
     return (
-        <section className="p-3 rounded-md bg-white dark:bg-slate-700 ">
+        <section className={`py-3 border-b border-darkBgSec/20 dark:border-gray-700`}>
             {!isEditing ? (
                 <div>
                     <div className="flex items-center justify-between mb-1">
@@ -35,7 +37,6 @@ const CommentCard = ({ commentItem }) => {
                 </div>
             ) : (
                 <EditCommentForm
-                    setIsEditing={setIsEditing}
                     commentItem={commentItem}
                     author={author}
                 />

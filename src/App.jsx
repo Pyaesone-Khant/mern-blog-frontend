@@ -46,7 +46,7 @@ const App = () => {
             components: {
                 Input : {
                     controlHeight : 40,
-                    fontFamily : "Montserrat",
+                    fontFamily : "Raleway",
                     fontSize : 16,
                 },
                 Button: {
@@ -55,9 +55,9 @@ const App = () => {
                 },
                 Select : {
                     controlHeight: 40,
-                    fontFamily: "Montserrat",
+                    fontFamily: "Raleway",
                     fontSize : 16,
-                }
+                },
             }
         }} >
                 {contextHolder}

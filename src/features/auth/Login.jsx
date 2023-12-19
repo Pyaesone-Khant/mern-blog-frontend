@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginAccountMutation } from "./authApi";
 import Cookies from "js-cookie";
@@ -9,20 +8,18 @@ import {setAlertMessage} from "@/core/globalSlice.js";
 import {Form, Input} from "antd";
 
 const Login = () => {
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const dispatch = useDispatch();
     const [loginAccount, {isLoading}] = useLoginAccountMutation();
     const nav = useNavigate();
 
     const onSubmit = async (userData) => {
         try {
-            setIsSubmitting(true);
             const { data } = await loginAccount(userData);
             if (data?.success) {
+                const tokenExpireDate = new Date(data?.expiredAt);
                 Cookies.set("token", data?.token, {
-                    expires: 60 * 60 * 24,
+                    expires: tokenExpireDate
                 });
-                setIsSubmitting(false);
                 dispatch(
                     setLoginState({
                         isLoggedIn: true,
@@ -32,13 +29,10 @@ const Login = () => {
                 dispatch(setAlertMessage({type : "success", content : "Login successful!"}))
                 nav("/");
             } else {
-                setIsSubmitting(false);
                 dispatch(setAlertMessage({type : "error", content : data?.message}))
             }
         } catch (error) {
             throw new Error(error);
-        }finally {
-            setIsSubmitting(false)
         }
     };
 

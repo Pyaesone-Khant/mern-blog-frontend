@@ -19,7 +19,6 @@ const BlogsList = ({ blogs, totalBlogs, isBFetching }) => {
             dispatch(setCurrentPage(currentPage + 1));
         }
     }
-
     const goToPrevPage = () => {
         if(currentPage > 1) {
             dispatch(setCurrentPage(currentPage - 1));
@@ -39,14 +38,13 @@ const BlogsList = ({ blogs, totalBlogs, isBFetching }) => {
                     )
                 }
             </div>
-            <div className={" hidden md:flex mt-auto"} >
-                <Pagination total={totalBlogs} pageSize={itemsPerPage} current={currentPage} onChange={(value) => dispatch(setCurrentPage(value))} showLessItems={true} showSizeChanger={false} responsive={true}  />
+            <div className={" hidden md:flex mt-auto !font-grm "} >
+                <Pagination total={totalBlogs} pageSize={itemsPerPage} current={currentPage} onChange={(value) => dispatch(setCurrentPage(value))} showLessItems={true} showSizeChanger={false} responsive={true}/>
             </div>
             <div className={" md:hidden mt-auto w-full flex justify-center gap-5 items-center"} >
                 <PaginateBtn label={<p className={`w-full flex items-center justify-center`}> <MdArrowBackIos/> Previous </p>} event={goToPrevPage} breakPoint={1} />
-                <p className={`text-lg font-medium `}> {currentPage} / {totalPages} </p>
-                    <PaginateBtn label={<p className={`w-full flex items-center justify-center`}> Next <MdArrowForwardIos/></p>}  event={goToNextPage} breakPoint={totalPages} />
-
+                <p className={`text-lg font-medium font-grm `}> {currentPage} / {totalPages} </p>
+                <PaginateBtn label={<p className={`w-full flex items-center justify-center`}> Next <MdArrowForwardIos/></p>}  event={goToNextPage} breakPoint={totalPages} />
             </div>
         </div>
              : (

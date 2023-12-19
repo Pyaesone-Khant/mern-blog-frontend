@@ -11,14 +11,25 @@ export default {
                 darkBtn: "#7f5af0",
                 darkSec: "#153B47",
                 darkTer: "#10b981",
-                cBlue : "#2563eb"
-                // darkBg: "#1d2416",
-                // darkBgSec: "#374d13",
-                // darkPara: "#2e4c11",
-                // darkHead: "#5a7929",
-                // darkBtn: "#7f5af0",
-                // darkSec: "#374d13",
-                // darkTer: "#10b981",
+                cBlue : "#2563eb",
+                darkRed : "#f85149",
+
+                // palette one (modern & bold)
+                c1A : "#1A1A1A",
+                cFD0 : "#FFD700",
+                cF53 : "#FF5733",
+                cEF: "#EFEFEF",
+
+                // palette two (classic)
+                c33 : "#333333",
+                c07F : "#007BFF",
+                c6CC : "#66CCCC",
+                cFF : "#FFFFFF",
+
+                // palette three (soft & serene)
+                cF5 : "#F5F5F5",
+                c9C9 : "#99CC99",
+                cF96 : "#FF9966",
             },
             screens: {
                 xs: "300px",
@@ -39,6 +50,8 @@ export default {
         },
         fontFamily: {
             sans: ["Montserrat", "sans-serif"],
+            grm : ["Georama", "sans-serif"],
+            rwy : ["Raleway", "sans-serif"],
         },
     },
     plugins: [],

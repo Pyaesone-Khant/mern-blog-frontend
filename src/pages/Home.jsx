@@ -1,14 +1,12 @@
 import { Loader } from "@/components";
-import {BlogsList, CatList, SearchBlogForm} from "@/features";
+import {BlogsList, CatList} from "@/features";
 import {useGetAllBlogsQuery} from "@/features/blogs/blogApi";
 import { useGetAllCategoriesQuery } from "@/features/categories/categoriesApi";
 import { useSelector } from "react-redux";
-import {useState} from "react";
 
 const Home = () => {
     const { itemsPerPage, currentPage } = useSelector((state) => state.blog);
     const { keyword } = useSelector((state) => state.category);
-    const [searchedBlogs, setSearchedBlogs] = useState(null)
 
     const {
         data: blogsData,
@@ -26,8 +24,7 @@ const Home = () => {
     const categories = categoriesData?.data;
     const totalBlogs = blogsData?.totalBlogs;
 
-
-    if (isBLoading || isCLoading) {
+    if (isBLoading || isCLoading || isBFetching) {
         return (
             <div
                 className=" flex items-center justify-center w-full
@@ -45,8 +42,8 @@ const Home = () => {
                 <CatList categories={categories}/>
             </div>
             <BlogsList
-                blogs={searchedBlogs ? searchedBlogs : blogs}
-                totalBlogs={searchedBlogs ? searchedBlogs?.length : totalBlogs}
+                blogs={blogs}
+                totalBlogs={totalBlogs}
                 isBFetching={isBFetching}
             />
         </section>

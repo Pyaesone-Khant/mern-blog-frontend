@@ -9,13 +9,12 @@ import {MdOutlineFileUpload} from "react-icons/md";
 
 const EditBlogForm = () => {
     const { blogId } = useParams();
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const { data, isLoading, isFetching } = useGetBlogByIdQuery(blogId);
+    const { data, isLoading : isBlogDataLoading, isFetching } = useGetBlogByIdQuery(blogId);
     const currentBlog = data?.data;
 
     // console.log(currentBlog)
 
-    const [updateBlog] = useUpdateBlogMutation();
+    const [updateBlog, {isLoading}] = useUpdateBlogMutation();
     const nav = useNavigate();
     const dispatch = useDispatch()
     const [form] = Form.useForm()
@@ -34,20 +33,15 @@ const EditBlogForm = () => {
         formData.append("blogData", JSON.stringify(updatedBlogData));
 
         try {
-            setIsSubmitting(true);
             const { data } = await updateBlog(formData);
             if (data?.success) {
-                setIsSubmitting(false);
                 nav("/");
                 dispatch(setAlertMessage({type : "success", content : data?.message}))
             } else {
-                setIsSubmitting(false);
                 dispatch(setAlertMessage({type : "error", content : data?.message}))
             }
         } catch (error) {
             throw new Error(error);
-        }finally {
-            setIsSubmitting(false);
         }
     };
 
@@ -70,12 +64,12 @@ const EditBlogForm = () => {
     }
 
     useEffect(() => {
-        if (!isLoading) {
+        if (!isBlogDataLoading) {
             form.setFieldsValue({...currentBlog});
         }
     }, [currentBlog]);
 
-    if (isLoading || isFetching) {
+    if (isBlogDataLoading || isFetching) {
         return (
             <div className="w-full flex items-center justify-center ">
                 <Loader />
@@ -105,8 +99,8 @@ const EditBlogForm = () => {
                         <Input.TextArea bordered={true} autoSize={{minRows : 7, maxRows: 10}} showCount={true} minLength={50} />
                     </Form.Item>
                     <div className={`pt-6 flex items-center gap-4`}>
-                        <CancelBtn path={".."}/>
-                        <SubmitBtn label={"save"} isSubmitting={isSubmitting} />
+                        <CancelBtn event={() => nav("..")} isLoading={isLoading}/>
+                        <SubmitBtn label={"save"} isSubmitting={isLoading} />
                     </div>
                 </Form>
             </div>

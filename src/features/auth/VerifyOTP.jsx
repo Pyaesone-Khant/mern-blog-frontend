@@ -117,9 +117,9 @@ const VerifyOTP = () => {
                             disabled={isResent}
                             className={`font-semibold  ${
                                 isResent
-                                    ? " text-[#20C]/50 "
-                                    : "text-[#20C]"
-                            } duration-200 `}
+                                    ? " text-[#20C]/50 dark:text-darkHead/50 "
+                                    : "text-[#20C] dark:text-darkHead "
+                            } duration-200 disabled:cursor-not-allowed `}
                         >
                             {" "}
                             Resend OTP!{" "}

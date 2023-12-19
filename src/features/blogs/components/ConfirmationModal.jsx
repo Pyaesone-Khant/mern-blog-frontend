@@ -46,7 +46,7 @@ const ConfirmationModal = ({returnPath, event, isComment}) => {
                 <div className={`flex flex-col gap-2 items-center justify-center`}>
                     <MdWarning className={`text-4xl text-red-600 `}/>
                     <h3 className={`text-xl font-medium min-w-max`} >Are you sure you want to delete this {isComment ? "comment" : "blog"} ?</h3>
-                    <p className={`text-base`}>You won&apos;t be able to revert this!</p>
+                    <p className={`text-base font-medium`}>You won&apos;t be able to revert this!</p>
                 </div>
                 <div className={`mt-10 flex items-center gap-5`}>
                     <CancelBtn event={closeModal}/>

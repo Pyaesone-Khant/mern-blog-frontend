@@ -53,7 +53,7 @@ const CreateBlogForm = () => {
 
     const supportedFileType = [".jpg", ".jpeg", ".png", ".webp"]
     const uploadProps = {
-        fileList : fileList,
+        // fileList : fileList,
         beforeUpload: () => false,
         accept : [...supportedFileType],
         maxCount : 1,
@@ -80,8 +80,7 @@ const CreateBlogForm = () => {
     return (
         <section className=" w-full">
             <div className="common-card">
-                <h2 className="form-tlt mb-8 text-center "> Create New Blog </h2>
-
+                <h2 className="form-tlt mb-8 "> Create New Blog </h2>
                 <Form form={form} layout={"vertical"} onFinish={onSubmit} >
                     <Form.Item label={<FormLabel label={"title"} />} name={"title"} rules={[
                         {required : true, message : "Blog title is required!"}

@@ -71,6 +71,14 @@ export const blogApi = baseApi.injectEndpoints({
                 body: searchedData
             }),
             providesTags: ["blog"]
+        }),
+
+        getRecommendedBlogs: builder.query({
+            query: (categoryId) => ({
+                url: `${endPonint}/recommendedBlogs/${categoryId}`,
+                method: "GET",
+            }),
+            providesTags: ["blog"],
         })
     }),
 });
@@ -83,5 +91,6 @@ export const {
     useGetBlogByIdQuery,
     useSetUserReactionMutation,
     useGetBlogByUserIdQuery,
-    useSearchBlogsMutation
+    useSearchBlogsMutation,
+    useGetRecommendedBlogsQuery
 } = blogApi;

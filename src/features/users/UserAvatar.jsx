@@ -4,7 +4,6 @@ import {MdAccountCircle, MdOutlineAdd} from "react-icons/md";
 import {useChangeUserAvatarMutation} from "@/features/users/UserApi.js";
 import {useDispatch} from "react-redux";
 import {setAlertMessage} from "@/core/globalSlice.js";
-import {AWS_IMAGE_URL} from "@/Constants.js";
 import {Spinner} from "@/components/index.js";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "@/components/crop/cropImage.js";
@@ -39,14 +38,14 @@ const UserAvatar = ({user, isUserAuth}) => {
     }
 
     // canceling crop modal
-    const onCanceled = () => {
+    const onCropImageModalCanceled = () => {
         setImage(null);
         setOpenModal(false);
         setZoom(1);
     }
 
     // uploading cropped image
-    const onAvatarChange = async () =>{
+    const onProfileChange = async () =>{
         try {
             const croppedImage = await getCroppedImg(image.url, croppedAreaPixels);
             const profileImage = new File([croppedImage.file], image.file.name, {type: image.file.type});
@@ -68,7 +67,7 @@ const UserAvatar = ({user, isUserAuth}) => {
     }
 
     // removing profile image
-    const onRemove = async () => {
+    const onProfileRemove = async () => {
         try {
             const {data} = await changeUserAvatar({ id: user?._id, profileImage: null});
             if(data?.success){
@@ -82,13 +81,13 @@ const UserAvatar = ({user, isUserAuth}) => {
     }
 
     return (
-        <section className={`p-5 dark:bg-slate-700 bg-white rounded-md flex flex-col gap-3 items-center avatar w-full min-w-max`} >
+        <section className={`p-5 bg-cBlue/10 dark:bg-darkTer/10 rounded-md flex flex-col gap-3 items-center avatar w-full min-w-max`} >
 
-            {/* profile picture */}
+            {/* profile picture & crop image modal trigger */}
             <input disabled={isLoading} type="file" id="file" accept={".jpg,.jpeg,.png,.webp"} className={"hidden"} onChange={handleFileChange} />
             <label htmlFor={isUserAuth ? "file" : ""} className={`w-32 aspect-square flex items-center justify-center rounded-full border dark:border-white border-darkBgSec overflow-hidden ${isUserAuth ? "cursor-pointer" : ""} relative group`}>
                 {
-                    user?.profileImage ? <img src={AWS_IMAGE_URL + user?.profileImage} alt={"Profile Image"} className={`p-1 w-full h-full rounded-full object-cover object-center`} /> : <MdAccountCircle className={`w-full h-full`} />
+                    user?.profileImage ? <img src={user?.profileImage} alt={"Profile Image"} className={`p-1 w-full h-full rounded-full object-cover object-center`} loading={"lazy"} /> : <MdAccountCircle className={`w-full h-full`} />
                 }
                 {
                     isUserAuth && !isLoading && <div className={`absolute bg-black/30 text-white w-full h-full flex group-hover:opacity-100 opacity-0 items-center justify-center duration-200 `}>
@@ -97,29 +96,28 @@ const UserAvatar = ({user, isUserAuth}) => {
                 }
             </label>
 
-            {/* remove image button */}
-            <button disabled={!user?.profileImage} onClick={onRemove} className={` ${isUserAuth ? "flex" : "hidden"} delete-btn w-fit disabled:dPrimary`} > Remove Profile </button>
-
             {/* crop image modal */}
-            <Modal open={openModal} footer={null} centered={true} onCancel={() => setOpenModal(false)} >
-                <h2 className={`font-semibold text-darkBgSec mb-2 `} >Crop Image</h2>
+            <Modal open={openModal} footer={null} centered={true} closeIcon={false} >
+                <h2 className={`font-semibold text-darkBgSec mb-2 text-xl`} >Crop Image</h2>
                 <div className={`relative w-full aspect-square rounded-md `} >
                     <Cropper image={image?.url} crop={crop} onCropChange={setCrop} zoom={zoom} onZoomChange={setZoom} maxZoom={zoom * 3} aspect={1} onCropComplete={handleCropComplete} />
                 </div>
                 <div className={`my-5`} >
                     <label htmlFor={"zoomRange"} className={`block font-medium`} > Zoom : {`${Math.round(zoom * 100)}%`} </label>
-                    <input type={"range"} id={"roomRange"} step={0.01} onChange={(e) => setZoom(e.target.value)} min={1} max={3} value={zoom} className={`w-full h-1 bg-gray-500 rounded-md appearance-none cursor-pointer range-sm `} />
+                    <input type={"range"} id={"roomRange"} step={0.01} onChange={(e) => setZoom(e.target.value)} min={1} max={3} value={zoom} className={`w-full h-1 bg-darkBgSec/70 rounded-md appearance-none cursor-pointer range-sm `} />
                 </div>
                 <div className={`flex items-center gap-5  `} >
-                    <button className={` btn delete-btn `} onClick={onCanceled} >
+                    <button className={` btn delete-btn `} onClick={onCropImageModalCanceled} >
                         Cancel
                     </button>
-                    <button className={`btn bg-cBlue`} onClick={onAvatarChange} >
+                    <button className={`btn bg-cBlue`} onClick={onProfileChange} >
                         Crop & Upload
                     </button>
                 </div>
             </Modal>
 
+            {/* remove image button */}
+            <button disabled={!user?.profileImage} onClick={onProfileRemove} className={` ${isUserAuth ? "flex" : "hidden"} delete-btn w-fit px-3 h-9 text-sm disabled:dPrimary`} > Remove Profile </button>
 
             {/* loader while image is uploading */}
             {

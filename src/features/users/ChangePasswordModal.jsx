@@ -51,12 +51,12 @@ const ChangeNameModal = ({isUserAuth}) => {
     };
 
     return (
-        <section className={` ${!isUserAuth ? "hidden" : ""} flex flex-row items-center justify-between font-medium p-5 rounded-md bg-white dark:bg-slate-700`}>
+        <section className={` ${!isUserAuth ? "hidden" : ""} flex flex-row items-center justify-between font-medium p-5 rounded-md bg-cBlue/10 dark:bg-darkTer/10`}>
             <h3 className="md:min-w-[120px] text-lg"> Password : </h3>
             <button onClick={() => setOpenModal(true)} className={`modal-trigger`}  >Change</button>
             <Modal centered width={420} open={openModal} footer={null} closeIcon={false} className={`auth-modal`} >
                 <ModalHeader title={"change password"} event={closeModal} />
-                <Form form={form} onFinish={onNameChange} layout={"vertical"} className={`p-6`} >
+                <Form form={form} onFinish={onNameChange} layout={"vertical"} className={`p-6 bg-cBlue/10`} >
                     <Form.Item label={<FormLabel label={"current password"} />} hasFeedback={true}  name={"password"} rules={[
                         {required : true, message : "Current password is required!"}
                     ]} >
