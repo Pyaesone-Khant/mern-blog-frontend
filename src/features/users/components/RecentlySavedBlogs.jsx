@@ -14,6 +14,7 @@ const RecentlySavedBlogs = () => {
 
     const {data: savedBlogs, isLoading: isSBLoading} =
         useGetSavedBlogsQuery();
+    
     const userSavedBlogs = savedBlogs?.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 4);
 
     const {data: randomBlogs, isLoading: isRBLoading} = useGetRandomBlogsQuery();
