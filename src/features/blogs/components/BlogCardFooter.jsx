@@ -31,7 +31,7 @@ const BlogCardFooter = ({blogCategory, blog}) => {
                         <BlogActionsMenu blogId={blog?._id} slug={blogSlug}/> : null
                 }
                 {
-                    !isAuthor && token ? <SaveBtn blogId={blog?._id}/> : null
+                    !isAuthor ? <SaveBtn blogId={blog?._id}/> : null
                 }
             </div>
         </section>

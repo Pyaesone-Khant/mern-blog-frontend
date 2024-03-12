@@ -14,7 +14,7 @@ const RecentlySavedBlogs = () => {
 
     const {data: savedBlogs, isLoading: isSBLoading} =
         useGetSavedBlogsQuery();
-    
+
     const userSavedBlogs = savedBlogs?.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 4);
 
     const {data: randomBlogs, isLoading: isRBLoading} = useGetRandomBlogsQuery();
@@ -50,7 +50,7 @@ const SavedBlog = ({blog}) => {
         <Author author={author}/>
         <Link to={`/${nameSlug}/${titleSlug}`} state={blogId} className={`block space-y-1 w-fit`}>
             <h2 className={`font-bold w-fit text-xl`}>{title}</h2>
-            <p className={`line-clamp-2 text-sm dark:text-gray-400 text-gray-700 font-medium`}>
+            <p className={`line-clamp-2 text-sm dark:text-gray-300 text-gray-700 font-medium`}>
                 {description}
             </p>
             <p className={`text-xs dark:text-gray-400 text-gray-600 font-grm w-fit`}>{date} </p>

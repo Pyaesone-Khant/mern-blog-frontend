@@ -14,7 +14,7 @@ const Author = ({author, isDetail, isComment}) => {
             className={` dark:text-white text-darkBgSec hover:text-blue-600 dark:hover:text-darkTer duration-200 flex items-center gap-2 !text-base font-semibold w-fit`}
         >
             {author?.profileImage ? <img src={author?.profileImage}
-                                         className={cn(`w-7 aspect-square object-cover rounded-full border border-darkBgSec`, {
+                                         className={cn(`w-7 aspect-square object-cover rounded-full border border-darkBgSec dark:border-white/50`, {
                                              "w-8": isComment,
                                              "w-10": isDetail
                                          })}/> :

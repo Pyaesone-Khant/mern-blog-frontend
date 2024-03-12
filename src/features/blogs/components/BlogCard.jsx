@@ -111,7 +111,7 @@ let BlogCard = ({blog, isDetail, isRecommended}) => {
                                         className={cn(`capitalize font-bold text-lg md:text-xl w-fit cursor-pointer`, {" line-clamp-1 ": isRecommended})}> {blog?.title} </Link>}
 
                     {/* description */}
-                    <Link {...linkProps} className={cn(`text-sm leading-6 dark:text-gray-400 font-medium
+                    <Link {...linkProps} className={cn(`text-sm leading-6 dark:text-gray-300 font-medium
                 `, {
                         "whitespace-pre-line text-justify pointer-events-none": isDetail,
                         "md:line-clamp-3 line-clamp-2 cursor-pointer": !isDetail
