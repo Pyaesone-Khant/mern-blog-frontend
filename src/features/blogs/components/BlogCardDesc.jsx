@@ -6,7 +6,7 @@ const BlogCardDesc = ({ isDetail, blog, changeRoute }) => {
             {isDetail ? (
                 <p className={`whitespace-pre-line text-justify`} > {blog?.description} </p>
             ) : (
-                <p onClick={changeRoute} className={`line-clamp-3 cursor-pointer text-sm
+                <p onClick={changeRoute} className={`md:line-clamp-3 line-clamp-2 cursor-pointer text-sm leading-6
                 `} > {blog?.description} </p>
             )}
         </div>

@@ -48,7 +48,7 @@ export const userApi = baseApi.injectEndpoints({
             invalidatesTags: ["user"],
         }),
 
-        changeUserEmail : builder.mutation({
+        changeUserEmail: builder.mutation({
             query: (userData) => ({
                 url: `${endPoint}/change-email`,
                 method: "PUT",
@@ -58,17 +58,17 @@ export const userApi = baseApi.injectEndpoints({
         }),
 
         saveBlogs: builder.mutation({
-            query: ({ userId, blogId }) => ({
-                url: `${endPoint}/save_blogs/${userId}`,
+            query: (blogId) => ({
+                url: `${endPoint}/save-blogs`,
                 method: "POST",
-                body: { blogId },
+                body: {blogId},
             }),
             invalidatesTags: ["user"],
         }),
 
         getSavedBlogs: builder.query({
             query: (userId) => ({
-                url: `${endPoint}/save_blogs/${userId}`,
+                url: `${endPoint}/saved-blogs/${userId}`,
                 method: "GET",
             }),
             providesTags: ["user"],

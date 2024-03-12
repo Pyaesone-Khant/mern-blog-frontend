@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
-const token = Cookies.get("token") ? Cookies.get("token") : null;
+const token = localStorage.getItem("accessToken") || null;
 
 const theme = window.localStorage.getItem("theme")
     ? window.localStorage.getItem("theme")
@@ -15,15 +15,17 @@ export const authSlice = createSlice({
         theme,
     },
     reducers: {
-        setLoginState: (state, { payload }) => {
+        setLoginState: (state, {payload}) => {
             state.isLoggedIn = payload.isLoggedIn;
             state.token = payload.token;
         },
-        logoutAccount : (state, _) => {
+        logoutAccount: () => {
             Cookies.remove("token");
+            localStorage.setItem("token", "");
+            localStorage.setItem("expiredAt", "");
         }
     },
 });
 
-export const { setLoginState, logoutAccount } = authSlice.actions;
+export const {setLoginState, logoutAccount} = authSlice.actions;
 export default authSlice.reducer;

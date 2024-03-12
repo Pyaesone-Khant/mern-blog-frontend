@@ -1,21 +1,32 @@
-import BlogCard from "@/features/blogs/BlogCard.jsx";
 import {useGetRecommendedBlogsQuery} from "@/features/blogs/blogApi.js";
+import {Link} from "react-router-dom";
+import {useGetCategoryByIdQuery} from "@/features/categories/categoriesApi.js";
+import {useSlugChanger} from "@/hooks/useSlugChanger.js";
+import {BlogsList} from "@/features/index.js";
+import {MdOutlineArrowForward} from "react-icons/md";
+import React from "react";
 
 const RecommendedBlogsList = ({categoryId, blogId}) => {
 
-    const {data : recommendedBlogsData} = useGetRecommendedBlogsQuery(categoryId);
+    const {data: category, isLoading} = useGetCategoryByIdQuery(categoryId, {skip: !categoryId});
+    const tagSlug = useSlugChanger(category?.title)
 
-    const recommendedBlogs = recommendedBlogsData?.data?.filter(blog => blog?._id !== blogId)
+    const {data: recommendedBlogsData} = useGetRecommendedBlogsQuery(categoryId);
+    const recommendedBlogs = recommendedBlogsData?.filter(blog => blog?._id !== blogId).slice().sort((a, b) => new Date(b?.createdAt) - new Date(a?.createdAt)).slice(0, 2)
+
+    const hasMore = recommendedBlogsData?.length > 2;
 
     return (
-        <section className={`mt-5 max-w-2xl mx-auto overflow-hidden rBlogs `} >
-            <h2 className={`text-xl font-bold text-darkBg dark:text-gray-300 mb-3`} > Recommended Blogs </h2>
+        <section className={`space-y-6`}>
+            <BlogsList blogs={recommendedBlogs} title={`other blogs in ${category?.title}`} loading={isLoading}
+                       isRecommended={true}/>
+
             {
-                recommendedBlogs?.length ? <div className={`inline-grid grid-rows-1 grid-flow-col gap-5 overflow-x-scroll w-full pb-3 rounded-md `} >
-                    {
-                        recommendedBlogs?.map(blog => <BlogCard blog={blog} key={blog?._id} isRecommended={true} />)
-                    }
-                </div> : <p className={`text-center text-darkBg dark:text-gray-300 p-4 rounded-md bg-cBlue/10 dark:bg-darkTer/10`} > No recommended blogs found! </p>
+                hasMore && <Link to={`/tag/${tagSlug}`}
+                                 state={categoryId}
+                                 className={`flex items-center gap-1 w-fit mx-auto text-sm text-cBlue dark:text-darkTer font-semibold border-b dark:border-darkTer border-cBlue`}>
+                    See More <MdOutlineArrowForward/>
+                </Link>
             }
         </section>
     )

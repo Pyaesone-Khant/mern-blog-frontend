@@ -1,12 +1,11 @@
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import "./link.css"
-const CNavlink = ({ path, title, event, icon }) => {
+import {cn} from "@/utils.js";
+
+const CNavlink = ({href, children, className, ...props}) => {
     return (
-        <NavLink onClick={event} to={path} className={`navLink`}>
-            <span className={`text-xl`}>
-                {icon}
-            </span>
-            {title}{" "}
+        <NavLink to={href} className={cn(`navLink`, className)} {...props}>
+            {children}
         </NavLink>
     );
 };

@@ -66,6 +66,14 @@ export const authApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["auth"],
         }),
+
+        getRefreshToken: builder.query({
+            query: () => ({
+                url: `${endPoint}/refresh-token`,
+                method: "GET",
+            }),
+            providesTags: ["auth"],
+        })
     }),
 });
 
@@ -77,4 +85,5 @@ export const {
     useResetPasswordMutation,
     useVerifyOTPMutation,
     useResendOTPMutation,
+    useGetRefreshTokenQuery,
 } = authApi;

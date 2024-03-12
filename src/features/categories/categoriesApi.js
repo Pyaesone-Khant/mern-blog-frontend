@@ -35,7 +35,7 @@ export const categoriesApi = baseApi.injectEndpoints({
             query: (id) => ({
                 url: `${endPonint}`,
                 method: "DELETE",
-                body: { id },
+                body: {id},
             }),
             invalidatesTags: ["category"],
         }),
@@ -43,6 +43,14 @@ export const categoriesApi = baseApi.injectEndpoints({
         getCategoryById: builder.query({
             query: (id) => ({
                 url: `${endPonint}/${id}`,
+                method: "GET",
+            }),
+            providesTags: ["category"],
+        }),
+
+        getBlogsByCategory: builder.query({
+            query: (categoryId) => ({
+                url: `${endPonint}/${categoryId}/blogs`,
                 method: "GET",
             }),
             providesTags: ["category"],
@@ -56,4 +64,5 @@ export const {
     useUpdateCategoryMutation,
     useDeleteCategoryMutation,
     useGetCategoryByIdQuery,
+    useGetBlogsByCategoryQuery,
 } = categoriesApi;

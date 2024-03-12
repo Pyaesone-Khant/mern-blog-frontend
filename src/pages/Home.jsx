@@ -1,12 +1,13 @@
-import { Loader } from "@/components";
-import {BlogsList, CatList} from "@/features";
+import {BLWithPagination, CatList, RSavedBlogs} from "@/features";
 import {useGetAllBlogsQuery} from "@/features/blogs/blogApi";
-import { useGetAllCategoriesQuery } from "@/features/categories/categoriesApi";
-import { useSelector } from "react-redux";
+import {useGetAllCategoriesQuery} from "@/features/categories/categoriesApi";
+import {useSelector} from "react-redux";
+import {useResponsive} from "@/hooks/useResponsive.js";
+import {Loader} from "@/components/index.js";
 
 const Home = () => {
-    const { itemsPerPage, currentPage } = useSelector((state) => state.blog);
-    const { keyword } = useSelector((state) => state.category);
+    const {itemsPerPage, currentPage} = useSelector((state) => state.blog);
+    const {isMediumDevice} = useResponsive();
 
     const {
         data: blogsData,
@@ -15,37 +16,31 @@ const Home = () => {
     } = useGetAllBlogsQuery({
         page: currentPage,
         size: itemsPerPage,
-        categoryId: keyword,
     });
-    const { data: categoriesData, isLoading: isCLoading } =
+    const {data: categories, isLoading: isCLoading} =
         useGetAllCategoriesQuery();
 
     const blogs = blogsData?.data;
-    const categories = categoriesData?.data;
     const totalBlogs = blogsData?.totalBlogs;
 
-    if (isBLoading || isCLoading || isBFetching) {
-        return (
-            <div
-                className=" flex items-center justify-center w-full
-            "
-            >
-                <Loader />{" "}
-            </div>
-        );
-    }
+    if (isBLoading || isCLoading) return <Loader/>;
 
     return (
-        <section className=" flex flex-col gap-5 w-full">
-            <div className={`flex flex-col md:flex-row gap-5`} >
+        <section className=" flex flex-col w-full gap-6 md:gap-4 max-w-7xl mx-auto">
+            <div className={`flex flex-col md:flex-row gap-5`}>
                 {/*<SearchBlogForm setSearchedBlogs={setSearchedBlogs} />*/}
                 <CatList categories={categories}/>
             </div>
-            <BlogsList
-                blogs={blogs}
-                totalBlogs={totalBlogs}
-                isBFetching={isBFetching}
-            />
+            <div className={`flex flex-1 md:items-stretch lg:gap-10 gap-5 justify-between`}>
+                <BLWithPagination
+                    blogs={blogs}
+                    totalBlogs={totalBlogs}
+                    loading={isBFetching || isBLoading}
+                />
+                {!isMediumDevice &&
+                    <div className={`w-[1px] self-stretch border-l border-black/20 dark:border-white/20`}></div>}
+                {!isMediumDevice && <RSavedBlogs/>}
+            </div>
         </section>
     );
 };

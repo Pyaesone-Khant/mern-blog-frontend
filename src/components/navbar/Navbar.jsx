@@ -1,105 +1,87 @@
 import {useNavigate} from "react-router-dom";
 import CNavlink from "./CNavlink";
 import AccountMenu from "./AccountMenu";
-import {useDispatch, useSelector} from "react-redux";
-import { useState } from "react";
-import {RxCross1, RxHamburgerMenu, RxHome, RxPencil2} from "react-icons/rx";
+import {RxPencil2} from "react-icons/rx";
 import ThemeBtn from "../antd/btns/ThemeBtn";
-import "./link.css";
 import {setCurrentPage} from "@/features/blogs/blogSlice.js";
-import {setKeyword} from "@/features/categories/categoriesSlice.js";
-import logo from "@/assets/images/img_logo3.png";
-import logoDark from "@/assets/images/img_logo2.png";
+import {useAuth} from "@/hooks/useAuth.js";
+import {cn} from "@/utils.js";
+import {useResponsive} from "@/hooks/useResponsive.js";
+import "./link.css";
+import {useDispatch} from "react-redux";
+import {CustomBtn, Logo} from "@/components/index.js";
+import SearchBlogForm from "@/features/blogs/SearchBlogForm.jsx";
+import {MdOutlineSearch} from "react-icons/md";
+import {useEffect, useState} from "react";
 
 const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const { isLoggedIn } = useSelector((state) => state.auth);
-
-    const handleMenu = () => {
-        setIsOpen(!isOpen);
-    };
-
-    const dispatch = useDispatch();
+    const [isActive, setIsActive] = useState(false)
+    const {token} = useAuth();
+    const dispatch = useDispatch()
     const nav = useNavigate();
+    const {isMobile} = useResponsive();
+
+    useEffect(() => {
+        if (!isMobile) {
+            setIsActive(false)
+        }
+    }, [isMobile]);
 
     const backToHome = () => {
         dispatch(setCurrentPage(1));
-        dispatch(setKeyword("all"))
-        setIsOpen(false)
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
         nav("/");
     }
 
     return (
-        <header className="py-5 sticky top-0 shadow-lg border-b z-10 backdrop-blur-2xl bg-white dark:bg-slate-800 dark:border-none dark:text-white dark:border-slate-700 duration-200">
-            <nav className="w-[90%] mx-auto flex items-center justify-between flex-col md:flex-row">
-                <div className="w-full md:w-auto flex items-center justify-between">
-                    <h1
-                        onClick={backToHome}
-                        className="cursor-pointer dark:text-white "
-                    >
-                        <img src={logo} className={`max-h-9 dark:hidden`} />
-                        <img src={logoDark} className={`max-h-9 dark:block hidden`} />
-
-                    </h1>
-                    <div className="flex items-center gap-3 md:justify-end">
-                        <div className="md:hidden flex items-center justify-center">
-                            <ThemeBtn />
-                        </div>
-                        <button
-                            onClick={handleMenu}
-                            className=" outline-none w-fit p-2 px-3 rounded-md text-black md:hidden text-3xl active:bg-none dark:text-white"
-                        >
-                            {isOpen ? <RxCross1 /> : <RxHamburgerMenu />}
-                        </button>
-                    </div>
+        <header
+            className="py-1 md:py-2 sticky top-0 shadow-lg border-b z-20 backdrop-blur-2xl bg-white dark:bg-darkBgSec dark:border-none dark:text-white dark:border-slate-800 duration-200">
+            <nav className="md:w-[95%] w-[90%] mx-auto flex items-center justify-between">
+                <div className={`flex items-center gap-5`}>
+                    <Logo className={`md:w-11 md:h-11 h-9 w-9 cursor-pointer mx-0`} onClick={backToHome}/>
+                    {isMobile ? <CustomBtn onClick={() => setIsActive(!isActive)}
+                                           className={cn(`px-0 py-0 w-9 h-9 !rounded-full flex items-center justify-center`)}>
+                            <MdOutlineSearch className={`!text-lg`}/>
+                        </CustomBtn> :
+                        <SearchBlogForm/>}
                 </div>
-                <nav
-                    className={`w-full md:w-auto pt-[72px] top-0 md:pt-0 bg-white md:dark:bg-transparent dark:bg-slate-800 fixed md:relative transform pb-5 md:pb-0 shadow-md md:shadow-none border-b dark:border-none md:border-none md:translate-y-0 md:opacity-100 ${
-                        isOpen
-                            ? "  opacity-100 translate-y-0  "
-                            : " opacity-0 -translate-y-[100vh]"
-                    } duration-500 overflow-hidden -z-[1] md:z-auto`}
-                >
-                    {isLoggedIn ? (
-                        <ul className="nav-ul">
-                            <div className="hidden md:flex items-center justify-center">
-                                <ThemeBtn />
-                            </div>
+                {token ? (
+                    <nav className={cn("flex items-center gap-5")}>
+                        {!isMobile &&
                             <CNavlink
-                                event={backToHome}
-                                path={"/"}
-                                title={"home"}
-                                icon={<RxHome/>}
-                            />
-                            <CNavlink
-                                event={() => setIsOpen(false)}
-                                path={"/create_blog"}
-                                title={"write"}
-                                icon={<RxPencil2/>}
-                            />
-                            <AccountMenu
-                                event={() => setIsOpen(false)}
-                            />
-                        </ul>
-                    ) : (
-                        <ul className="nav-ul">
-                            <div className="hidden md:flex items-center justify-center">
-                                <ThemeBtn />
-                            </div>
-                            <CNavlink
-                                event={() => setIsOpen(false)}
-                                path={"/register"}
-                                title={"register"}
-                            />
-                            <CNavlink
-                                event={() => setIsOpen(false)}
-                                path={"/login"}
-                                title={"login"}
-                            />
-                        </ul>
-                    )}
-                </nav>
+                                href={"/write"}
+                            >
+                                <RxPencil2 className={`!text-xl stroke-[0.3px]`}/>
+                                write
+                            </CNavlink>}
+                        <ThemeBtn/>
+                        <AccountMenu
+                        />
+                    </nav>
+                ) : (
+                    <nav className={cn("flex items-center gap-5")}>
+                        <ThemeBtn/>
+                        <CNavlink
+                            href={"/register"}
+                            className={`border border-cBlue dark:border-darkTer !text-cBlue dark:!text-darkTer`}
+                        >
+                            Register
+                        </CNavlink>
+                        <CNavlink
+                            href={"/login"}
+                            className={`!bg-cBlue dark:!bg-darkTer !text-white`}
+                        >
+                            Login
+                        </CNavlink>
+                    </nav>
+                )}
             </nav>
+            {isActive && <div className={`py-2 px-6`}>
+                <SearchBlogForm event={() => setIsActive(false)}/>
+            </div>}
         </header>
     );
 };

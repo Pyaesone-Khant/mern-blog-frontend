@@ -1,14 +1,17 @@
-@layer component {  
-  
-  .nav-ul{
-    @apply flex flex-col md:flex-row md:items-center gap-5 items-center
-  ;}
-  
-   .navLink{
-    @apply relative px-2 py-1 text-base capitalize !text-gray-500 dark:!text-gray-300 duration-200 min-w-max flex items-center gap-2 !font-rwy !font-medium
-  ;}
+@layer component {
 
-  .navLink:hover, .navLink.active{
-    @apply opacity-100 text-blue-600 dark:text-darkTer !important 
-  ;}
+    .nav-ul {
+        @apply flex flex-col md:flex-row md:items-center gap-5 items-center
+        ;
+    }
+
+    .navLink {
+        @apply relative px-4 py-1 text-sm md:text-base capitalize duration-200 min-w-max flex items-center gap-2 font-medium hover:opacity-90 rounded-full border
+        ;
+    }
+
+    /*.navLink:hover, .navLink.active {*/
+    /*    @apply opacity-100 text-blue-600 dark:text-darkTer !important*/
+    /*    ;*/
+    /*}*/
 }

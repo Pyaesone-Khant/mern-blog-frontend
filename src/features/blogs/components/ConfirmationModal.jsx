@@ -1,6 +1,5 @@
 import {useState} from "react";
-import {Button, Modal} from "antd";
-import {CancelBtn} from "@/components/index.js";
+import {CustomBtn, CustomModal} from "@/components/index.js";
 import {setAlertMessage} from "@/core/globalSlice.js";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
@@ -20,15 +19,15 @@ const ConfirmationModal = ({returnPath, event, isComment}) => {
     const handleDelete = async () => {
         setIsSubmitting(true);
         try {
-            const { data } = await event();
+            const {data} = await event();
             if (data?.success) {
                 setIsSubmitting(false);
                 nav(returnPath);
-                dispatch(setAlertMessage({type : "success", content : data?.message}))
+                dispatch(setAlertMessage({type: "success", content: data?.message}))
                 closeModal();
             } else {
                 setIsSubmitting(false);
-                dispatch(setAlertMessage({type : "error", content : data?.message}))
+                dispatch(setAlertMessage({type: "error", content: data?.message}))
             }
         } catch (error) {
             throw new Error(error);
@@ -39,20 +38,22 @@ const ConfirmationModal = ({returnPath, event, isComment}) => {
 
     return (
         <section className={`min-w-max`}>
-            <button onClick={() => setOpenModal(true)} >
+            <button onClick={() => setOpenModal(true)} className={`py-1`}>
                 Delete
             </button>
-            <Modal centered={true} width={""} open={openModal} footer={null} closeIcon={false} >
-                <div className={`flex flex-col gap-2 items-center justify-center`}>
+            <CustomModal open={openModal} closeModal={closeModal} width={440}>
+                <div className={`flex flex-col items-center justify-center gap-1`}>
                     <MdWarning className={`text-4xl text-red-600 `}/>
-                    <h3 className={`text-xl font-medium min-w-max`} >Are you sure you want to delete this {isComment ? "comment" : "blog"} ?</h3>
-                    <p className={`text-base font-medium`}>You won&apos;t be able to revert this!</p>
+                    <h3 className={`text-lg font-medium min-w-max`}>Are you sure you want to delete
+                        this {isComment ? "comment" : "blog"} ?</h3>
+                    <p className={`text-sm font-medium`}>You won&apos;t be able to revert this!</p>
                 </div>
-                <div className={`mt-10 flex items-center gap-5`}>
-                    <CancelBtn event={closeModal}/>
-                    <Button type={"primary"} htmlType={"button"} loading={isSubmitting} onClick={handleDelete} className={`btn delete-btn`}>Delete</Button>
+                <div className={`flex items-center justify-center gap-2 mt-4`}>
+                    <CustomBtn variant={"outline"} size={"xs"} onClick={closeModal}>Cancel</CustomBtn>
+                    <CustomBtn variant={"danger"} size={"xs"} onClick={handleDelete}
+                               loading={isSubmitting}>Delete</CustomBtn>
                 </div>
-            </Modal>
+            </CustomModal>
         </section>
     );
 };

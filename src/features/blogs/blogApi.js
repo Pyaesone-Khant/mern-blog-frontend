@@ -1,12 +1,12 @@
 import {baseApi} from "@/core/baseApi.js";
 
-const endPonint = "/blogs"
+const endPoint = "/blogs"
 
 export const blogApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllBlogs: builder.query({
-            query: ({ page, size, categoryId }) => ({
-                url: `${endPonint}?page=${page}&size=${size}&cId=${categoryId}`,
+            query: ({page, size}) => ({
+                url: `${endPoint}?page=${page}&size=${size}`,
                 method: "GET",
             }),
             providesTags: ["blog"],
@@ -14,7 +14,7 @@ export const blogApi = baseApi.injectEndpoints({
 
         createBlog: builder.mutation({
             query: (blog) => ({
-                url: `${endPonint}`,
+                url: `${endPoint}`,
                 method: "POST",
                 body: blog,
             }),
@@ -23,7 +23,7 @@ export const blogApi = baseApi.injectEndpoints({
 
         updateBlog: builder.mutation({
             query: (blog) => ({
-                url: `${endPonint}`,
+                url: `${endPoint}`,
                 method: "PUT",
                 body: blog,
             }),
@@ -32,16 +32,16 @@ export const blogApi = baseApi.injectEndpoints({
 
         deleteBlog: builder.mutation({
             query: (id) => ({
-                url: `${endPonint}`,
+                url: `${endPoint}`,
                 method: "DELETE",
-                body: { id },
+                body: {id},
             }),
             invalidatesTags: ["blog"],
         }),
 
         getBlogById: builder.query({
             query: (id) => ({
-                url: `${endPonint}/${id}`,
+                url: `${endPoint}/${id}`,
                 method: "GET",
             }),
             providesTags: ["blog"],
@@ -49,7 +49,7 @@ export const blogApi = baseApi.injectEndpoints({
 
         setUserReaction: builder.mutation({
             query: (ids) => ({
-                url: `${endPonint}/reactions`,
+                url: `${endPoint}/reactions`,
                 method: "POST",
                 body: ids,
             }),
@@ -58,24 +58,31 @@ export const blogApi = baseApi.injectEndpoints({
 
         getBlogByUserId: builder.query({
             query: (userId) => ({
-                url: `${endPonint}/getUserBlogs/${userId}`,
+                url: `${endPoint}/user-blogs/${userId}`,
                 method: "GET",
             }),
             providesTags: ["blog"],
         }),
 
-        searchBlogs: builder.mutation({
-            query : (searchedData) => ({
-                url: `${endPonint}/search`,
-                method: "POST",
-                body: searchedData
+        getSearchedBlogs: builder.query({
+            query: (search) => ({
+                url: `${endPoint}/search?q=${search}`,
+                method: "GET",
             }),
             providesTags: ["blog"]
         }),
 
         getRecommendedBlogs: builder.query({
             query: (categoryId) => ({
-                url: `${endPonint}/recommendedBlogs/${categoryId}`,
+                url: `${endPoint}/recommendedBlogs/${categoryId}`,
+                method: "GET",
+            }),
+            providesTags: ["blog"],
+        }),
+
+        getRandomBlogs: builder.query({
+            query: () => ({
+                url: `${endPoint}/random`,
                 method: "GET",
             }),
             providesTags: ["blog"],
@@ -91,6 +98,7 @@ export const {
     useGetBlogByIdQuery,
     useSetUserReactionMutation,
     useGetBlogByUserIdQuery,
-    useSearchBlogsMutation,
-    useGetRecommendedBlogsQuery
+    useGetSearchedBlogsQuery,
+    useGetRecommendedBlogsQuery,
+    useGetRandomBlogsQuery
 } = blogApi;

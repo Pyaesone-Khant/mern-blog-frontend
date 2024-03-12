@@ -1,15 +1,15 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 
 export const baseApi = createApi({
-    reducerPath : "baseApi",
-    baseQuery : fetchBaseQuery({
-        baseUrl : "https://blogapp-apis.onrender.com/api",
-        // baseUrl : "http://localhost:3500/api",
-        prepareHeaders: ((headers,{getState}) => {
-            const token = getState().auth.token;
-            if(token){
-                headers.set('Authorization',`Bearer ${token}`)
-                return  headers;
+    reducerPath: "baseApi",
+    baseQuery: fetchBaseQuery({
+        // baseUrl : "https://blogapp-apis.onrender.com/api",
+        baseUrl: "http://localhost:3500/api",
+        prepareHeaders: ((headers) => {
+            const token = JSON.parse(localStorage.getItem("accessToken"));
+            if (token) {
+                headers.set('Authorization', `Bearer ${token}`)
+                return headers;
             }
         })
     }),

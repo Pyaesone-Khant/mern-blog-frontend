@@ -11,25 +11,26 @@ export default {
                 darkBtn: "#7f5af0",
                 darkSec: "#153B47",
                 darkTer: "#10b981",
-                cBlue : "#2563eb",
-                darkRed : "#f85149",
+                cBlue: "#2563eb",
+                darkRed: "#f85149",
+                danger: "#ff4d4f",
 
                 // palette one (modern & bold)
-                c1A : "#1A1A1A",
-                cFD0 : "#FFD700",
-                cF53 : "#FF5733",
+                c1A: "#1A1A1A",
+                cFD0: "#FFD700",
+                cF53: "#FF5733",
                 cEF: "#EFEFEF",
 
                 // palette two (classic)
-                c33 : "#333333",
-                c07F : "#007BFF",
-                c6CC : "#66CCCC",
-                cFF : "#FFFFFF",
+                c33: "#333333",
+                c07F: "#007BFF",
+                c6CC: "#66CCCC",
+                cFF: "#FFFFFF",
 
                 // palette three (soft & serene)
-                cF5 : "#F5F5F5",
-                c9C9 : "#99CC99",
-                cF96 : "#FF9966",
+                cF5: "#F5F5F5",
+                c9C9: "#99CC99",
+                cF96: "#FF9966",
             },
             screens: {
                 xs: "300px",
@@ -47,13 +48,17 @@ export default {
                 "2xl": "1536px",
                 // => @media (min-width: 1536px) { ... }
             },
+
         },
         fontFamily: {
             sans: ["Montserrat", "sans-serif"],
-            grm : ["Georama", "sans-serif"],
-            rwy : ["Raleway", "sans-serif"],
+            grm: ["Georama", "sans-serif"],
+            rwy: ["Raleway", "sans-serif"],
         },
     },
     plugins: [],
     darkMode: "class",
+    // corePlugins: {
+    //     preflight: false,
+    // }
 };

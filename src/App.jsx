@@ -1,17 +1,25 @@
-import { Route, Routes } from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import MainLayout from "@/layouts/MainLayout";
 import {
+    ADForm,
+    BLByCategory,
+    BlogDetail,
+    CatTable,
+    ChangeEmailPage,
     CreateBlog,
+    CreatedBlogs,
+    EditBlog,
+    ForgotPasswordPage,
     LoginPage,
     RegisterPage,
-    BlogDetail,
-    EditBlog,
-    CUserD,
-    ADForm,
-    UProfile, ForgotPasswordPage, ResetPasswordPage, VerifyOTPPage, ChangeEmailPage,
+    ResetPasswordPage,
+    SavedBlogs,
+    Search,
+    UProfile,
+    VerifyOTPPage,
 } from "@/features";
-import { ErrorPage, HomePage } from "./pages";
-import {IsAuth, IsNotAuth, OTPGuard} from "@/components";
+import {ErrorPage, HomePage} from "./pages";
+import {IsAdmin, IsAuth, IsNotAuth, OTPGuard} from "@/components";
 import {useDispatch, useSelector} from "react-redux";
 import {ConfigProvider, notification} from "antd";
 import {useEffect} from "react";
@@ -27,16 +35,16 @@ const App = () => {
     const openNotificationWithIcon = () => {
         api[alertMsg.type]({
             message: alertMsg.content,
-            duration : 5,
+            duration: 3,
             placement: "top",
-             });
+        });
     };
 
     useEffect(() => {
-        if(alertMsg.type && alertMsg.content){
-         openNotificationWithIcon()
+        if (alertMsg.type && alertMsg.content) {
+            openNotificationWithIcon()
             setTimeout(() => {
-                dispatch(setAlertMessage({type: null, content : null}))
+                dispatch(setAlertMessage({type: null, content: null}))
             }, 5000)
         }
     }, [alertMsg]);
@@ -44,110 +52,118 @@ const App = () => {
     return (
         <ConfigProvider theme={{
             components: {
-                Input : {
-                    controlHeight : 40,
-                    fontFamily : "Raleway",
-                    fontSize : 16,
-                },
-                Button: {
-                    controlHeight : 40,
-                    primaryShadow : false
-                },
-                Select : {
+                Input: {
                     controlHeight: 40,
                     fontFamily: "Raleway",
-                    fontSize : 16,
+                    fontSize: 16,
+                    borderRadius: 2,
+                },
+                Button: {
+                    controlHeight: 40,
+                    primaryShadow: false
+                },
+                Select: {
+                    controlHeight: 40,
+                    fontFamily: "Raleway",
+                    fontSize: 16,
+                    borderRadius: 2,
                 },
             }
-        }} >
-                {contextHolder}
-                <Routes>
-                    <Route path="/" element={<MainLayout />}>
-                        <Route index element={<HomePage />} />
+        }}>
+            {contextHolder}
+            <Routes>
+                <Route path="/" element={<MainLayout/>}>
+                    <Route index element={<HomePage/>}/>
 
+                    <Route path={"/tag/:tagSlug"} element={<BLByCategory/>}/>
+
+                    <Route
+                        path="write"
+                        element={
+                            <IsAuth>
+                                <CreateBlog/>
+                            </IsAuth>
+                        }
+                    />
+                    <Route path="/:username/:slug" errorElement={<ErrorPage/>}>
+                        <Route index element={<BlogDetail/>}/>
                         <Route
-                            path="create_blog"
+                            path="edit"
                             element={
                                 <IsAuth>
-                                    <CreateBlog />
+                                    <EditBlog/>
                                 </IsAuth>
                             }
                         />
-                        <Route path="blogs/:blogId" errorElement={<ErrorPage />}>
-                            <Route index element={<BlogDetail />} />
-                            <Route
-                                path="edit"
-                                element={
-                                    <IsAuth>
-                                        <EditBlog />
-                                    </IsAuth>
-                                }
-                            />
-                        </Route>
-
-                        {/* user routes */}
-                        <Route
-                            path="change_profile"
-                            element={
-                                <IsAuth>
-                                    <CUserD />
-                                </IsAuth>
-                            }
-                        />
-
-                        <Route path={"changeEmail"} element={<IsAuth>
-                            <ChangeEmailPage/>
-                        </IsAuth>} />
-
-                        <Route
-                            path="delete_account"
-                            element={
-                                <IsAuth>
-                                    <ADForm />
-                                </IsAuth>
-                            }
-                        />
-
-                        <Route path="profile/:userId" element={<UProfile />} />
-                        {/* user routes end */}
-
-                        {/* auth routes */}
-                        <Route
-                            path="register"
-                            element={
-                                <IsNotAuth>
-                                    <RegisterPage />
-                                </IsNotAuth>
-                            }
-                        />
-                        <Route
-                            path="login"
-                            element={
-                                <IsNotAuth>
-                                    <LoginPage />
-                                </IsNotAuth>
-                            }
-                        />
-
-                        <Route path={"forgotPassword"} element={<IsNotAuth>
-                            <ForgotPasswordPage/>
-                        </IsNotAuth>} />
-
-                        <Route path={"resetPassword"} element={<IsNotAuth>
-                            <OTPGuard>
-                                <ResetPasswordPage/>
-                            </OTPGuard>
-                        </IsNotAuth>} />
-
-                        <Route path={"verifyOtp"} element={
-                            <OTPGuard>
-                                <VerifyOTPPage/>
-                            </OTPGuard>} />
-
-                        {/* auth routes end */}
-                        <Route path="*" element={<ErrorPage type={"page"} />} />
                     </Route>
-                </Routes>
+
+                    <Route path={"/categories"} element={<IsAdmin>
+                        <CatTable/>
+                    </IsAdmin>}/>
+
+                    <Route path={"/search"} element={<Search/>}/>
+
+                    <Route path={"changeEmail"} element={<IsAuth>
+                        <ChangeEmailPage/>
+                    </IsAuth>}/>
+
+                    <Route
+                        path="delete_account"
+                        element={
+                            <IsAuth>
+                                <ADForm/>
+                            </IsAuth>
+                        }
+                    />
+
+                    <Route path="/users/:slug">
+                        <Route index element={<UProfile/>}/>
+                        <Route path={"blogs"} element={<IsAuth>
+                            <CreatedBlogs/>
+                        </IsAuth>}/>
+                        <Route path={"saved"} element={<IsAuth>
+                            <SavedBlogs/>
+                        </IsAuth>}/>
+                    </Route>
+                    {/* user routes end */}
+
+                    {/* auth routes */}
+                    <Route
+                        path="register"
+                        element={
+                            <IsNotAuth>
+                                <RegisterPage/>
+                            </IsNotAuth>
+                        }
+                    />
+                    <Route
+                        path="login"
+                        element={
+                            <IsNotAuth>
+                                <LoginPage/>
+                            </IsNotAuth>
+                        }
+                    />
+
+                    <Route path={"forgotPassword"} element={<IsNotAuth>
+                        <ForgotPasswordPage/>
+                    </IsNotAuth>}/>
+
+                    <Route path={"resetPassword"} element={<IsNotAuth>
+                        <OTPGuard>
+                            <ResetPasswordPage/>
+                        </OTPGuard>
+                    </IsNotAuth>}/>
+
+                    <Route path={"verifyOtp"} element={
+                        <OTPGuard>
+                            <VerifyOTPPage/>
+                        </OTPGuard>}/>
+
+                    {/* auth routes end */}
+                    <Route path="*" element={<ErrorPage type={"page"}/>}/>
+                </Route>
+            </Routes>
         </ConfigProvider>
     );
 };

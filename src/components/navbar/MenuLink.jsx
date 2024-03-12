@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
+import {cn} from "@/utils.js";
 
-const MenuLink = ({ path, title, event }) => {
+const MenuLink = ({path, title, className, ...props}) => {
     return (
         <Link
-            onClick={event}
             to={path}
-            className=" text-sm font-sans capitalize w-full min-w-[120px]"
+            className={cn("text-sm font-sans font-medium capitalize w-full min-w-max px-1 md:py-1.5 py-1  inline-block", className)}
+            {...props}
         >
             {" "}
             {title}{" "}

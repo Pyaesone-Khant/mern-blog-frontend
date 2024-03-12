@@ -1,161 +1,192 @@
 @import url('https://fonts.googleapis.com/css2?family=Georama:wght@300;400;500&family=Montserrat:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap');
 
-@import "src/core/css/colors.css";
+@import "core/css/colors.css";
+@import "react-quill/dist/quill.snow.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer components{
 
-  .common-card{
-    @apply max-w-xl  mx-auto w-full md:p-5 rounded-md md:bg-cBlue/10 md:dark:bg-slate-800/70
-  ;}
+@layer components {
 
-  .form-tlt{
-    @apply font-semibold text-xl mb-1 dark:text-white text-darkBgSec
-  ;}
+    .common-card {
+        @apply max-w-lg mx-auto w-full md:p-5 rounded-md md:bg-cBlue/10 md:dark:bg-slate-800/70
+        ;
+    }
 
-  label{
-    @apply capitalize font-medium
-  ;}
+    .form-tlt {
+        @apply font-semibold text-xl mb-1 dark:text-white text-darkBgSec
+        ;
+    }
 
-  .form-input{
-    @apply p-2 rounded-md w-full outline-none mt-1 border border-black/30 select-none duration-200 text-darkBgSec
-  ;}
+    label {
+        @apply capitalize font-medium
+        ;
+    }
 
-  .form-input.input-error{
-    @apply border-red-600 text-red-600 dark:text-yellow-400 dark:border-yellow-400
-  ;}
+    .form-input {
+        @apply p-2 rounded-md w-full outline-none mt-1 border border-black/30 select-none duration-200 text-darkBgSec
+        ;
+    }
 
-  .error{
-    @apply text-sm text-red-600 mt-1 dark:text-yellow-400
-  ;}
+    .form-input.input-error {
+        @apply border-red-600 text-red-600 dark:text-yellow-400 dark:border-yellow-400
+        ;
+    }
 
-  .api-error{
-    @apply p-3 rounded-md bg-red-700 text-white flex items-center gap-2 my-5
-  ;}
+    .error {
+        @apply text-sm text-red-600 mt-1 dark:text-yellow-400
+        ;
+    }
 
-  .btn{
-    @apply capitalize h-10 w-full flex items-center justify-center rounded-md text-white duration-200 border-transparent text-[16px] font-medium font-rwy
-  ;}
+    .api-error {
+        @apply p-3 rounded-md bg-red-700 text-white flex items-center gap-2 my-5
+        ;
+    }
 
-  .submit-btn{
-    @apply btn !bg-cBlue hover:!bg-blue-500 dark:!bg-darkTer/70 dark:hover:!bg-darkTer
-  ;}
+    .btn {
+        @apply capitalize h-10 w-full flex items-center justify-center rounded-md text-white duration-200 border-transparent text-[16px] font-medium font-rwy
+        ;
+    }
 
-  .delete-btn{
-    @apply btn !bg-red-600 hover:!bg-red-500
-  ;}
+    .submit-btn {
+        @apply btn !bg-cBlue hover:!bg-blue-500 dark:!bg-darkTer/70 dark:hover:!bg-darkTer
+        ;
+    }
 
-  .comment-btn{
-    @apply w-full max-w-[150px] rounded-md text-sm py-1 border dark:border-white dark:text-white dark:hover:bg-white hover:text-white dark:hover:text-darkTer border-cBlue text-cBlue hover:bg-cBlue duration-200;}
+    .delete-btn {
+        @apply btn !bg-red-600 hover:!bg-red-500
+        ;
+    }
 
-  .submit-btn.disabled{
-    @apply bg-gray-600 text-gray-400 dark:bg-gray-500 dark:text-gray-300 duration-200
-  ;}
+    .comment-btn {
+        @apply w-full max-w-[150px] rounded-md text-sm py-1 border dark:border-white dark:text-white dark:hover:bg-white hover:text-white dark:hover:text-darkTer border-cBlue text-cBlue hover:bg-cBlue duration-200;
+    }
 
-  .pws-btn{
-    @apply absolute right-4 top-1/2 transform -translate-y-1/2 text-lg outline-none border-none text-gray-700 dark:text-gray-200
-  ;}
+    .submit-btn.disabled {
+        @apply bg-gray-600 text-gray-400 dark:bg-gray-500 dark:text-gray-300 duration-200
+        ;
+    }
 
-  .card{
-    @apply flex flex-col gap-3 tracking-wider p-4 shadow bg-cBlue/[0.08] text-darkBgSec dark:text-white dark:bg-slate-800/70 rounded-md hover:shadow-xl duration-200 w-full min-h-max h-full ;
-  ;}
+    .pws-btn {
+        @apply absolute right-4 top-1/2 transform -translate-y-1/2 text-lg outline-none border-none text-gray-700 dark:text-gray-200
+        ;
+    }
 
-  .detail-card{
-    @apply flex flex-col gap-4 tracking-wider max-w-2xl mx-auto
-  ;}
+    .card {
+        @apply flex flex-col gap-3 tracking-wider p-4 shadow bg-cBlue/[0.08] text-darkBgSec dark:text-white dark:bg-slate-800/70 rounded-md hover:shadow-xl duration-200 w-full min-h-max h-full ;;
+    }
 
-  .reaction-btn{
-    @apply dark:text-gray-400/80 dark:hover:text-gray-400 text-darkBgSec/70 hover:text-darkBgSec text-2xl duration-200 hover:opacity-100 flex items-center gap-2
-  ;}
+    .detail-card {
+        @apply flex flex-col gap-4 tracking-wider max-w-2xl mx-auto
+        ;
+    }
 
-  .paginate-btn{
-    @apply h-8 max-w-[100px] w-full bg-cBlue dark:bg-darkTer rounded-md text-white text-sm hover:bg-blue-500 dark:hover:bg-darkTer/80 duration-200
-  ;}
+    .reaction-btn {
+        @apply dark:text-gray-400/80 dark:hover:text-gray-400 text-darkBgSec/70 hover:text-darkBgSec text-2xl duration-200 hover:opacity-100 flex items-center gap-2
+        ;
+    }
 
-  .paginate-btn-disabled{
-    @apply bg-gray-400 dark:bg-gray-500 text-gray-300 dark:text-gray-400 hover:bg-gray-400 dark:hover:bg-gray-500 hover:text-gray-300 hover:dark:text-gray-400
-    duration-200 cursor-not-allowed
-  ;}
+    .paginate-btn {
+        @apply h-8 max-w-[100px] w-full bg-cBlue dark:bg-darkTer rounded-md text-white text-sm hover:bg-blue-500 dark:hover:bg-darkTer/80 duration-200
+        ;
+    }
 
-  .form-label{
-    @apply font-medium dark:text-white text-darkBgSec capitalize font-rwy
-  }
+    .paginate-btn-disabled {
+        @apply bg-gray-400 dark:bg-gray-500 text-gray-300 dark:text-gray-400 hover:bg-gray-400 dark:hover:bg-gray-500 hover:text-gray-300 hover:dark:text-gray-400
+        duration-200 cursor-not-allowed
+        ;
+    }
 
-  /* verification form */
-  .otp-form {
-    @apply flex justify-between
-    ;
-  }
+    .form-label {
+        @apply font-medium dark:text-white text-darkBgSec capitalize font-rwy
+    }
 
-  .otp-form input {
-    @apply !w-12  h-12 rounded text-black text-center outline-none border border-[#14224A] caret-black
-    ;
-  }
+    /* verification form */
+    .otp-form {
+        @apply flex justify-between
+        ;
+    }
 
- .modal-trigger{
-   @apply px-5 py-2 border rounded-md text-sm border-blue-600 text-cBlue hover:bg-cBlue hover:text-white dark:border-darkTer dark:text-darkTer dark:hover:bg-darkTer dark:hover:text-white duration-200
- }
+    .otp-form input {
+        @apply !w-12  h-12 rounded text-black text-center outline-none border border-[#14224A] caret-black
+        ;
+    }
 
-  .dPrimary{
-    @apply bg-gray-600 text-gray-400 dark:bg-gray-500 dark:text-gray-300 duration-200 border-gray-600 dark:border-gray-500 disabled:hover:bg-gray-600 cursor-not-allowed
-  }
+    .modal-trigger {
+        @apply px-5 py-2 border rounded-md text-sm border-blue-600 text-cBlue hover:bg-cBlue hover:text-white dark:border-darkTer dark:text-darkTer dark:hover:bg-darkTer dark:hover:text-white duration-200
+    }
 
-  .dOutline{
-    @apply border-gray-400 text-gray-400 dark:border-gray-500 dark:text-gray-400 duration-200 cursor-not-allowed
-  }
+    .dPrimary {
+        @apply bg-gray-600 text-gray-400 dark:bg-gray-500 dark:text-gray-300 duration-200 border-gray-600 dark:border-gray-500 disabled:hover:bg-gray-600 cursor-not-allowed
+    }
+
+    .dOutline {
+        @apply border-gray-400 text-gray-400 dark:border-gray-500 dark:text-gray-400 duration-200 cursor-not-allowed
+    }
 
 }
 
-*{
-  font-family: "Raleway", "sans-serif";
+* {
+    font-family: "Raleway", "sans-serif";
 }
 
 /*notification*/
-.ant-notification-notice-message{
-  font-family: "Raleway", "sans-serif" !important;
+.ant-notification-notice-message {
+    font-family: "Raleway", "sans-serif" !important;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  display: none;
+    display: none;
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+    width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+    background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  /*border-radius: 10px;*/
+    background: #888;
+    /*border-radius: 10px;*/
 }
 
-.rBlogs ::-webkit-scrollbar{
-  height: 10px;
+.rBlogs ::-webkit-scrollbar, .cat-list ::-webkit-scrollbar {
+    height: 10px;
 }
 
-:where(.rBlogs, .comments) ::-webkit-scrollbar-track{
-  background: rgba(0, 0, 255, 0.1);
+:where(.rBlogs, .comments) ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 255, 0.1);
 }
 
-.dark :where(.rBlogs, .comments) ::-webkit-scrollbar-track{
-  background: rgba(255, 255, 255, 0.1);
+.dark :where(.rBlogs, .comments) ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
 }
 
-.rBlogs ::-webkit-scrollbar-track, .rBlogs ::-webkit-scrollbar-thumb{
-  border-radius: 10px;
+.rBlogs ::-webkit-scrollbar-track, .rBlogs ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
 }
 
-:where(.rBlogs, .comments) ::-webkit-scrollbar-thumb{
-  background: var(--cBlue);
+:where(.rBlogs, .comments, .cat-list) ::-webkit-scrollbar-thumb {
+    background: var(--cBlue);
 }
 
-.dark :where(.rBlogs,.comments) ::-webkit-scrollbar-thumb{
-  background: var(--darkTer);
+.dark :where(.rBlogs,.comments, .cat-list) ::-webkit-scrollbar-thumb {
+    background: var(--darkTer);
+}
+
+/* styling quill */
+/*.ql-container {*/
+/*    border: none !important;*/
+/*}*/
+
+.ql-editor {
+    font-family: "Raleway", "sans-serif";
+    font-size: 15px;
+    color: var(--darkBgSec);
+    height: 200px;
 }

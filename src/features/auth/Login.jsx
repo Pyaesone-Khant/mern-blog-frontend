@@ -1,23 +1,28 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useLoginAccountMutation } from "./authApi";
-import Cookies from "js-cookie";
-import { useDispatch } from "react-redux";
-import { setLoginState } from "./authSlice";
-import {SubmitBtn, FormLabel} from "@/components";
+import {useNavigate} from "react-router-dom";
+import {useLoginAccountMutation} from "./authApi";
+import {useDispatch} from "react-redux";
+import {setLoginState} from "./authSlice";
+import {BackBtn, CustomBtn} from "@/components";
 import {setAlertMessage} from "@/core/globalSlice.js";
 import {Form, Input} from "antd";
+import {useAuth} from "@/hooks/useAuth.js";
+import Cookies from "js-cookie";
+import AuthComponentWrapper from "@/features/auth/AuthComponentWrapper.jsx";
 
 const Login = () => {
     const dispatch = useDispatch();
     const [loginAccount, {isLoading}] = useLoginAccountMutation();
     const nav = useNavigate();
+    const {saveToken, saveExpiredAt} = useAuth();
 
     const onSubmit = async (userData) => {
         try {
-            const { data } = await loginAccount(userData);
+            const {data} = await loginAccount(userData);
             if (data?.success) {
+                saveToken(data?.token);
+                saveExpiredAt(data?.expiredAt);
                 const tokenExpireDate = new Date(data?.expiredAt);
-                Cookies.set("token", data?.token, {
+                Cookies.set("accessToken", data?.token, {
                     expires: tokenExpireDate
                 });
                 dispatch(
@@ -26,10 +31,10 @@ const Login = () => {
                         token: data?.token,
                     })
                 );
-                dispatch(setAlertMessage({type : "success", content : "Login successful!"}))
+                dispatch(setAlertMessage({type: "success", content: "Login successful!"}))
                 nav("/");
             } else {
-                dispatch(setAlertMessage({type : "error", content : data?.message}))
+                dispatch(setAlertMessage({type: "error", content: data?.message}))
             }
         } catch (error) {
             throw new Error(error);
@@ -37,45 +42,48 @@ const Login = () => {
     };
 
     return (
-        <section className="flex items-center justify-center w-full">
-            <div className="common-card">
-                <div className="text-center mb-8">
-                <h2 className="form-tlt"> Login Account </h2>
-                    <p className={` text-gray-500 dark:text-gray-300`}>Don't have an account? <Link
-                        to={"/register"}
-                        className=" text-blue-600 border-b border-blue-600 dark:text-darkTer dark:border-darkTer "
-                    >
-                        {" "}
-                        Register{" "}
-                    </Link> </p>
-
+        <AuthComponentWrapper>
+            <Form layout={"vertical"} onFinish={onSubmit} className={`max-w-md w-full px-4`}>
+                <div className="text-center mb-6">
+                    <h2 className="form-tlt"> Login Account </h2>
                 </div>
+                <Form.Item name={"email"} rules={[
+                    {required: true, message: "Email address is required!"}
+                ]}>
+                    <Input placeholder={"Email"}/>
+                </Form.Item>
+                <Form.Item name={"password"} rules={[
+                    {required: true, message: "Password is required!"}
+                ]}>
+                    <Input.Password placeholder={"Password"}/>
+                </Form.Item>
+                <CustomBtn htmlType={"submit"} className={"w-full"} loading={isLoading}>
+                    Login
+                </CustomBtn>
 
-                <Form layout={"vertical"} onFinish={onSubmit}>
-                    <Form.Item label={<FormLabel label={"email"}/>} name={"email"} rules={[
-                        {required : true, message : "Email address is required!"}
-                    ]} >
-                        <Input placeholder={"example@gmail.com"} />
-                    </Form.Item>
-                    <Form.Item label={<FormLabel label={"password"} />} name={"password"} rules={[
-                        {required : true, message : "Password is required!"}
-                    ]} className={`mb-2`}  >
-                        <Input.Password placeholder={"Enter your password"} />
-                    </Form.Item>
-                    <Link
-                        to={"/forgotPassword"}
-                        className=" text-blue-600 dark:text-darkTer dark:border-darkTer block w-fit mb-8"
+                <div className={`space-y-3 text-center mt-6 dark:text-gray-300 text-black`}>
+                    <CustomBtn
+                        isLink={true}
+                        href={"/forgotPassword"}
+                        variant={"ghost"}
+                        size={"xs"}
+                        className={`w-fit mx-auto font-bold`}
                     >
                         Forgot Password ?
-                    </Link>
+                    </CustomBtn>
+                    <p>OR</p>
+                    <p>Don&apos;t have an account?</p>
+                    <CustomBtn isLink={true} href={"/register"} variant={"outline"}>
+                        Create Account
+                    </CustomBtn>
+                </div>
 
-                    <SubmitBtn
-                        isSubmitting={isLoading}
-                        label={"Login"}
-                    />
-                </Form>
-            </div>
-        </section>
+                <div className={`mt-10 flex justify-center`}>
+                    <BackBtn/>
+                </div>
+            </Form>
+        </AuthComponentWrapper>
+
     );
 };
 

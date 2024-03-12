@@ -1,4 +1,4 @@
-:root{
+:root {
     --darkBg: #090F13;
     --darkBgSec: #09192F;
     --darkHead: #5d97a9;
@@ -6,6 +6,7 @@
     --darkBtn: #7f5af0;
     --darkSec: #153B47;
     --darkTer: #10b981;
-    --cBlue : #2563eb;
-    --darkRed : #f85149;
+    --cBlue: #2563eb;
+    --darkRed: #f85149;
+    --c8C: #8c8c8c;
 }
