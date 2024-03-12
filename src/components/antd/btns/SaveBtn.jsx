@@ -5,8 +5,12 @@ import {useGetUserDataQuery, useSaveBlogsMutation,} from "@/features/users/UserA
 import {useNavigate} from "react-router-dom";
 import {setAlertMessage} from "@/core/globalSlice.js";
 import {useAuth} from "@/hooks/useAuth.js";
+import {LoginAlertModal} from "@/components/index.js";
 
 const SaveBtn = ({blogId}) => {
+
+    const [openModal, setOpenModal] = useState(false);
+
     const {token} = useAuth();
     const {data: currentUser} = useGetUserDataQuery()
     const savedBlogsList = currentUser?.savedBlogs;
@@ -33,25 +37,29 @@ const SaveBtn = ({blogId}) => {
                 throw new Error(error);
             }
         } else {
-            dispatch(setAlertMessage({type: "info", content: "Please login first!"}));
-            return nav("/login");
+            setOpenModal(true)
         }
     };
 
     return (
+        <section>
+            <button
+                onClick={handleSaveBlog}
+                className={`outline-none border-none text-blue-600 dark:text-darkTer text-xl duration-200`}
+            >
+                {isSaved && token ? (
+                    <BsBookmarkCheckFill/>
+                ) : isSaved && !token ? (
+                    <BsBookmarkPlus/>
+                ) : (
+                    <BsBookmarkPlus/>
+                )}
+            </button>
 
-        <button
-            onClick={handleSaveBlog}
-            className={`outline-none border-none text-blue-600 dark:text-darkTer text-xl duration-200`}
-        >
-            {isSaved && token ? (
-                <BsBookmarkCheckFill/>
-            ) : isSaved && !token ? (
-                <BsBookmarkPlus/>
-            ) : (
-                <BsBookmarkPlus/>
-            )}
-        </button>
+            {/* for un-auth user*/}
+            <LoginAlertModal closeModal={() => setOpenModal(!openModal)} isOpen={openModal}
+                             content={"You need to login to save this blog!"}/>
+        </section>
     );
 };
 

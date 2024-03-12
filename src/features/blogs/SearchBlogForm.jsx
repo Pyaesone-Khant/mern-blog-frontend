@@ -44,12 +44,12 @@ const SearchBlogForm = ({event}) => {
                  className={cn(`flex items-stretch relative overflow-hidden rounded-full w-full`)}>
         <Form.Item name={"keyword"} className={`mb-0 w-full md:w-fit`}>
             <Input placeholder={"Search Here . . ."}
-                   className={"h-10 text-sm  rounded-full min-w-[200px] md:min-w-[300px] w-full bg-black/10 border-transparent dark:!bg-white/10 dark:!text-white dark:!placeholder-gray-400"}
+                   className={"md:h-10 h-9 text-sm  rounded-full min-w-[200px] md:min-w-[300px] w-full bg-black/10 border-transparent dark:!bg-white/10 dark:!text-white dark:!placeholder-gray-400"}
                    onChange={onChange}/>
         </Form.Item>
 
         <CustomBtn htmlType={"submit"}
-                   className={cn(`px-0 py-0 w-9 h-9 !rounded-full flex items-center justify-center absolute  top-1/2 transform -translate-y-1/2 duration-300`, {
+                   className={cn(`px-0 py-0 h-9 !aspect-square !rounded-full flex items-center justify-center absolute  top-1/2 transform -translate-y-1/2 duration-300`, {
                        "right-[2px]": !isInvalid,
                        "-right-20": isInvalid
                    })}>

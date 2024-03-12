@@ -20,8 +20,11 @@ export {default as LikeBtn} from "./antd/btns/ReactionBtn";
 export {default as IconBtn} from "./antd/btns/IconBtn";
 export {default as SaveBtn} from "./antd/btns/SaveBtn";
 export {default as CustomBtn} from "./antd/btns/CustomButton.jsx"
-export {default as CustomModal} from "./antd/CustomModal.jsx"
 export {default as BackBtn} from "./antd/btns/BackButton.jsx"
+
+//modals
+export {default as CustomModal} from "./modals/CustomModal.jsx"
+export {default as LoginAlertModal} from "./modals/LoginAlertModal.jsx"
 
 //titleLink
 export {default as BTLink} from "./titleLink/TitleLink";
