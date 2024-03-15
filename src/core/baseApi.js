@@ -1,10 +1,10 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const baseApi = createApi({
     reducerPath: "baseApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "https://blogapp-apis.onrender.com/api",
-        // baseUrl: "http://localhost:3500/api",
+        // baseUrl: "https://blogapp-apis.onrender.com/api",
+        baseUrl: "http://localhost:3500/api",
         prepareHeaders: ((headers) => {
             const token = JSON.parse(localStorage.getItem("accessToken"));
             if (token) {

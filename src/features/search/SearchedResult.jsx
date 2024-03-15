@@ -1,18 +1,71 @@
-import React from 'react';
-import {useSearchParams} from "react-router-dom";
-import {useGetSearchedBlogsQuery} from "@/features/blogs/blogApi.js";
-import {BlogsList} from "@/features/index.js";
+import { useGetSearchedDataQuery } from "@/features/auth/authApi";
+import Author from "@/features/blogs/components/Author";
+import CategoryBtn from "@/features/categories/CategoryBtn";
+import { BlogsList } from "@/features/index.js";
+import { Tabs } from "antd";
+import { useSearchParams } from "react-router-dom";
 
 const SearchedResult = () => {
 
     const [searchParams, setSearchParams] = useSearchParams()
-    const query = searchParams.get("q")
+    const keyword = searchParams.get("q")
 
-    const {data: searchedBlogs, isLoading, isFetching} = useGetSearchedBlogsQuery(query, {
-        skip: !query,
+    const { data: searchedData, isLoading, isFetching } = useGetSearchedDataQuery(keyword, {
+        skip: !keyword,
     });
 
-    return <BlogsList blogs={searchedBlogs} loading={isLoading} title={`Blogs resulted by "${query}"`}/>
+    const blogs = searchedData?.blogs;
+    const authors = searchedData?.users;
+    const categories = searchedData?.categories;
+
+
+    const tabs = [
+        {
+            key: "1",
+            label: "Authors",
+            children: <div>
+                {
+                    authors?.length ? <div className="space-y-2">
+                        {
+                            authors?.map(author => <div key={author?._id} className={`p-3 rounded-sm hover:bg-black/[0.05] dark:hover:bg-white/10 duration-200`}>
+                                <Author author={author} isComment={true} />
+                            </div>)
+                        }
+                    </div> : <p className={`p-20 text-center text-gray-600 dark:text-gray-400`}>
+                        No author found!
+                    </p>
+                }
+            </div>
+        },
+        {
+            key: "2",
+            label: "Blogs",
+            children: <BlogsList blogs={blogs} loading={isLoading || isFetching} />
+        },
+        {
+            key: "3",
+            label: "Categories",
+            children: <div>
+                {
+                    categories?.length ? <div className="flex flex-wrap gap-2">
+                        {
+                            categories?.map(category => <CategoryBtn key={category?._id} category={category} />)
+                        }
+                    </div> : <p className={`p-20 text-center text-gray-600 dark:text-gray-400`}>
+                        No category found!
+                    </p>
+                }
+            </div>
+        },
+    ]
+
+    return <section className={`flex-1 max-w-6xl mx-auto`}>
+        <h2 className={`text-2xl font-semibold`}>
+            Result for &quot;{keyword}&quot;
+        </h2>
+        <Tabs defaultActiveKey="blogs" items={tabs} className={`mt-4`} />
+    </section>
 };
+
 
 export default SearchedResult;

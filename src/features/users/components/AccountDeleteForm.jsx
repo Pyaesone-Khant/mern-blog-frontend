@@ -71,7 +71,6 @@ const AccountDeleteForm = () => {
                     ]}>
                         <Input/>
                     </Form.Item>
-                    <div className={`py-3`}></div>
                     <CustomBtn variant={"danger"} htmlType={"submit"} className={`w-full`}>
                         Confirm Delete
                     </CustomBtn>
