@@ -5,8 +5,8 @@ const endPoint = "/comments"
 export const commentsApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllComments: builder.query({
-            query: () => ({
-                url: `${endPoint}`,
+            query: (blogId) => ({
+                url: `${endPoint}?blogId=${blogId}`,
                 method: "GET",
             }),
             providesTags: ["comment"],
@@ -34,7 +34,7 @@ export const commentsApi = baseApi.injectEndpoints({
             query: (id) => ({
                 url: `${endPoint}`,
                 method: "DELETE",
-                body: { id },
+                body: {id},
             }),
             invalidatesTags: ["comment"],
         }),
@@ -42,6 +42,14 @@ export const commentsApi = baseApi.injectEndpoints({
         getCommentById: builder.query({
             query: (id) => ({
                 url: `${endPoint}/${id}`,
+                method: "GET",
+            }),
+            providesTags: ["comment"],
+        }),
+
+        getCommentsByBlogId: builder.query({
+            query: (blogId) => ({
+                url: `${endPoint}?blogId=${blogId}`,
                 method: "GET",
             }),
             providesTags: ["comment"],
@@ -55,4 +63,5 @@ export const {
     useUpdateCommentMutation,
     useDeleteCommentMutation,
     useGetCommentByIdQuery,
+    useGetCommentsByBlogIdQuery
 } = commentsApi;

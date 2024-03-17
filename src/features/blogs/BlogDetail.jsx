@@ -1,28 +1,28 @@
-import { BackBtn, CustomBtn, LikeBtn, Loader } from "@/components";
+import {BackBtn, CustomBtn, LikeBtn, Loader} from "@/components";
 import RecommendedBlogsList from "@/features/blogs/RecommendedBlogsList.jsx";
 import BlogsByAuthor from "@/features/blogs/components/BlogsByAuthor.jsx";
-import { toggleEdit } from "@/features/comments/commentSlice.js";
-import { useAuth } from "@/hooks/useAuth.js";
-import { useCurrentUser } from "@/hooks/useCurrentUser.js";
-import { ErrorPage } from "@/pages";
-import { Form } from "antd";
-import { useEffect, useState } from "react";
-import { FaRegComment } from "react-icons/fa";
-import { GoArrowRight } from "react-icons/go";
-import { RxCross1 } from "react-icons/rx";
-import { useDispatch } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import {toggleEdit} from "@/features/comments/commentSlice.js";
+import {useAuth} from "@/hooks/useAuth.js";
+import {useCurrentUser} from "@/hooks/useCurrentUser.js";
+import {ErrorPage} from "@/pages";
+import {Form} from "antd";
+import {useEffect, useState} from "react";
+import {FaRegComment} from "react-icons/fa";
+import {GoArrowRight} from "react-icons/go";
+import {RxCross1} from "react-icons/rx";
+import {useDispatch} from "react-redux";
+import {useLocation, useParams} from "react-router-dom";
 import CommentForm from "../comments/CommentForm";
 import CommentsList from "../comments/CommentsList";
-import { useGetAllCommentsQuery } from "../comments/commentsApi";
-import { useGetBlogByIdQuery } from "./blogApi";
+import {useGetBlogByIdQuery} from "./blogApi";
 import BlogCard from "./components/BlogCard.jsx";
+import {useGetCommentsByBlogIdQuery} from "@/features/comments/commentsApi.js";
 
 const BlogDetail = () => {
     const [openDrawer, setOpenDrawer] = useState(false);
-    const { slug } = useParams();
-    const { token } = useAuth();
-    const { currentUser } = useCurrentUser();
+    const {slug} = useParams();
+    const {token} = useAuth();
+    const {currentUser} = useCurrentUser();
     const location = useLocation();
     const [form] = Form.useForm();
 
@@ -30,18 +30,16 @@ const BlogDetail = () => {
     const pathName = location.pathname;
     const dispatch = useDispatch();
 
-    const { data: blog, isLoading } = useGetBlogByIdQuery(blogId, {
+    const {data: blog, isLoading} = useGetBlogByIdQuery(blogId, {
         skip: !blogId,
     });
     const isUserAuthor = blog?.userId === currentUser?._id;
 
     // comments list
-    const { data: commentsData, isLoading: isBCLoading } =
-        useGetAllCommentsQuery();
-    const blogsComments = commentsData?.data?.filter(
-        (item) => item.blogId === blogId
-    );
-
+    const {data: blogComments, isLoading: isBCLoading} = useGetCommentsByBlogIdQuery(blogId, {
+        skip: !blogId
+    })
+    
     useEffect(() => {
         if (blog && pathName.includes(slug)) {
             document.title = blog.title;
@@ -60,36 +58,36 @@ const BlogDetail = () => {
     if (isLoading || isBCLoading) {
         return (
             <div className="w-full flex items-center justify-center max-w-2xl mx-auto ">
-                <Loader />
+                <Loader/>
             </div>
         );
     }
 
     return blog ? (
         <section className="w-full comments pb-10 max-w-2xl mx-auto flex flex-col gap-8">
-            <BackBtn isDetail={true} />
-            <BlogCard blog={blog} isDetail={true} />
+            <BackBtn isDetail={true}/>
+            <BlogCard blog={blog} isDetail={true}/>
             <div
                 className={`flex items-center justify-evenly border-t border-b border-darkBgSec/10 dark:border-gray-700 py-3`}
             >
-                <LikeBtn blog={blog} />
+                <LikeBtn blog={blog}/>
                 <button
                     onClick={() => setOpenDrawer(true)}
                     className={`reaction-btn flex items-center gap-2`}
                 >
-                    <FaRegComment />
+                    <FaRegComment/>
                     <p className=" text-sm font-medium tracking-widest ">
                         {" "}
                         <span className={`font-grm mr-1`}>
-                            {blogsComments?.length > 0
-                                ? blogsComments?.length
-                                : ""}
+                            {blogComments?.length > 0
+                                ? blogComments?.length
+                                : null}
                         </span>
-                        {blogsComments?.length > 1
+                        {blogComments?.length > 1
                             ? "Comments"
-                            : blogsComments?.length === 1
-                            ? "Comment"
-                            : ""}
+                            : blogComments?.length === 1
+                                ? "Comment"
+                                : ""}
                     </p>
                 </button>
             </div>
@@ -115,11 +113,11 @@ const BlogDetail = () => {
                         Comments{" "}
                         <span className={`font-grm font-medium`}>
                             {" "}
-                            ({blogsComments?.length}){" "}
+                            ({blogComments?.length || 0}){" "}
                         </span>
                     </h2>
                     <button onClick={closeDrawer} className={`text-lg`}>
-                        <RxCross1 />
+                        <RxCross1/>
                     </button>
                 </div>
                 {!token && (
@@ -127,7 +125,7 @@ const BlogDetail = () => {
                         className={`flex items-center p-5 bg-cBlue/10 dark:bg-darkTer/10 gap-5`}
                     >
                         <p className={`w-full`}>
-                            You need to login <br /> to comment on this blog!
+                            You need to login <br/> to comment on this blog!
                         </p>
                         <CustomBtn
                             variant="outline"
@@ -136,7 +134,7 @@ const BlogDetail = () => {
                             href="/login"
                             className={`gap-1 !rounded-full hover:!bg-cBlue dark:hover:!bg-darkTer hover:!text-white dark:hover:!text-white duration-200`}
                         >
-                            Login <GoArrowRight />
+                            Login <GoArrowRight/>
                         </CustomBtn>
                     </div>
                 )}
@@ -145,8 +143,8 @@ const BlogDetail = () => {
                         token ? "pt-2" : "pt-0"
                     } flex-1 flex flex-col`}
                 >
-                    {token && <CommentForm blogId={blogId} form={form} />}
-                    <CommentsList blogComments={blogsComments} />
+                    {token && <CommentForm blogId={blogId} form={form}/>}
+                    <CommentsList blogComments={blogComments}/>
                 </div>
             </div>
 
@@ -154,7 +152,7 @@ const BlogDetail = () => {
                 <div
                     className={`pb-10 border-b border-black/20 dark:border-white/20`}
                 >
-                    <BlogsByAuthor authorId={blog?.userId} blogId={blogId} />
+                    <BlogsByAuthor authorId={blog?.userId} blogId={blogId}/>
                 </div>
             )}
 
@@ -164,7 +162,7 @@ const BlogDetail = () => {
             />
         </section>
     ) : (
-        <ErrorPage type={"blog"} />
+        <ErrorPage type={"blog"}/>
     );
 };
 

@@ -1,12 +1,20 @@
 import React from 'react';
-import {useGetSavedBlogsQuery, useGetUserByIdQuery} from "@/features/users/UserApi.js";
-import {Link} from "react-router-dom";
+
+// components
 import Author from "@/features/blogs/components/Author.jsx";
-import {useAuth} from "@/hooks/useAuth.js";
-import {useGetRandomBlogsQuery} from "@/features/blogs/blogApi.js";
-import {useSlugChanger} from "@/hooks/useSlugChanger.js";
-import {formatDate} from "@/utils.js";
+import {Link} from "react-router-dom";
 import {Skeleton} from "antd";
+
+// apis
+import {useGetSavedBlogsQuery, useGetUserByIdQuery} from "@/features/users/UserApi.js";
+import {useGetRandomBlogsQuery} from "@/features/blogs/blogApi.js";
+
+// hooks
+import {useAuth} from "@/hooks/useAuth.js";
+import {useSlugChanger} from "@/hooks/useSlugChanger.js";
+
+// utils
+import {formatDate} from "@/utils.js";
 
 const RecentlySavedBlogs = () => {
 

@@ -1,13 +1,21 @@
-import {useNavigate} from "react-router-dom";
-import {useLoginAccountMutation} from "./authApi";
-import {useDispatch} from "react-redux";
-import {setLoginState} from "./authSlice";
+// components
 import {BackBtn, CustomBtn} from "@/components";
-import {setAlertMessage} from "@/core/globalSlice.js";
-import {Form, Input} from "antd";
-import {useAuth} from "@/hooks/useAuth.js";
-import Cookies from "js-cookie";
 import AuthComponentWrapper from "@/features/auth/AuthComponentWrapper.jsx";
+import {Form, Input} from "antd";
+
+// hooks
+import {useAuth} from "@/hooks/useAuth.js";
+
+// apis
+import {useLoginAccountMutation} from "./authApi";
+
+// reducers
+import {setLoginState} from "./authSlice";
+import {setAlertMessage} from "@/core/globalSlice.js";
+
+//third-party
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -17,14 +25,10 @@ const Login = () => {
 
     const onSubmit = async (userData) => {
         try {
-            const {data} = await loginAccount(userData);
-            if (data?.success) {
+            const {data, error} = await loginAccount(userData);
+            if (data) {
                 saveToken(data?.token);
                 saveExpiredAt(data?.expiredAt);
-                const tokenExpireDate = new Date(data?.expiredAt);
-                Cookies.set("accessToken", data?.token, {
-                    expires: tokenExpireDate
-                });
                 dispatch(
                     setLoginState({
                         isLoggedIn: true,
@@ -34,7 +38,7 @@ const Login = () => {
                 dispatch(setAlertMessage({type: "success", content: "Login successful!"}))
                 nav("/");
             } else {
-                dispatch(setAlertMessage({type: "error", content: data?.message}))
+                dispatch(setAlertMessage({type: "error", content: error?.data?.message || "Login failed!"}))
             }
         } catch (error) {
             throw new Error(error);

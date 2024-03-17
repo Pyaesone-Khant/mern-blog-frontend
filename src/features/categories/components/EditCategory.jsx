@@ -1,10 +1,20 @@
 import React, {useEffect, useState} from 'react';
+
+// icons
+import {AiOutlineEdit} from "react-icons/ai";
+
+// components
 import {CustomBtn, CustomModal} from "@/components/index.js";
 import {Form, Input} from "antd";
+
+// apis
 import {useUpdateCategoryMutation} from "@/features/categories/categoriesApi.js";
-import {useDispatch} from "react-redux";
+
+// reducers
 import {setAlertMessage} from "@/core/globalSlice.js";
-import {AiOutlineEdit} from "react-icons/ai";
+
+// redux
+import {useDispatch} from "react-redux";
 
 const EditCategory = ({category}) => {
 

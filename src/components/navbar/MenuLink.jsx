@@ -1,5 +1,8 @@
-import {Link} from "react-router-dom";
+// utils
 import {cn} from "@/utils.js";
+
+// router
+import {Link} from "react-router-dom";
 
 const MenuLink = ({path, title, className, ...props}) => {
     return (

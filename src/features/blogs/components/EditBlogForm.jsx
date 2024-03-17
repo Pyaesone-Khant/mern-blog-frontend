@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import {useGetBlogByIdQuery, useUpdateBlogMutation} from "../blogApi.js";
 import {useLocation, useNavigate} from "react-router-dom";
-import {CustomBtn, FormLabel, Loader} from "@/components/index.js";
+import {CustomBtn, FormLabel} from "@/components/index.js";
 import {useDispatch} from "react-redux";
 import {setAlertMessage} from "@/core/globalSlice.js";
 import {Form, Input, Upload} from "antd";
@@ -33,12 +33,12 @@ const EditBlogForm = () => {
         formData.append("blogData", JSON.stringify(updatedBlogData));
 
         try {
-            const {data} = await updateBlog(formData);
-            if (data?.success) {
+            const {data, error} = await updateBlog(formData);
+            if (data) {
                 nav("/");
                 dispatch(setAlertMessage({type: "success", content: data?.message}))
             } else {
-                dispatch(setAlertMessage({type: "error", content: data?.message}))
+                dispatch(setAlertMessage({type: "error", content: error?.data?.message}))
             }
         } catch (error) {
             throw new Error(error);
@@ -74,19 +74,18 @@ const EditBlogForm = () => {
         }
     }, [currentBlog]);
 
-    if (isBlogDataLoading || isFetching) {
-        return (
-            <div className="w-full flex items-center justify-center ">
-                <Loader/>
-            </div>
-        );
-    }
+    // if (isBlogDataLoading || isFetching) {
+    //     return (
+    //         <div className="w-full flex items-center justify-center ">
+    //             <Loader/>
+    //         </div>
+    //     );
+    // }
 
     return (
         <section className=" w-full">
             <div className="max-w-4xl mx-auto w-full">
                 <h2 className="form-tlt mb-8"> Edit Blog </h2>
-
                 <Form form={form} layout={"vertical"} onFinish={onSubmit}>
                     <div className={`flex flex-col md:flex-row items-start justify-between md:gap-6 w-full`}>
                         <Form.Item label={<FormLabel label={"title"}/>} name={"title"} rules={[

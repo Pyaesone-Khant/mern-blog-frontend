@@ -1,16 +1,25 @@
-import CommentActionsMenu from "@/features/comments/CommentActionsMenu.jsx";
-import { useState } from "react";
+import {useState} from "react";
+
+// components
 import Author from "../blogs/components/Author.jsx";
-import { useGetUserByIdQuery, useGetUserDataQuery } from "../users/UserApi";
+import CommentActionsMenu from "@/features/comments/CommentActionsMenu.jsx";
 import EditCommentForm from "./EditCommentForm";
 
-const CommentCard = ({ commentItem }) => {
-    const { data: author } = useGetUserByIdQuery(commentItem?.userId);
+// hooks
+import {useCurrentUser} from "@/hooks/useCurrentUser.js";
+
+// api
+import {useGetUserByIdQuery} from "../users/UserApi";
+
+const CommentCard = ({commentItem}) => {
 
     const [isEditing, setIsEditing] = useState(false);
-    const toggleEditing = () => setIsEditing(!isEditing);
+    const {currentUser} = useCurrentUser();
+    const {data: author} = useGetUserByIdQuery(commentItem?.userId, {
+        skip: !commentItem?.userId
+    });
 
-    const { data: currentUser } = useGetUserDataQuery();
+    const toggleEditing = () => setIsEditing(!isEditing);
 
     return (
         <section
@@ -19,14 +28,13 @@ const CommentCard = ({ commentItem }) => {
             {!isEditing ? (
                 <div>
                     <div className="flex items-center justify-between mb-1">
-                        <Author author={author} isComment={true} />
+                        <Author author={author} isComment={true}/>
                         {currentUser?._id === author?._id ||
                         currentUser?.email === "admin123@gmail.com" ? (
                             <div className="flex items-center gap-3 ">
                                 <CommentActionsMenu
                                     toggleEditing={toggleEditing}
                                     commentId={commentItem?._id}
-                                    returnPath={`/blogs/${commentItem?.blogId}`}
                                 />
                             </div>
                         ) : (

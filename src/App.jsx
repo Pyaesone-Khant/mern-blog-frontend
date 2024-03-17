@@ -1,4 +1,6 @@
-import {Route, Routes} from "react-router-dom";
+import {useEffect} from "react";
+
+// components
 import MainLayout from "@/layouts/MainLayout";
 import {
     ADForm,
@@ -20,11 +22,16 @@ import {
 } from "@/features";
 import {ErrorPage, HomePage} from "./pages";
 import {IsAdmin, IsAuth, IsNotAuth, OTPGuard} from "@/components";
-import {useDispatch, useSelector} from "react-redux";
+
+// router
+import {Route, Routes} from "react-router-dom";
+
+// antd
 import {ConfigProvider, notification} from "antd";
-import {useEffect} from "react";
+
+// redux
 import {setAlertMessage} from "@/core/globalSlice.js";
-import "@/core/css/antdConfig.css"
+import {useDispatch, useSelector} from "react-redux";
 
 const App = () => {
 

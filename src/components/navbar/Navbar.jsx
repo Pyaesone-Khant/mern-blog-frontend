@@ -1,25 +1,39 @@
-import { CustomBtn, Logo } from "@/components/index.js";
-import SearchBlogForm from "@/features/blogs/SearchBlogForm.jsx";
-import { setCurrentPage } from "@/features/blogs/blogSlice.js";
-import { useAuth } from "@/hooks/useAuth.js";
-import { useResponsive } from "@/hooks/useResponsive.js";
-import { cn } from "@/utils.js";
-import { useEffect, useState } from "react";
-import { MdOutlineSearch } from "react-icons/md";
-import { RxPencil2 } from "react-icons/rx";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import {useEffect, useState} from "react";
+
+// icons
+import {MdOutlineSearch} from "react-icons/md";
+import {RxPencil2} from "react-icons/rx";
+
+// styles
+import "./link.css";
+
+// components
+import {CustomBtn, Logo} from "@/components/index.js";
 import ThemeBtn from "../antd/btns/ThemeBtn";
 import AccountMenu from "./AccountMenu";
 import CNavlink from "./CNavlink";
-import "./link.css";
+import SearchBar from "@/components/navbar/SearchBar.jsx";
+
+// hooks
+import {useAuth} from "@/hooks/useAuth.js";
+import {useResponsive} from "@/hooks/useResponsive.js";
+
+// reducers
+import {setCurrentPage} from "@/features/blogs/blogSlice.js";
+
+// utils
+import {cn} from "@/utils.js";
+
+// third-party
+import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 const Navbar = () => {
     const [isActive, setIsActive] = useState(false);
-    const { token } = useAuth();
+    const {token} = useAuth();
     const dispatch = useDispatch();
     const nav = useNavigate();
-    const { isMobile } = useResponsive();
+    const {isMobile} = useResponsive();
 
     useEffect(() => {
         if (!isMobile) {
@@ -37,7 +51,8 @@ const Navbar = () => {
     };
 
     return (
-        <header className="py-3 sticky top-0 shadow-lg border-b z-20 backdrop-blur-2xl bg-white dark:bg-darkBgSec dark:text-white dark:border-darkTer/20 duration-200">
+        <header
+            className="py-3 sticky top-0 shadow-lg border-b z-20 backdrop-blur-2xl bg-white dark:bg-darkBgSec dark:text-white dark:border-darkTer/20 duration-200">
             <nav className="md:w-[95%] w-[90%] mx-auto flex items-center justify-between">
                 <div className={`flex items-center gap-5`}>
                     <Logo
@@ -51,10 +66,10 @@ const Navbar = () => {
                                 `px-0 py-0 w-9 h-9 !rounded-full flex items-center justify-center`
                             )}
                         >
-                            <MdOutlineSearch className={`!text-lg`} />
+                            <MdOutlineSearch className={`!text-lg`}/>
                         </CustomBtn>
                     ) : (
-                        <SearchBlogForm />
+                        <SearchBar/>
                     )}
                 </div>
                 {token ? (
@@ -67,12 +82,12 @@ const Navbar = () => {
                                 write
                             </CNavlink>
                         )}
-                        <ThemeBtn />
-                        <AccountMenu />
+                        <ThemeBtn/>
+                        <AccountMenu/>
                     </nav>
                 ) : (
                     <nav className={cn("flex items-center gap-3")}>
-                        <ThemeBtn />
+                        <ThemeBtn/>
                         <CNavlink
                             href={"/register"}
                             className={`!text-cBlue dark:!text-darkTer`}
@@ -90,7 +105,7 @@ const Navbar = () => {
             </nav>
             {isActive && (
                 <div className={`pt-3 px-6`}>
-                    <SearchBlogForm event={() => setIsActive(false)} />
+                    <SearchBar event={() => setIsActive(false)}/>
                 </div>
             )}
         </header>

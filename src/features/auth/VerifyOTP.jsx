@@ -1,14 +1,24 @@
-import {Link, useLocation, useNavigate} from "react-router-dom";
-import OTPInput from "react-otp-input";
 import {useEffect, useState} from "react";
+
+// icons
+import {MdOutlineArrowBack} from "react-icons/md";
+
+// components
 import {CustomBtn} from "@/components/index.js";
+import AuthComponentWrapper from "@/features/auth/AuthComponentWrapper.jsx";
+import OTPInput from "react-otp-input";
+import {Form} from "antd";
+
+// apis
 import {useResendOTPMutation, useVerifyOTPMutation} from "@/features/auth/authApi.js";
-import {useDispatch} from "react-redux";
+
+// reducers
 import {setAlertMessage} from "@/core/globalSlice.js";
 import {logoutAccount, setLoginState} from "@/features/auth/authSlice.js";
-import {Form} from "antd";
-import {MdOutlineArrowBack} from "react-icons/md";
-import AuthComponentWrapper from "@/features/auth/AuthComponentWrapper.jsx";
+
+// third-party
+import {Link, useLocation, useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
 
 const VerifyOTP = () => {
     const location = useLocation();

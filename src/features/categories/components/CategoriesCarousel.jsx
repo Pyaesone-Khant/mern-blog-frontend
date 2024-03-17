@@ -1,11 +1,23 @@
 import {useCallback, useEffect, useState} from 'react';
-import useEmblaCarousel from "embla-carousel-react";
+
+// icons
+import {MdOutlineArrowBackIos, MdOutlineArrowForwardIos} from "react-icons/md";
+
+// styles
 import "./style.css"
+
+// components
 import CategoryBtn from "@/features/categories/CategoryBtn.jsx";
 import {CustomBtn} from "@/components/index.js";
-import {MdOutlineArrowBackIos, MdOutlineArrowForwardIos} from "react-icons/md";
-import {cn} from "@/utils.js";
+
+// hooks
 import {useResponsive} from "@/hooks/useResponsive.js";
+
+// utils
+import {cn} from "@/utils.js";
+
+// third party
+import useEmblaCarousel from "embla-carousel-react";
 
 const CategoriesCarousel = ({categories}) => {
 

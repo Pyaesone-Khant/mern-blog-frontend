@@ -1,13 +1,17 @@
 import React from 'react';
 import {useLocation} from "react-router-dom";
+
+// components
+import {CatList} from "@/features/index.js";
+import {Loader} from "@/components/index.js";
+import BlogCard from "@/features/blogs/components/BlogCard.jsx";
+
+// apis
 import {
     useGetAllCategoriesQuery,
     useGetBlogsByCategoryQuery,
     useGetCategoryByIdQuery
 } from "@/features/categories/categoriesApi.js";
-import BlogCard from "@/features/blogs/components/BlogCard.jsx";
-import {Loader} from "@/components/index.js";
-import {CatList} from "@/features/index.js";
 
 const BlogsListByCategory = () => {
     const categoryId = useLocation()?.state

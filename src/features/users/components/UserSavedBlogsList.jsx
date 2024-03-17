@@ -1,7 +1,13 @@
 import React from 'react';
-import {useCurrentUser} from "@/hooks/useCurrentUser.js";
-import {useGetSavedBlogsQuery} from "@/features/users/UserApi.js";
+
+// components
 import {BlogsList} from "@/features/index.js";
+
+// apis
+import {useGetSavedBlogsQuery} from "@/features/users/UserApi.js";
+
+// hooks
+import {useCurrentUser} from "@/hooks/useCurrentUser.js";
 
 const UserSavedBlogsList = () => {
 

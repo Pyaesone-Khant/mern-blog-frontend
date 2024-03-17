@@ -1,7 +1,7 @@
-import { CustomBtn, CustomModal } from "@/components/index.js";
-import React from "react";
+// components
+import {CustomBtn, CustomModal} from "@/components/index.js";
 
-const LoginAlertModal = ({ isOpen, closeModal, content = "" }) => {
+const LoginAlertModal = ({isOpen, closeModal, content = ""}) => {
     return (
         <CustomModal
             isOpen={isOpen}

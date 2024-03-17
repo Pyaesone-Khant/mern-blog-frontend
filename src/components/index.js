@@ -26,8 +26,5 @@ export {default as BackBtn} from "./antd/btns/BackButton.jsx"
 export {default as CustomModal} from "./modals/CustomModal.jsx"
 export {default as LoginAlertModal} from "./modals/LoginAlertModal.jsx"
 
-//titleLink
-export {default as BTLink} from "./titleLink/TitleLink";
-
 //formlabel
 export {default as FormLabel} from "./FormLabel.jsx"

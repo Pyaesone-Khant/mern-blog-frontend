@@ -1,6 +1,7 @@
-import { RxCross1 } from "react-icons/rx";
+// icons
+import {RxCross1} from "react-icons/rx";
 
-const ModalHeader = ({ title, event, isDeleteModal }) => {
+const ModalHeader = ({title, event, isDeleteModal}) => {
     return (
         <div
             className={`modal-header ${
@@ -13,7 +14,7 @@ const ModalHeader = ({ title, event, isDeleteModal }) => {
                 className={`text-gray-300 text-2xl outline-none`}
             >
                 {" "}
-                <RxCross1 />{" "}
+                <RxCross1/>{" "}
             </button>
         </div>
     );

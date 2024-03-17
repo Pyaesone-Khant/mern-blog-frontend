@@ -1,16 +1,23 @@
-import { CustomBtn, FormLabel } from "@/components/index.js";
-import { setAlertMessage } from "@/core/globalSlice.js";
-import { logoutAccount, setLoginState } from "@/features/auth/authSlice.js";
-import { useChangeUserPasswordMutation } from "@/features/users/UserApi.js";
-import ModalHeader from "@/features/users/components/ModalHeader.jsx";
-import { Form, Input, Modal } from "antd";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import {useState} from "react";
 
-const ChangeNameModal = ({ isUserAuth }) => {
+// components
+import ModalHeader from "@/features/users/components/ModalHeader.jsx";
+import {CustomBtn, FormLabel} from "@/components/index.js";
+import {Form, Input, Modal} from "antd";
+
+// apis
+import {useChangeUserPasswordMutation} from "@/features/users/UserApi.js";
+
+// reducers
+import {setAlertMessage} from "@/core/globalSlice.js";
+import {logoutAccount} from "@/features/auth/authSlice.js";
+
+// redux
+import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
+
+const ChangeNameModal = ({isUserAuth}) => {
     const [openModal, setOpenModal] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const [form] = Form.useForm();
 
     const dispatch = useDispatch();
@@ -19,37 +26,27 @@ const ChangeNameModal = ({ isUserAuth }) => {
     const closeModal = () => {
         setOpenModal(false);
         form.resetFields();
-        setIsSubmitting(false);
     };
 
-    const [changeUserPassword] = useChangeUserPasswordMutation();
+    const [changeUserPassword, {isLoading}] = useChangeUserPasswordMutation();
     const onNameChange = async (values) => {
         try {
             delete values?.password_confirmation;
-            setIsSubmitting(true);
-            const { data } = await changeUserPassword(values);
-            if (data?.success) {
+            const {data, error} = await changeUserPassword(values);
+            if (data) {
                 dispatch(
-                    setAlertMessage({ type: "success", content: data?.message })
-                );
-                dispatch(
-                    setLoginState({
-                        isLoggedIn: false,
-                        token: null,
-                    })
+                    setAlertMessage({type: "success", content: data?.message})
                 );
                 dispatch(logoutAccount());
                 closeModal();
                 nav("/login");
             } else {
                 dispatch(
-                    setAlertMessage({ type: "error", content: data?.message })
+                    setAlertMessage({type: "error", content: error?.data?.message})
                 );
             }
         } catch (error) {
             throw new Error(error);
-        } finally {
-            setIsSubmitting(false);
         }
     };
 
@@ -75,7 +72,7 @@ const ChangeNameModal = ({ isUserAuth }) => {
                 closeIcon={false}
                 className={`auth-modal`}
             >
-                <ModalHeader title={"change password"} event={closeModal} />
+                <ModalHeader title={"change password"} event={closeModal}/>
                 <Form
                     form={form}
                     onFinish={onNameChange}
@@ -83,7 +80,7 @@ const ChangeNameModal = ({ isUserAuth }) => {
                     className={`p-6 bg-cBlue/10`}
                 >
                     <Form.Item
-                        label={<FormLabel label={"current password"} />}
+                        label={<FormLabel label={"current password"}/>}
                         hasFeedback={true}
                         name={"password"}
                         rules={[
@@ -98,7 +95,7 @@ const ChangeNameModal = ({ isUserAuth }) => {
                         />
                     </Form.Item>
                     <Form.Item
-                        label={<FormLabel label={"password"} />}
+                        label={<FormLabel label={"password"}/>}
                         hasFeedback={true}
                         name={"newPassword"}
                         rules={[
@@ -119,7 +116,7 @@ const ChangeNameModal = ({ isUserAuth }) => {
                         />
                     </Form.Item>
                     <Form.Item
-                        label={<FormLabel label={"confirm password"} />}
+                        label={<FormLabel label={"confirm password"}/>}
                         hasFeedback={true}
                         name={"password_confirmation"}
                         dependencies={["newPassword"]}
@@ -128,7 +125,7 @@ const ChangeNameModal = ({ isUserAuth }) => {
                                 required: true,
                                 message: "Password confirmation is required!",
                             },
-                            ({ getFieldValue }) => ({
+                            ({getFieldValue}) => ({
                                 validator(_, value) {
                                     if (
                                         !value ||
@@ -153,6 +150,7 @@ const ChangeNameModal = ({ isUserAuth }) => {
                         htmlType={"submit"}
                         className={"mt-9 w-full"}
                         data="modal-button"
+                        loading={isLoading}
                     >
                         Confirm
                     </CustomBtn>

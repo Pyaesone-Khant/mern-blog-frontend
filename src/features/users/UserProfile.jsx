@@ -1,17 +1,27 @@
-import {useGetBlogByUserIdQuery} from "../blogs/blogApi";
-import {useGetSavedBlogsQuery, useGetUserByIdQuery, useGetUserDataQuery} from "../users/UserApi";
-import {Link, useLocation} from "react-router-dom";
+import React, {useEffect} from "react";
+
+// icons
+import {MdOutlineArrowForward} from "react-icons/md";
+
+// components
 import {Loader} from "@/components";
+import {BlogsList} from "@/features/index.js";
 import ChangeNameModal from "@/features/users/components/ChangeNameModal.jsx";
 import ChangePasswordModal from "@/features/users/components/ChangePasswordModal.jsx";
 import UserAvatar from "@/features/users/components/UserAvatar.jsx";
 import AccountDeleteForm from "@/features/users/components/AccountDeleteForm.jsx";
-import React, {useEffect} from "react";
+import {Link, useLocation} from "react-router-dom";
+
+// hooks
 import {useAuth} from "@/hooks/useAuth.js";
-import {BlogsList} from "@/features/index.js";
-import {MdOutlineArrowForward} from "react-icons/md";
 import {useSlugChanger} from "@/hooks/useSlugChanger.js";
 import {useResponsive} from "@/hooks/useResponsive.js";
+
+// apis
+import {useGetBlogByUserIdQuery} from "../blogs/blogApi";
+import {useGetSavedBlogsQuery, useGetUserByIdQuery, useGetUserDataQuery} from "../users/UserApi";
+
+// utils
 import {cn} from "@/utils.js";
 
 const UserProfile = () => {

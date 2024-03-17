@@ -1,42 +1,51 @@
-import { CustomBtn, FormLabel } from "@/components/index.js";
-import { setAlertMessage } from "@/core/globalSlice.js";
-import { useChangeUsernameMutation } from "@/features/users/UserApi.js";
-import ModalHeader from "@/features/users/components/ModalHeader.jsx";
-import { useCurrentUser } from "@/hooks/useCurrentUser.js";
-import { Form, Input, Modal } from "antd";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import {useEffect, useState} from "react";
 
-const ChangeNameModal = ({ user, isUserAuth }) => {
+// components
+import ModalHeader from "@/features/users/components/ModalHeader.jsx";
+import {CustomBtn, FormLabel} from "@/components/index.js";
+import {Form, Input, Modal} from "antd";
+
+// apis
+import {useChangeUsernameMutation} from "@/features/users/UserApi.js";
+
+// hooks
+import {useCurrentUser} from "@/hooks/useCurrentUser.js";
+
+// reducers
+import {setAlertMessage} from "@/core/globalSlice.js";
+
+// redux
+import {useDispatch} from "react-redux";
+
+const ChangeNameModal = ({user, isUserAuth}) => {
     const [openModal, setOpenModal] = useState(false);
     const [form] = Form.useForm();
     const dispatch = useDispatch();
-    const { currentUser } = useCurrentUser();
+    const {currentUser} = useCurrentUser();
 
     useEffect(() => {
         if (openModal) {
-            form.setFieldsValue({ name: currentUser?.name });
+            form.setFieldsValue({name: currentUser?.name});
         }
     }, [openModal]);
 
     const closeModal = () => {
         setOpenModal(false);
-        form.setFieldsValue({ name: currentUser?.name });
+        form.setFieldsValue({name: currentUser?.name});
     };
 
     const [changeUsername] = useChangeUsernameMutation();
-    const onNameChange = async ({ name }) => {
+    const onNameChange = async ({name}) => {
         try {
-            const updatedData = { name, id: user?._id };
-            const { data } = await changeUsername(updatedData);
-            if (data?.success) {
+            const {data, error} = await changeUsername(name);
+            if (data) {
                 dispatch(
-                    setAlertMessage({ content: data.message, type: "success" })
+                    setAlertMessage({content: data.message, type: "success"})
                 );
                 closeModal();
             } else {
                 dispatch(
-                    setAlertMessage({ content: data.message, type: "error" })
+                    setAlertMessage({content: error?.data?.message, type: "error"})
                 );
             }
         } catch (error) {
@@ -67,7 +76,7 @@ const ChangeNameModal = ({ user, isUserAuth }) => {
                 closeIcon={false}
                 className={`auth-modal`}
             >
-                <ModalHeader title={"change name"} event={closeModal} />
+                <ModalHeader title={"change name"} event={closeModal}/>
                 <Form
                     form={form}
                     onFinish={onNameChange}
@@ -75,7 +84,7 @@ const ChangeNameModal = ({ user, isUserAuth }) => {
                     className={`p-6 bg-cBlue/10 `}
                 >
                     <Form.Item
-                        label={<FormLabel label={"name"} />}
+                        label={<FormLabel label={"name"}/>}
                         name={"name"}
                         rules={[
                             {
@@ -93,7 +102,7 @@ const ChangeNameModal = ({ user, isUserAuth }) => {
                             },
                         ]}
                     >
-                        <Input placeholder={"Enter your name"} />
+                        <Input placeholder={"Enter your name"}/>
                     </Form.Item>
                     <CustomBtn
                         htmlType={"submit"}

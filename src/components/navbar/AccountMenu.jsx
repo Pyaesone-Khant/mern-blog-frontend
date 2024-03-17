@@ -1,28 +1,34 @@
-import { CustomBtn } from "@/components/index.js";
-import { logoutAccount, setLoginState } from "@/features/auth/authSlice";
-import { useAuth } from "@/hooks/useAuth.js";
-import { useCurrentUser } from "@/hooks/useCurrentUser.js";
-import { useResponsive } from "@/hooks/useResponsive.js";
-import { useSlugChanger } from "@/hooks/useSlugChanger.js";
-import { Dropdown, Modal } from "antd";
-import { useState } from "react";
-import { BiCategoryAlt } from "react-icons/bi";
-import { BsFileText } from "react-icons/bs";
-import {
-    MdAccountCircle,
-    MdOutlineBookmarks,
-    MdOutlineLogout,
-} from "react-icons/md";
-import { RxPencil2, RxPerson } from "react-icons/rx";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import {useState} from "react";
+
+// icons
+import {BiCategoryAlt} from "react-icons/bi";
+import {BsFileText} from "react-icons/bs";
+import {MdAccountCircle, MdOutlineBookmarks, MdOutlineLogout,} from "react-icons/md";
+import {RxPencil2, RxPerson} from "react-icons/rx";
+
+// components
+import {CustomBtn, CustomModal} from "@/components/index.js";
+import {Dropdown} from "antd";
 import MenuLink from "./MenuLink";
+
+// hooks
+import {useAuth} from "@/hooks/useAuth.js";
+import {useCurrentUser} from "@/hooks/useCurrentUser.js";
+import {useResponsive} from "@/hooks/useResponsive.js";
+import {useSlugChanger} from "@/hooks/useSlugChanger.js";
+
+// reducers
+import {logoutAccount, setLoginState} from "@/features/auth/authSlice";
+
+// third-party
+import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 const AccountMenu = () => {
     const [openModal, setOpenModal] = useState(false);
-    const { isMobile } = useResponsive();
-    const { saveToken, saveExpiredAt } = useAuth();
-    const { currentUser: user } = useCurrentUser();
+    const {isMobile} = useResponsive();
+    const {saveToken, saveExpiredAt} = useAuth();
+    const {currentUser: user} = useCurrentUser();
     const dispatch = useDispatch();
     const nav = useNavigate();
 
@@ -39,7 +45,7 @@ const AccountMenu = () => {
         saveExpiredAt("");
         dispatch(logoutAccount());
         setOpenModal(false);
-        nav("/", { replace: true });
+        nav("/", {replace: true});
     };
 
     const isAdmin = user?.email === "admin123@gmail.com";
@@ -47,8 +53,8 @@ const AccountMenu = () => {
     const menuItems = [
         isMobile && {
             key: "1",
-            label: <MenuLink title={"Write"} path={"/write"} />,
-            icon: <RxPencil2 className={`!text-lg stroke-[0.3px]`} />,
+            label: <MenuLink title={"Write"} path={"/write"}/>,
+            icon: <RxPencil2 className={`!text-lg stroke-[0.3px]`}/>,
         },
         isMobile && {
             type: "divider",
@@ -62,30 +68,30 @@ const AccountMenu = () => {
                     state={user?._id}
                 />
             ),
-            icon: <RxPerson className={`!text-lg stroke-[0.3px]`} />,
+            icon: <RxPerson className={`!text-lg stroke-[0.3px]`}/>,
         },
         {
             key: "3",
-            label: <MenuLink title={"Library"} path={`/users/${slug}/saved`} />,
-            icon: <MdOutlineBookmarks className={`!text-lg`} />,
+            label: <MenuLink title={"Library"} path={`/users/${slug}/saved`}/>,
+            icon: <MdOutlineBookmarks className={`!text-lg`}/>,
         },
         {
             key: "4",
-            label: <MenuLink title={"Blogs"} path={`/users/${slug}/blogs`} />,
-            icon: <BsFileText className={`!text-lg stroke-[0.3px]`} />,
+            label: <MenuLink title={"Blogs"} path={`/users/${slug}/blogs`}/>,
+            icon: <BsFileText className={`!text-lg stroke-[0.3px]`}/>,
         },
         isAdmin && {
             key: "5",
-            label: <MenuLink title={"Categories"} path={`/categories`} />,
-            icon: <BiCategoryAlt className={`!text-lg`} />,
+            label: <MenuLink title={"Categories"} path={`/categories`}/>,
+            icon: <BiCategoryAlt className={`!text-lg`}/>,
         },
         {
             key: "6",
             label: (
-                <MenuLink title={"Logout"} onClick={() => setOpenModal(true)} />
+                <MenuLink title={"Logout"} onClick={() => setOpenModal(true)}/>
             ),
             danger: true,
-            icon: <MdOutlineLogout className={`!text-lg`} />,
+            icon: <MdOutlineLogout className={`!text-lg`}/>,
         },
     ];
 
@@ -116,12 +122,10 @@ const AccountMenu = () => {
             </Dropdown>
 
             {/*    logout confirmation modal*/}
-            <Modal
-                open={openModal}
+            <CustomModal
+                isOpen={openModal}
                 title={"Are you sure you want to logout?"}
-                footer={null}
-                width={400}
-                onCancel={() => setOpenModal(false)}
+                closeModal={() => setOpenModal(false)}
             >
                 <div className={`flex justify-end pt-4 gap-2`}>
                     <CustomBtn
@@ -139,7 +143,7 @@ const AccountMenu = () => {
                         Yes
                     </CustomBtn>
                 </div>
-            </Modal>
+            </CustomModal>
         </div>
     );
 };

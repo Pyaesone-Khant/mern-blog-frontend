@@ -1,5 +1,9 @@
-import {useSlugChanger} from "@/hooks/useSlugChanger.js";
 import {Link, useLocation} from "react-router-dom";
+
+// hooks
+import {useSlugChanger} from "@/hooks/useSlugChanger.js";
+
+// utils
 import {cn} from "@/utils.js";
 
 const CategoryBtn = ({category}) => {

@@ -1,10 +1,19 @@
 import React, {useState} from 'react';
-import {CustomBtn, CustomModal} from "@/components/index.js";
+// icons
 import {MdOutlineAdd} from "react-icons/md";
+
+// components
+import {CustomBtn, CustomModal} from "@/components/index.js";
 import {Form, Input} from "antd";
+
+// apis
 import {useCreateCategoryMutation} from "@/features/categories/categoriesApi.js";
-import {useDispatch} from "react-redux";
+
+// reducers
 import {setAlertMessage} from "@/core/globalSlice.js";
+
+// redux
+import {useDispatch} from "react-redux";
 
 const AddNewCategory = () => {
 
@@ -16,7 +25,6 @@ const AddNewCategory = () => {
 
     const onFinish = async (values) => {
         const {data, error} = await createCategory(values)
-        console.log(error)
         if (data?.success) {
             dispatch(setAlertMessage({content: data?.message, type: "success"}))
             toggleModal();

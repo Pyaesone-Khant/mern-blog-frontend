@@ -1,5 +1,9 @@
 import React from 'react';
+
+// assets
 import {LogoDark, LogoLight} from "@/assets/index.js";
+
+// utils
 import {cn} from "@/utils.js";
 
 const Logo = ({className = "", ...props}) => {

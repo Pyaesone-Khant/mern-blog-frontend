@@ -1,14 +1,18 @@
-import { Loader } from "@/components/index.js";
+// components
+import {Loader} from "@/components/index.js";
 import BlogCard from "@/features/blogs/components/BlogCard.jsx";
-import { cn } from "@/utils.js";
 
-const UserSavedBlogsList = ({ title = null, blogs = [], loading, isRecommended = false }) => {
+// utils
+import {cn} from "@/utils.js";
 
-    if (loading) return <Loader />
+const UserSavedBlogsList = ({title = null, blogs = [], loading, isRecommended = false}) => {
+
+    if (loading) return <Loader/>
 
     return (
-        <section className={cn(`mx-auto w-full`, { "max-w-6xl": isRecommended })}>
-            {title && <h2 className={`md:text-2xl text-xl text-cBlue dark:text-darkTer font-bold capitalize mb-5`}>{title}</h2>}
+        <section className={cn(`mx-auto w-full`, {"max-w-6xl": isRecommended})}>
+            {title &&
+                <h2 className={`md:text-2xl text-xl text-cBlue dark:text-darkTer font-bold capitalize mb-5`}>{title}</h2>}
 
             {blogs?.length ? <div
                 className={cn(`mt-10`, {
@@ -16,9 +20,9 @@ const UserSavedBlogsList = ({ title = null, blogs = [], loading, isRecommended =
                     "space-y-6 mt-2": !isRecommended
                 })}>
                 {
-                    blogs?.map(blog => <BlogCard key={blog?._id} blog={blog} isRecommended={isRecommended} />)
+                    blogs?.map(blog => <BlogCard key={blog?._id} blog={blog} isRecommended={isRecommended}/>)
                 }
-            </div> : <p className={`p-20 text-center text-gray-600 dark:text-gray-400`}>
+            </div> : <p className={`p-20 text-center text-gray-600 dark:text-gray-400 text-base`}>
                 No blog found!
             </p>}
 

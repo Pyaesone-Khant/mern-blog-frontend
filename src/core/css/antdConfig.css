@@ -29,7 +29,7 @@
 
 /*ant dropdown*/
 .ant-dropdown-menu,
-.ant-upload>button {
+.ant-upload > button {
     border-radius: 2px !important;
 }
 
@@ -166,14 +166,14 @@ label {
     justify-content: space-between;
 }
 
-div:has(.dark)~div :where(.modal-header.bg-cBlue,
+div:has(.dark) ~ div :where(.modal-header.bg-cBlue,
     button[data="modal-button"],
     a[data="modal-button"]) {
     background-color: var(--darkTer) !important;
 }
 
 /*skeleton*/
-.ant-skeleton-paragraph>li,
+.ant-skeleton-paragraph > li,
 .ant-skeleton-title,
 .ant-skeleton-avatar,
 .ant-skeleton-image,
@@ -185,16 +185,16 @@ div:has(.dark)~div :where(.modal-header.bg-cBlue,
     .ant-skeleton-avatar,
     .ant-skeleton-image,
     .ant-skeleton-button),
-.dark .ant-skeleton-paragraph>li {
+.dark .ant-skeleton-paragraph > li {
     background-color: rgba(0, 255, 255, 0.08) !important;
 }
 
 .ant-skeleton-paragraph,
-.ant-skeleton-paragraph>li {
+.ant-skeleton-paragraph > li {
     margin-top: 8px !important;
 }
 
-.ant-skeleton-paragraph>li:last-child {
+.ant-skeleton-paragraph > li:last-child {
     max-width: 30% !important;
 }
 
@@ -253,7 +253,7 @@ div:has(.dark)~div :where(.modal-header.bg-cBlue,
     border-inline-start: none !important;
 }
 
-.ant-table-content tr>.ant-table-cell:first-child {
+.ant-table-content tr > .ant-table-cell:first-child {
     border-inline-start: 1px solid rgba(0, 0, 0, 0.2) !important;
 }
 
@@ -262,16 +262,31 @@ div:has(.dark)~div :where(.modal-header.bg-cBlue,
     border-color: var(--c8C) !important;
 }
 
-.dark .ant-table-content tr>.ant-table-cell:first-child {
+.dark .ant-table-content tr > .ant-table-cell:first-child {
     border-inline-start: 1px solid var(--c8C) !important;
 }
 
 /* tabs */
-.ant-tabs-tab-active>.ant-tabs-tab-btn {
+.ant-tabs, .ant-tabs-content-holder {
+    flex: 1 !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.ant-tabs-nav::before {
+    border-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.dark .ant-tabs-nav::before {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+
+.ant-tabs-tab-active > .ant-tabs-tab-btn {
     color: var(--cBlue) !important;
 }
 
-.dark .ant-tabs-tab-active>.ant-tabs-tab-btn {
+.dark .ant-tabs-tab-active > .ant-tabs-tab-btn {
     color: var(--darkTer) !important;
 }
 
@@ -282,13 +297,13 @@ div:has(.dark)~div :where(.modal-header.bg-cBlue,
 }
 
 .dark .ant-tabs-tab-btn {
-    color: rgb(255, 255, 255, 0.7) !important;
+    color: rgb(255, 255, 255, 0.5) !important;
 }
 
-.ant-tabs-ink-bar{
+.ant-tabs-ink-bar {
     background-color: var(--cBlue) !important;
 }
 
-.dark .ant-tabs-ink-bar{
+.dark .ant-tabs-ink-bar {
     background-color: var(--darkTer) !important;
 }

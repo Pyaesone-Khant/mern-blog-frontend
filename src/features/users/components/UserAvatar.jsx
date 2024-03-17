@@ -1,23 +1,34 @@
-import getCroppedImg from "@/components/crop/cropImage.js";
-import { CustomBtn, CustomModal, Spinner } from "@/components/index.js";
-import { setAlertMessage } from "@/core/globalSlice.js";
-import { useChangeUserAvatarMutation } from "@/features/users/UserApi.js";
-import { Modal } from "antd";
-import { useState } from "react";
-import Cropper from "react-easy-crop";
-import { MdAccountCircle, MdOutlineAdd } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import {useState} from "react";
 
-const UserAvatar = ({ user, isUserAuth }) => {
-    const dispatch = useDispatch();
+// icons
+import {MdAccountCircle, MdOutlineAdd} from "react-icons/md";
+
+// components
+import {CustomBtn, CustomModal, Spinner} from "@/components/index.js";
+
+// apis
+import {useChangeUserAvatarMutation} from "@/features/users/UserApi.js";
+
+// reducers
+import {setAlertMessage} from "@/core/globalSlice.js";
+
+// redux
+import {useDispatch} from "react-redux";
+
+// third-party
+import Cropper from "react-easy-crop";
+import getCroppedImg from "@/components/crop/cropImage.js";
+
+const UserAvatar = ({user, isUserAuth}) => {
 
     const [image, setImage] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [openRemoveModal, setOpenRemoveModal] = useState(false);
-    const [crop, setCrop] = useState({ x: 0, y: 0 });
+    const [crop, setCrop] = useState({x: 0, y: 0});
     const [zoom, setZoom] = useState(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-    const [changeUserAvatar, { isLoading }] = useChangeUserAvatarMutation();
+    const [changeUserAvatar, {isLoading}] = useChangeUserAvatarMutation();
+    const dispatch = useDispatch();
 
     const toggleRemoveModal = () => setOpenRemoveModal(!openRemoveModal);
 
@@ -34,7 +45,7 @@ const UserAvatar = ({ user, isUserAuth }) => {
                 })
             );
         } else {
-            setImage({ url: URL.createObjectURL(file), file });
+            setImage({url: URL.createObjectURL(file), file});
             setOpenModal(true);
         }
     };
@@ -61,22 +72,21 @@ const UserAvatar = ({ user, isUserAuth }) => {
             const profileImage = new File(
                 [croppedImage.file],
                 image.file.name,
-                { type: image.file.type }
+                {type: image.file.type}
             );
             let formData = new FormData();
             formData.append("profileImage", profileImage);
-            formData.append("id", user?._id);
             setOpenModal(false);
-            const { data } = await changeUserAvatar(formData);
-            if (data?.success) {
+            const {data, error} = await changeUserAvatar(formData);
+            if (data) {
                 dispatch(
-                    setAlertMessage({ content: data.message, type: "success" })
+                    setAlertMessage({content: data.message, type: "success"})
                 );
                 setImage(null);
                 setZoom(1);
             } else {
                 dispatch(
-                    setAlertMessage({ content: data.message, type: "error" })
+                    setAlertMessage({content: error?.data?.message, type: "error"})
                 );
             }
         } catch (error) {
@@ -87,11 +97,10 @@ const UserAvatar = ({ user, isUserAuth }) => {
     // removing profile image
     const onProfileRemove = async () => {
         try {
-            const { data } = await changeUserAvatar({
-                id: user?._id,
+            const {data, error} = await changeUserAvatar({
                 profileImage: null,
             });
-            if (data?.success) {
+            if (data) {
                 dispatch(
                     setAlertMessage({
                         content:
@@ -101,7 +110,7 @@ const UserAvatar = ({ user, isUserAuth }) => {
                 );
             } else {
                 dispatch(
-                    setAlertMessage({ content: data.message, type: "error" })
+                    setAlertMessage({content: error?.data.message, type: "error"})
                 );
             }
         } catch (error) {
@@ -136,23 +145,22 @@ const UserAvatar = ({ user, isUserAuth }) => {
                         loading={"lazy"}
                     />
                 ) : (
-                    <MdAccountCircle className={`w-full h-full`} />
+                    <MdAccountCircle className={`w-full h-full`}/>
                 )}
                 {isUserAuth && !isLoading && (
                     <div
                         className={`absolute bg-black/30 text-white w-full h-full flex group-hover:opacity-100 opacity-0 items-center justify-center duration-200 `}
                     >
-                        <MdOutlineAdd className={`text-4xl`} />
+                        <MdOutlineAdd className={`text-4xl`}/>
                     </div>
                 )}
             </label>
 
             {/* crop image modal */}
-            <Modal
-                open={openModal}
-                footer={null}
+            <CustomModal
+                isOpen={openModal}
                 centered={true}
-                onCancel={onCropImageModalCanceled}
+                closeModal={onCropImageModalCanceled}
                 title={"Crop Image"}
             >
                 <div className={`relative w-full aspect-square rounded-md `}>
@@ -191,14 +199,15 @@ const UserAvatar = ({ user, isUserAuth }) => {
                         variant={"cancel"}
                         size={"sm"}
                         onClick={onCropImageModalCanceled}
+                        disabled={isLoading}
                     >
                         Cancel
                     </CustomBtn>
-                    <CustomBtn onClick={onProfileChange} size={"sm"}>
+                    <CustomBtn onClick={onProfileChange} size={"sm"} data={"modal-button"} loading={isLoading}>
                         Crop & Upload
                     </CustomBtn>
                 </div>
-            </Modal>
+            </CustomModal>
 
             {/* remove image button */}
             <CustomBtn
@@ -243,7 +252,7 @@ const UserAvatar = ({ user, isUserAuth }) => {
                 <div
                     className={` w-full h-full z-20 bg-black/40 fixed top-0 left-0 flex items-center justify-center `}
                 >
-                    <Spinner />
+                    <Spinner/>
                 </div>
             )}
         </section>

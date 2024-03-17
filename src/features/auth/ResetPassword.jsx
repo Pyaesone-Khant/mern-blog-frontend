@@ -1,10 +1,17 @@
-import { CustomBtn } from "@/components/index.js";
-import { setAlertMessage } from "@/core/globalSlice.js";
+// components
+import {CustomBtn} from "@/components/index.js";
 import AuthComponentWrapper from "@/features/auth/AuthComponentWrapper.jsx";
-import { useResetPasswordMutation } from "@/features/auth/authApi.js";
-import { Form, Input } from "antd";
-import { useDispatch } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import {Form, Input} from "antd";
+
+// apis
+import {useResetPasswordMutation} from "@/features/auth/authApi.js";
+
+// reducers
+import {setAlertMessage} from "@/core/globalSlice.js";
+
+// third-party
+import {useDispatch} from "react-redux";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const ResetPassword = () => {
     const location = useLocation();
@@ -13,19 +20,19 @@ const ResetPassword = () => {
     const dispatch = useDispatch();
     const nav = useNavigate();
 
-    const [resetPassword, { isLoading }] = useResetPasswordMutation();
+    const [resetPassword, {isLoading}] = useResetPasswordMutation();
     const onSubmit = async (values) => {
         try {
-            const updatedData = { password: values?.password, email };
-            const { data } = await resetPassword(updatedData);
-            if (data?.success) {
+            const updatedData = {password: values?.password, email};
+            const {data, error} = await resetPassword(updatedData);
+            if (data) {
                 dispatch(
-                    setAlertMessage({ type: "success", content: data?.message })
+                    setAlertMessage({type: "success", content: data?.message})
                 );
-                nav("/login", { replace: true });
+                nav("/login", {replace: true});
             } else {
                 dispatch(
-                    setAlertMessage({ type: "error", content: data?.message })
+                    setAlertMessage({type: "error", content: error?.data?.message})
                 );
             }
         } catch (error) {
@@ -63,7 +70,7 @@ const ResetPassword = () => {
                         },
                     ]}
                 >
-                    <Input.Password placeholder={"Enter password"} />
+                    <Input.Password placeholder={"Enter password"}/>
                 </Form.Item>
                 <Form.Item
                     hasFeedback={true}
@@ -74,7 +81,7 @@ const ResetPassword = () => {
                             required: true,
                             message: "Password confirmation is required!",
                         },
-                        ({ getFieldValue }) => ({
+                        ({getFieldValue}) => ({
                             validator(_, value) {
                                 if (
                                     !value ||
@@ -91,7 +98,7 @@ const ResetPassword = () => {
                         }),
                     ]}
                 >
-                    <Input.Password placeholder={"Confirm your password"} />
+                    <Input.Password placeholder={"Confirm your password"}/>
                 </Form.Item>
                 <CustomBtn
                     htmlType={"submit"}

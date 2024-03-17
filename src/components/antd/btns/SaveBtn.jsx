@@ -1,11 +1,23 @@
 import {useState} from "react";
+
+// icons
 import {BsBookmarkCheckFill, BsBookmarkPlus} from "react-icons/bs";
-import {useDispatch} from "react-redux";
-import {useGetUserDataQuery, useSaveBlogsMutation,} from "@/features/users/UserApi";
-import {useNavigate} from "react-router-dom";
-import {setAlertMessage} from "@/core/globalSlice.js";
-import {useAuth} from "@/hooks/useAuth.js";
+
+// components
 import {LoginAlertModal} from "@/components/index.js";
+
+// api
+import {useGetUserDataQuery, useSaveBlogsMutation,} from "@/features/users/UserApi";
+
+// reducers
+import {setAlertMessage} from "@/core/globalSlice.js";
+
+// hooks
+import {useAuth} from "@/hooks/useAuth.js";
+
+// third-party
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
 
 const SaveBtn = ({blogId}) => {
 

@@ -1,15 +1,23 @@
-import {useGetUserByIdQuery} from "../../users/UserApi.js";
-import {useGetCategoryByIdQuery} from "../../categories/categoriesApi.js";
 import {memo, useEffect, useState} from "react";
-import {Skeleton, Tag} from "antd";
+
+// components
 import Author from "./Author.jsx";
-import {Link} from "react-router-dom";
-import {cn, formatDate} from "@/utils.js";
 import BlogCardFooter from "@/features/blogs/components/BlogCardFooter.jsx";
+import {Link} from "react-router-dom";
+import {Skeleton, Tag} from "antd";
+
+// utils
+import {cn, formatDate} from "@/utils.js";
+
+// hooks
 import {useSlugChanger} from "@/hooks/useSlugChanger.js";
 import {useCurrentUser} from "@/hooks/useCurrentUser.js";
 import {useResponsive} from "@/hooks/useResponsive.js";
 import {useAuth} from "@/hooks/useAuth.js";
+
+// apis
+import {useGetUserByIdQuery} from "@/features/users/UserApi.js";
+import {useGetCategoryByIdQuery} from "@/features/categories/categoriesApi.js";
 
 let BlogCard = ({blog, isDetail, isRecommended}) => {
     const {_id: blogId, blogImage, userId, createdAt, categoryId, title} = blog;
@@ -54,12 +62,13 @@ let BlogCard = ({blog, isDetail, isRecommended}) => {
 
     if (isULoading || isCLoading) {
         return (
-            <div className={cn({
-                "pb-5 border-b border-black/20 dark:border-white/20 flex items-center md:gap-10 gap-4": !isDetail && !isRecommended
+            <div className={cn("border-b border-black/20 dark:border-white/20 pb-5", {
+                "flex items-center md:gap-10 gap-4": !isDetail && !isRecommended,
+                "flex flex-col gap-4": isDetail || (isRecommended && !isMobile)
             })}>
-                <div className={`w-full space-y-1`}>
+                <div className={`w-full space-y-2`}>
                     <Skeleton active avatar={{
-                        className: `!w-10 !h-10 rounded-full`
+                        className: `!w-8 !h-8 rounded-full`
                     }}
                               title={{
                                   className: `!h-6 rounded-sm max-w-[180px] !my-0`
@@ -71,14 +80,17 @@ let BlogCard = ({blog, isDetail, isRecommended}) => {
                         className: `!h-8 rounded-sm !w-full md:max-w-[80%] max-w-[90%] !my-0`
                     }}
                               paragraph={{
-                                  rows: isMobile ? 3 : 4
+                                  rows: 3
                               }}
                               className={`flex items-center`}
                     />
                     <Skeleton.Button className={`mt-2 max-w-[100px] !w-full !rounded-full`} size={"small"}/>
                 </div>
                 <Skeleton.Image active={true}
-                                className={` !w-full !max-w-[120px] !h-full max-h-[120px] !aspect-square`}/>
+                                className={cn({
+                                    "!w-full !max-w-[120px] !h-full max-h-[120px] !aspect-square": !isDetail & !isRecommended,
+                                    " !w-full aspect-[5/3] !h-full": isDetail || (isRecommended && !isMobile)
+                                })}/>
             </div>
         );
     }
@@ -108,7 +120,7 @@ let BlogCard = ({blog, isDetail, isRecommended}) => {
             <div className={`w-full space-y-3`}>
                 <article className={cn("space-y-1")}>
                     {!isDetail && <Link {...linkProps}
-                                        className={cn(`capitalize font-bold text-lg md:text-xl w-fit cursor-pointer`, {" line-clamp-1 ": isRecommended})}> {blog?.title} </Link>}
+                                        className={cn(`capitalize font-bold text-lg md:text-xl w-fit cursor-pointer text-black dark:text-white`, {" line-clamp-1 ": isRecommended})}> {blog?.title} </Link>}
 
                     {/* description */}
                     <Link {...linkProps} className={cn(`text-sm leading-6 dark:text-gray-300 font-medium

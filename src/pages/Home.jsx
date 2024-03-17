@@ -1,9 +1,16 @@
+// components
+import {Loader} from "@/components/index.js";
 import {BLWithPagination, CatList, RSavedBlogs} from "@/features";
+
+// apis
 import {useGetAllBlogsQuery} from "@/features/blogs/blogApi";
 import {useGetAllCategoriesQuery} from "@/features/categories/categoriesApi";
-import {useSelector} from "react-redux";
+
+// hooks
 import {useResponsive} from "@/hooks/useResponsive.js";
-import {Loader} from "@/components/index.js";
+
+// redux
+import {useSelector} from "react-redux";
 
 const Home = () => {
     const {itemsPerPage, currentPage} = useSelector((state) => state.blog);

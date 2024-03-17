@@ -26,12 +26,13 @@ const CreateBlogForm = () => {
         formData.append("blogImage", blogImage);
 
         try {
-            const {data} = await createBlog(formData);
-            if (data?.success) {
+            const {data, error} = await createBlog(formData);
+            console.log(data, error)
+            if (data) {
                 dispatch(setAlertMessage({type: "success", content: "Your blog has been published successfully!"}))
                 nav("/");
             } else {
-                dispatch(setAlertMessage({type: "error", content: data?.message}))
+                dispatch(setAlertMessage({type: "error", content: error?.data?.message}))
             }
         } catch (error) {
             throw new Error(error);

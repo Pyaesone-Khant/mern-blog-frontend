@@ -1,7 +1,15 @@
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
+
+// styles
 import "./index.css";
+
+// components
+import App from "./App.jsx";
+
+// router
 import {BrowserRouter} from "react-router-dom";
+
+// redux
 import {Provider} from "react-redux";
 import {store} from "./features/store.js";
 import {DevSupport} from "@react-buddy/ide-toolbox";

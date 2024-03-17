@@ -1,10 +1,18 @@
 import React, {useState} from 'react';
-import {Form, Input, Modal} from "antd";
+
+// components
 import {CustomBtn, FormLabel} from "@/components/index.js";
-import {useDeleteUserMutation} from "@/features/users/UserApi.js";
 import ModalHeader from "@/features/users/components/ModalHeader.jsx";
+import {Form, Input, Modal} from "antd";
+
+// apis
+import {useDeleteUserMutation} from "@/features/users/UserApi.js";
+
+// redux
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
+
+// reducers
 import {setAlertMessage} from "@/core/globalSlice.js";
 import {logoutAccount, setLoginState} from "@/features/auth/authSlice.js";
 
@@ -71,7 +79,7 @@ const AccountDeleteForm = () => {
                     ]}>
                         <Input/>
                     </Form.Item>
-                    <CustomBtn variant={"danger"} htmlType={"submit"} className={`w-full`}>
+                    <CustomBtn variant={"danger"} htmlType={"submit"} className={`w-full`} loading={isLoading}>
                         Confirm Delete
                     </CustomBtn>
                 </Form>
