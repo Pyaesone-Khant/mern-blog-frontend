@@ -1,10 +1,20 @@
 import React from 'react';
-import {useGetBlogByUserIdQuery} from "@/features/blogs/blogApi.js";
-import {useGetUserByIdQuery} from "@/features/users/UserApi.js";
-import {BlogsList} from "@/features/index.js";
-import {Link} from "react-router-dom";
-import {useSlugChanger} from "@/hooks/useSlugChanger.js";
+
+// icons
 import {MdOutlineArrowForward} from "react-icons/md";
+
+// components
+import {BlogsList} from "@/features/index.js";
+
+// hooks
+import {useSlugChanger} from "@/hooks/useSlugChanger.js";
+
+// apis
+import {useGetUserByIdQuery} from "@/features/users/UserApi.js";
+import {useGetBlogByUserIdQuery} from "@/features/blogs/blogApi.js";
+
+// third-party
+import {Link} from "react-router-dom";
 
 const BlogsByAuthor = ({authorId, blogId}) => {
 

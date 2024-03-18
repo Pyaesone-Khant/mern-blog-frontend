@@ -14,10 +14,10 @@ export const userApi = baseApi.injectEndpoints({
         }),
 
         changeUsername: builder.mutation({
-            query: (user) => ({
+            query: (name) => ({
                 url: `${endPoint}`,
                 method: "PUT",
-                body: user,
+                body: {name},
             }),
             invalidatesTags: ["user"],
         }),

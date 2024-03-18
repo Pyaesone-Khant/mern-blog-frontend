@@ -1,10 +1,16 @@
-import React from 'react';
-import {CustomBtn} from "@/components/index.js";
-import {useNavigate} from "react-router-dom";
-import {cn} from "@/utils.js";
+// icons
+import { MdOutlineArrowBack } from "react-icons/md";
 
-const BackButton = ({isDetail}) => {
+// components
+import { CustomBtn } from "@/components/index.js";
 
+// utils
+import { cn } from "@/utils.js";
+
+// third-party
+import { useNavigate } from "react-router-dom";
+
+const BackButton = ({ isDetail }) => {
     const nav = useNavigate();
     const handleGoBack = () => {
         window.scrollTo({
@@ -12,13 +18,20 @@ const BackButton = ({isDetail}) => {
             behavior: "smooth",
         });
         nav(-1);
-    }
+    };
 
-    return <CustomBtn variant={"ghost"} size={"xs"}
-                      className={cn(`w-fit gap-1`, {"!text-black dark:!text-white": !isDetail})}
-                      onClick={handleGoBack}>
-        <span className={`text-2xl`}> &#8592; </span> Back
-    </CustomBtn>
+    return (
+        <CustomBtn
+            variant={"ghost"}
+            size={"xs"}
+            className={cn(`w-fit gap-1 px-0`, {
+                "!text-black dark:!text-white": !isDetail,
+            })}
+            onClick={handleGoBack}
+        >
+            <MdOutlineArrowBack className={`text-xl`} /> Back
+        </CustomBtn>
+    );
 };
 
 export default BackButton;

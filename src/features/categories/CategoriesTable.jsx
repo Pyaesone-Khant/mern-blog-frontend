@@ -1,10 +1,14 @@
 import React from 'react';
-import {useGetAllCategoriesQuery} from "@/features/categories/categoriesApi.js";
+
+// components
 import {Table} from "antd";
 import NumberOfBlogsByCategory from "@/features/categories/components/NumberOfBlogsByCategory.jsx";
 import EditCategory from "@/features/categories/components/EditCategory.jsx";
 import NumberOfAuthorsByCategory from "@/features/categories/components/NumberOfAuthorsByCategory.jsx";
 import AddNewCategory from "@/features/categories/components/AddNewCategory.jsx";
+
+// apis
+import {useGetAllCategoriesQuery} from "@/features/categories/categoriesApi.js";
 
 const CategoriesTable = () => {
 

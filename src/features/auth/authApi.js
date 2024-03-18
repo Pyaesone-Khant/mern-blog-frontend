@@ -1,4 +1,4 @@
-import {baseApi} from "@/core/baseApi.js";
+import { baseApi } from "@/core/baseApi.js";
 
 const endPoint = "/auth"
 
@@ -22,40 +22,40 @@ export const authApi = baseApi.injectEndpoints({
             invalidatesTags: ["auth", "user"],
         }),
 
-        forgotPassword : builder.mutation({
-            query : (email) => ({
-                url : `${endPoint}/forgot-password`,
-                method : "POST",
-                body : email,
+        forgotPassword: builder.mutation({
+            query: (email) => ({
+                url: `${endPoint}/forgot-password`,
+                method: "POST",
+                body: email,
             }),
-            invalidatesTags : ["auth"],
+            invalidatesTags: ["auth"],
         }),
 
-        resetPassword : builder.mutation({
-            query : (updatedData) => ({
-                url : `${endPoint}/reset-password`,
-                method : "POST",
-                body : updatedData,
+        resetPassword: builder.mutation({
+            query: (updatedData) => ({
+                url: `${endPoint}/reset-password`,
+                method: "POST",
+                body: updatedData,
             }),
-            invalidatesTags : ["auth"],
+            invalidatesTags: ["auth"],
         }),
 
-        verifyOTP : builder.mutation({
-            query : (userData) => ({
-                url : `${endPoint}/verify-otp`,
-                method : "POST",
-                body : userData,
+        verifyOTP: builder.mutation({
+            query: (userData) => ({
+                url: `${endPoint}/verify-otp`,
+                method: "POST",
+                body: userData,
             }),
-            invalidatesTags : ["auth"],
+            invalidatesTags: ["auth", "user"],
         }),
 
-        resendOTP : builder.mutation({
-            query : (email) => ({
-                url : `${endPoint}/resend-otp`,
-                method : "POST",
-                body : email,
+        resendOTP: builder.mutation({
+            query: (email) => ({
+                url: `${endPoint}/resend-otp`,
+                method: "POST",
+                body: email,
             }),
-            invalidatesTags : ["auth"]
+            invalidatesTags: ["auth"]
         }),
 
         logoutAccount: builder.mutation({
@@ -67,12 +67,20 @@ export const authApi = baseApi.injectEndpoints({
             invalidatesTags: ["auth"],
         }),
 
+        getSearchedData: builder.query({
+            query: (keyword) => ({
+                url: `${endPoint}/search?q=${keyword}`,
+                method: "GET"
+            }),
+            providesTags: ["blog", "user", "category", "auth"]
+        }),
+
         getRefreshToken: builder.query({
             query: () => ({
                 url: `${endPoint}/refresh-token`,
                 method: "GET",
             }),
-            providesTags: ["auth"],
+            providesTags: ["auth", "user"],
         })
     }),
 });
@@ -85,5 +93,6 @@ export const {
     useResetPasswordMutation,
     useVerifyOTPMutation,
     useResendOTPMutation,
+    useGetSearchedDataQuery,
     useGetRefreshTokenQuery,
 } = authApi;

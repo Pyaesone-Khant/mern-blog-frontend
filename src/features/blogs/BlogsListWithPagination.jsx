@@ -1,12 +1,23 @@
+// icons
+import {MdArrowBackIos, MdArrowForwardIos,} from "react-icons/md";
+
+// components
+import {Pagination} from "antd";
+import PaginateBtn from "@/components/antd/btns/PaginateBtn.jsx";
 import BlogCard from "./components/BlogCard.jsx";
 import BlogNotFound from "./BlogNotFound";
-import {Pagination} from "antd";
-import {useDispatch, useSelector} from "react-redux";
+
+// reducers
 import {setCurrentPage} from "@/features/blogs/blogSlice.js";
-import PaginateBtn from "@/components/antd/btns/PaginateBtn.jsx";
-import {MdArrowBackIos, MdArrowForwardIos,} from "react-icons/md";
+
+// hooks
 import {useResponsive} from "@/hooks/useResponsive.js";
+
+// utils
 import {cn} from "@/utils.js";
+
+// redux
+import {useDispatch, useSelector} from "react-redux";
 
 const BlogsListWithPagination = ({blogs, totalBlogs, loading}) => {
     const {itemsPerPage, currentPage} = useSelector((state) => state.blog);
@@ -54,7 +65,8 @@ const BlogsListWithPagination = ({blogs, totalBlogs, loading}) => {
             </div>
         </div>
         : (
-            <BlogNotFound/>)
+            <BlogNotFound/>
+        )
 
 
 };

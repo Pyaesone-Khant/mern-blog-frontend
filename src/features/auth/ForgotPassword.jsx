@@ -1,10 +1,15 @@
-import {Form, Input} from "antd";
+// components
 import {BackBtn, CustomBtn} from "@/components/index.js";
-import {useLocation, useNavigate} from "react-router-dom";
+import AuthComponentWrapper from "@/features/auth/AuthComponentWrapper.jsx";
+import {Form, Input} from "antd";
+
+// apis
 import {useForgotPasswordMutation} from "@/features/auth/authApi.js";
 import {setAlertMessage} from "@/core/globalSlice.js";
+
+// third-party
 import {useDispatch} from "react-redux";
-import AuthComponentWrapper from "@/features/auth/AuthComponentWrapper.jsx";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const ForgotPassword = () => {
 
@@ -17,12 +22,12 @@ const ForgotPassword = () => {
     const [forgotPassword, {isLoading}] = useForgotPasswordMutation()
     const onSubmit = async (values) => {
         try {
-            const {data} = await forgotPassword(values);
-            if (data?.success) {
+            const {data, error} = await forgotPassword(values);
+            if (data) {
                 nav("/verifyOtp", {state: {email: values?.email, prevRoute: currentRoute}});
                 dispatch(setAlertMessage({type: "success", content: data?.message}))
             } else {
-                dispatch(setAlertMessage({type: "error", content: data?.message}));
+                dispatch(setAlertMessage({type: "error", content: error?.data?.message || "Failed to send OTP!"}));
             }
         } catch (error) {
             throw new Error(error)

@@ -1,4 +1,6 @@
 import React from 'react';
+
+// apis
 import {useGetBlogsByCategoryQuery} from "@/features/categories/categoriesApi.js";
 
 const NumberOfBlogsByCategory = ({categoryId}) => {

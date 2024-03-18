@@ -1,14 +1,24 @@
-import {Link, useLocation, useNavigate} from "react-router-dom";
-import OTPInput from "react-otp-input";
 import {useEffect, useState} from "react";
+
+// icons
+import {MdOutlineArrowBack} from "react-icons/md";
+
+// components
 import {CustomBtn} from "@/components/index.js";
+import AuthComponentWrapper from "@/features/auth/AuthComponentWrapper.jsx";
+import OTPInput from "react-otp-input";
+import {Form} from "antd";
+
+// apis
 import {useResendOTPMutation, useVerifyOTPMutation} from "@/features/auth/authApi.js";
-import {useDispatch} from "react-redux";
+
+// reducers
 import {setAlertMessage} from "@/core/globalSlice.js";
 import {logoutAccount, setLoginState} from "@/features/auth/authSlice.js";
-import {Form} from "antd";
-import {MdOutlineArrowBack} from "react-icons/md";
-import AuthComponentWrapper from "@/features/auth/AuthComponentWrapper.jsx";
+
+// third-party
+import {Link, useLocation, useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
 
 const VerifyOTP = () => {
     const location = useLocation();
@@ -47,19 +57,18 @@ const VerifyOTP = () => {
     const onOtpVerify = async (value) => {
         try {
             const {otpCode} = value;
-            const {data} = await verifyOTP({otp: otpCode, email, newEmail});
-            if (data?.success) {
+            const {data, error} = await verifyOTP({otp: otpCode, email, newEmail});
+            if (data) {
                 if (prevRoute === "/forgotPassword") {
                     dispatch(setAlertMessage({type: "success", content: "OTP verified successfully!"}))
                     nav("/resetPassword", {state: {email}, replace: true});
                 } else {
                     dispatch(setAlertMessage({type: "success", content: data?.message}))
-                    dispatch(setLoginState({isLoggedIn: false, user: null, token: null}))
                     dispatch(logoutAccount())
                     nav("/login", {replace: true});
                 }
             } else {
-                dispatch(setAlertMessage({type: "error", content: data?.message}))
+                dispatch(setAlertMessage({type: "error", content: error?.data?.message}))
             }
         } catch (error) {
             throw new Error(error);

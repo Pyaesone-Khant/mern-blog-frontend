@@ -1,5 +1,4 @@
 import {createSlice} from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
 
 const token = localStorage.getItem("accessToken") || null;
 
@@ -19,8 +18,9 @@ export const authSlice = createSlice({
             state.isLoggedIn = payload.isLoggedIn;
             state.token = payload.token;
         },
-        logoutAccount: () => {
-            Cookies.remove("token");
+        logoutAccount: (state) => {
+            state.isLoggedIn = false;
+            state.token = "";
             localStorage.setItem("token", "");
             localStorage.setItem("expiredAt", "");
         }

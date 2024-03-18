@@ -1,7 +1,13 @@
 import React from 'react';
+
+// components
 import {BlogsList} from "@/features/index.js";
-import {useCurrentUser} from "@/hooks/useCurrentUser.js";
+
+// apis
 import {useGetBlogByUserIdQuery} from "@/features/blogs/blogApi.js";
+
+// hooks
+import {useCurrentUser} from "@/hooks/useCurrentUser.js";
 
 const UserCreatedBlogsList = () => {
 

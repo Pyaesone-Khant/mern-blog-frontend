@@ -1,3 +1,4 @@
+// icons
 import { BsMoonFill, BsSunFill } from "react-icons/bs";
 
 const ThemeBtn = () => {
@@ -14,14 +15,14 @@ const ThemeBtn = () => {
     };
 
     return (
-            <button onClick={handleTheme} className="text-xl">
-                {" "}
-                {localStorage.getItem("theme") === "dark" ? (
-                    <BsSunFill />
-                ) : (
-                    <BsMoonFill />
-                )}{" "}
-            </button>
+        <button onClick={handleTheme} className="text-xl outline-none ">
+            {" "}
+            {localStorage.getItem("theme") === "dark" ? (
+                <BsSunFill />
+            ) : (
+                <BsMoonFill />
+            )}{" "}
+        </button>
     );
 };
 

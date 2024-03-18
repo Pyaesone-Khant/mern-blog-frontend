@@ -22,12 +22,14 @@
     /*background: rgba(255, 255, 255, 0.8) !important;*/
 }
 
-.ant-select-selection-placeholder, ::placeholder {
+.ant-select-selection-placeholder,
+::placeholder {
     color: #333333aa !important;
 }
 
 /*ant dropdown*/
-.ant-dropdown-menu, .ant-upload > button {
+.ant-dropdown-menu,
+.ant-upload > button {
     border-radius: 2px !important;
 }
 
@@ -35,7 +37,6 @@
     background-color: rgba(0, 0, 0, 0.1) !important;
     color: #000 !important;
 }
-
 
 label {
     font-size: 16px !important;
@@ -48,11 +49,13 @@ label {
 /*input*/
 .ant-input {
     /*font-weight: 500;*/
-    color: var(--darkBgSec)
+    color: var(--darkBgSec);
 }
 
 /*collapse*/
-.ant-collapse, .ant-collapse-item, .ant-collapse-content {
+.ant-collapse,
+.ant-collapse-item,
+.ant-collapse-content {
     border: none !important;
     background: transparent !important;
 }
@@ -66,7 +69,6 @@ label {
     display: none !important;
 }
 
-
 /* pagination */
 .ant-pagination {
     display: flex !important;
@@ -74,7 +76,8 @@ label {
     /*justify-content: center;*/
 }
 
-.ant-pagination :where(.ant-pagination-prev, .ant-pagination-next), .ant-pagination .ant-pagination-item {
+.ant-pagination :where(.ant-pagination-prev, .ant-pagination-next),
+.ant-pagination .ant-pagination-item {
     min-width: 35px !important;
     height: 35px !important;
     border: none !important;
@@ -90,30 +93,32 @@ label {
     justify-content: center;
 }
 
-.ant-pagination :where(.ant-pagination-prev, .ant-pagination-next) button, .ant-pagination .ant-pagination-item a {
+.ant-pagination :where(.ant-pagination-prev, .ant-pagination-next) button,
+.ant-pagination .ant-pagination-item a {
     color: #262626 !important;
     font-family: "Georama", sans-serif !important;
 }
 
 .ant-pagination .ant-pagination-item-active {
-    background-color: #2563EB !important;
+    background-color: #2563eb !important;
 }
 
 .ant-pagination .ant-pagination-item-active a {
-    color: #FFF !important;
+    color: #fff !important;
     font-weight: 500;
 }
 
 .dark .ant-pagination .ant-pagination-item-active {
-    background-color: #10B981 !important;
+    background-color: #10b981 !important;
 }
 
 .dark .ant-pagination-item-ellipsis {
     color: rgba(255, 255, 255, 0.5) !important;
 }
 
-.dark .ant-pagination :where(.ant-pagination-prev, .ant-pagination-next) button, .dark .ant-pagination .ant-pagination-item a {
-    color: #FFF !important;
+.dark .ant-pagination :where(.ant-pagination-prev, .ant-pagination-next) button,
+.dark .ant-pagination .ant-pagination-item a {
+    color: #fff !important;
 }
 
 .ant-pagination-simple-pager {
@@ -122,18 +127,18 @@ label {
 }
 
 .dark .ant-pagination-simple-pager {
-    color: #FFF !important;
+    color: #fff !important;
 }
 
 .ant-pagination-simple-pager input {
-    background-color: #2563EB !important;
-    color: #FFF !important;
+    background-color: #2563eb !important;
+    color: #fff !important;
     border: none !important;
     outline: none !important;
 }
 
 .dark .ant-pagination-simple-pager input {
-    background-color: #10B981 !important
+    background-color: #10b981 !important;
 }
 
 .dark .ant-form-item-explain-error {
@@ -142,8 +147,10 @@ label {
 
 /* modal */
 
-.ant-modal-content {
+.ant-modal-content,
+.ant-modal-header {
     border-radius: 4px !important;
+    background-color: aliceblue !important;
 }
 
 .auth-modal .ant-modal-content {
@@ -152,27 +159,38 @@ label {
 }
 
 .auth-modal .modal-header {
-    color: #FFF !important;
+    color: #fff !important;
     padding: 16px 24px !important;
     display: flex !important;
     align-items: center;
     justify-content: space-between;
 }
 
-.dark .auth-modal .modal-header {
+div:has(.dark) ~ div :where(.modal-header.bg-cBlue,
+    button[data="modal-button"],
+    a[data="modal-button"]) {
     background-color: var(--darkTer) !important;
 }
 
 /*skeleton*/
-.ant-skeleton-paragraph > li, .ant-skeleton-title, .ant-skeleton-avatar, .ant-skeleton-image, .ant-skeleton-button {
+.ant-skeleton-paragraph > li,
+.ant-skeleton-title,
+.ant-skeleton-avatar,
+.ant-skeleton-image,
+.ant-skeleton-button {
     background-color: rgba(0, 0, 0, 0.2) !important;
 }
 
-.dark :where(.ant-skeleton-title, .ant-skeleton-avatar, .ant-skeleton-image, .ant-skeleton-button), .dark .ant-skeleton-paragraph > li {
+.dark :where(.ant-skeleton-title,
+    .ant-skeleton-avatar,
+    .ant-skeleton-image,
+    .ant-skeleton-button),
+.dark .ant-skeleton-paragraph > li {
     background-color: rgba(0, 255, 255, 0.08) !important;
 }
 
-.ant-skeleton-paragraph, .ant-skeleton-paragraph > li {
+.ant-skeleton-paragraph,
+.ant-skeleton-paragraph > li {
     margin-top: 8px !important;
 }
 
@@ -180,17 +198,18 @@ label {
     max-width: 30% !important;
 }
 
-
 /*upload*/
 .ant-upload {
     width: 100% !important;
 }
 
-.ant-upload-list-item, .anticon-paper-clip svg {
+.ant-upload-list-item,
+.anticon-paper-clip svg {
     color: var(--cBlue) !important;
 }
 
-.dark .ant-upload-list-item, .dark .anticon-paper-clip svg {
+.dark .ant-upload-list-item,
+.dark .anticon-paper-clip svg {
     color: var(--darkTer) !important;
 }
 
@@ -206,7 +225,7 @@ label {
 .avatar .ant-upload {
     width: 100% !important;
     height: 100% !important;
-    aspect-ratio: 1 / 1 !important;;
+    aspect-ratio: 1 / 1 !important;
 }
 
 /* drawer */
@@ -219,11 +238,13 @@ label {
     text-align: center !important;
 }
 
-.ant-table, .ant-table-content :where(th, td, tr, tbody, thead) {
+.ant-table,
+.ant-table-content :where(th, td, tr, tbody, thead) {
     background-color: transparent !important;
 }
 
-.ant-table-content :where(th, td), .ant-table-container {
+.ant-table-content :where(th, td),
+.ant-table-container {
     color: var(--darkBg) !important;
     border-color: rgba(0, 0, 0, 0.3) !important;
 }
@@ -236,11 +257,53 @@ label {
     border-inline-start: 1px solid rgba(0, 0, 0, 0.2) !important;
 }
 
-.dark :where(.ant-table-content :where(th, td),.ant-table-container) {
-    color: #FFF !important;
+.dark :where(.ant-table-content :where(th, td), .ant-table-container) {
+    color: #fff !important;
     border-color: var(--c8C) !important;
 }
 
 .dark .ant-table-content tr > .ant-table-cell:first-child {
     border-inline-start: 1px solid var(--c8C) !important;
+}
+
+/* tabs */
+.ant-tabs, .ant-tabs-content-holder {
+    flex: 1 !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.ant-tabs-nav::before {
+    border-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.dark .ant-tabs-nav::before {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+
+.ant-tabs-tab-active > .ant-tabs-tab-btn {
+    color: var(--cBlue) !important;
+}
+
+.dark .ant-tabs-tab-active > .ant-tabs-tab-btn {
+    color: var(--darkTer) !important;
+}
+
+.ant-tabs-tab-btn {
+    font-weight: 500;
+    color: var(--c8C) !important;
+    user-select: none;
+}
+
+.dark .ant-tabs-tab-btn {
+    color: rgb(255, 255, 255, 0.5) !important;
+}
+
+.ant-tabs-ink-bar {
+    background-color: var(--cBlue) !important;
+}
+
+.dark .ant-tabs-ink-bar {
+    background-color: var(--darkTer) !important;
 }

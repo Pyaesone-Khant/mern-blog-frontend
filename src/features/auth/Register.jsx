@@ -1,10 +1,17 @@
+// components
 import {BackBtn, CustomBtn} from "@/components";
-import {useNavigate} from "react-router-dom";
-import {useRegisterAccountMutation} from "./authApi";
-import {useDispatch} from "react-redux";
-import {setAlertMessage} from "@/core/globalSlice.js";
-import {Form, Input} from "antd";
 import AuthComponentWrapper from "@/features/auth/AuthComponentWrapper.jsx";
+import {Form, Input} from "antd";
+
+// apis
+import {useRegisterAccountMutation} from "./authApi";
+
+// reducers
+import {setAlertMessage} from "@/core/globalSlice.js";
+
+// third-party
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
 
 const Register = () => {
 
@@ -16,8 +23,8 @@ const Register = () => {
     const onSubmit = async (values) => {
         try {
             delete values.password_confirmation;
-            const {data} = await registerAccount(values);
-            if (data?.success) {
+            const {data, error} = await registerAccount(values);
+            if (data) {
                 nav("/verifyOtp", {
                     state: {
                         email: values?.email, prevRoute: currentRoute
@@ -25,7 +32,7 @@ const Register = () => {
                 });
                 dispatch(setAlertMessage({type: "success", content: data?.message}))
             } else {
-                dispatch(setAlertMessage({type: "error", content: data?.message}))
+                dispatch(setAlertMessage({type: "error", content: error?.data?.message || "Something went wrong!"}))
             }
         } catch (error) {
             throw new Error(error);

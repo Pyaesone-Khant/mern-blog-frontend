@@ -1,29 +1,38 @@
-import {useCreateCommentMutation} from "./commentsApi";
-import {Form, Input} from "antd";
-import {useDispatch} from "react-redux";
-import {setAlertMessage} from "@/core/globalSlice.js";
-import Author from "@/features/blogs/components/Author.jsx";
+// components
 import {CustomBtn} from "@/components/index.js";
+import Author from "@/features/blogs/components/Author.jsx";
+import {Form, Input} from "antd";
+
+// hooks
 import {useCurrentUser} from "@/hooks/useCurrentUser.js";
+
+// apis
+import {useCreateCommentMutation} from "./commentsApi";
+
+// reducers
+import {setAlertMessage} from "@/core/globalSlice.js";
+
+// redux
+import {useDispatch} from "react-redux";
 
 const CommentForm = ({blogId, form}) => {
     const [createComment, {isLoading}] = useCreateCommentMutation();
     const dispatch = useDispatch()
     const {currentUser} = useCurrentUser();
-    
-    const onFormSubmit = async (data) => {
+
+    const onFormSubmit = async ({comment}) => {
         const commentData = {
             userId: currentUser?._id,
             blogId: blogId,
-            comment: data?.comment,
+            comment,
         };
+
         try {
-            const {data} = await createComment(commentData);
-            if (data?.success) {
-                // dispatch(setAlertMessage({type : "success", content : data?.message}))
+            const {data, error} = await createComment(commentData);
+            if (data) {
                 form.resetFields();
             } else {
-                dispatch(setAlertMessage({type: "error", content: data?.message}))
+                dispatch(setAlertMessage({type: "error", content: error?.data?.message}))
             }
         } catch (error) {
             throw new Error(error);

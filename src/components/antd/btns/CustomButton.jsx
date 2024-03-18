@@ -1,7 +1,9 @@
-import React from 'react';
+// components
 import {Button} from "antd";
-import {cn} from "@/utils.js";
 import {Link} from "react-router-dom";
+
+// utils
+import {cn} from "@/utils.js";
 
 const CustomButton = ({variant = "primary", size = "md", className = "", isLink = false, href = "", ...props}) => {
 

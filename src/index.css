@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Georama:wght@300;400;500&family=Montserrat:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap');
 
 @import "core/css/colors.css";
+@import "core/css/antdConfig.css";
 @import "react-quill/dist/quill.snow.css";
 
 @tailwind base;

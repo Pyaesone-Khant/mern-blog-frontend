@@ -1,12 +1,22 @@
-import {BsCheck2} from "react-icons/bs";
-import {useGetCommentByIdQuery, useUpdateCommentMutation,} from "./commentsApi";
 import {useEffect} from "react";
-import {IconBtn} from "@/components";
+
+// icons
+import {BsCheck2} from "react-icons/bs";
 import {RxCross1} from "react-icons/rx";
-import {Form, Input} from "antd";
+
+// components
+import {IconBtn} from "@/components";
 import Author from "@/features/blogs/components/Author.jsx";
-import {useDispatch} from "react-redux";
+import {Form, Input} from "antd";
+
+// apis
+import {useGetCommentByIdQuery, useUpdateCommentMutation,} from "./commentsApi";
+
+// reducers
 import {setAlertMessage} from "@/core/globalSlice.js";
+
+// redux
+import {useDispatch} from "react-redux";
 
 const EditCommentForm = ({commentItem, author, toggleEditing}) => {
     const {data: commentData} = useGetCommentByIdQuery(
@@ -25,18 +35,17 @@ const EditCommentForm = ({commentItem, author, toggleEditing}) => {
 
     const [updateComment, {isLoading}] = useUpdateCommentMutation();
 
-    const handleCommentUpdate = async (commentData) => {
+    const handleCommentUpdate = async ({comment}) => {
         try {
             const updatedCommentObj = {
                 id: commentItem?._id,
-                comment: commentData?.comment,
+                comment,
             };
-            const {data} = await updateComment(updatedCommentObj);
-            
-            if (data?.success) {
+            const {data, error} = await updateComment(updatedCommentObj);
+            if (data) {
                 toggleEditing();
             } else {
-                dispatch(setAlertMessage({type: "error", content: data?.message}))
+                dispatch(setAlertMessage({type: "error", content: error?.data?.message}))
             }
         } catch (error) {
             throw new Error(error);

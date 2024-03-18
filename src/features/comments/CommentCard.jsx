@@ -1,21 +1,30 @@
-import {useGetUserByIdQuery, useGetUserDataQuery} from "../users/UserApi";
-import EditCommentForm from "./EditCommentForm";
-import Author from "../blogs/components/Author.jsx";
-import CommentActionsMenu from "@/features/comments/CommentActionsMenu.jsx";
 import {useState} from "react";
 
+// components
+import Author from "../blogs/components/Author.jsx";
+import CommentActionsMenu from "@/features/comments/CommentActionsMenu.jsx";
+import EditCommentForm from "./EditCommentForm";
+
+// hooks
+import {useCurrentUser} from "@/hooks/useCurrentUser.js";
+
+// api
+import {useGetUserByIdQuery} from "../users/UserApi";
+
 const CommentCard = ({commentItem}) => {
-    const {data: commentedUser} = useGetUserByIdQuery(commentItem?.userId);
-    const author = commentedUser?.data;
 
-    const [isEditing, setIsEditing] = useState(false)
-    const toggleEditing = () => setIsEditing(!isEditing)
+    const [isEditing, setIsEditing] = useState(false);
+    const {currentUser} = useCurrentUser();
+    const {data: author} = useGetUserByIdQuery(commentItem?.userId, {
+        skip: !commentItem?.userId
+    });
 
-    const {data: userData} = useGetUserDataQuery();
-    const currentUser = userData?.data;
+    const toggleEditing = () => setIsEditing(!isEditing);
 
     return (
-        <section className={`py-3 border-b border-darkBgSec/20 dark:border-gray-700`}>
+        <section
+            className={`py-3 border-b border-darkBgSec/20 dark:border-gray-700`}
+        >
             {!isEditing ? (
                 <div>
                     <div className="flex items-center justify-between mb-1">
@@ -23,16 +32,18 @@ const CommentCard = ({commentItem}) => {
                         {currentUser?._id === author?._id ||
                         currentUser?.email === "admin123@gmail.com" ? (
                             <div className="flex items-center gap-3 ">
-                                <CommentActionsMenu toggleEditing={toggleEditing}
-                                                    commentId={commentItem?._id}
-                                                    returnPath={`/blogs/${commentItem?.blogId}`}/>
+                                <CommentActionsMenu
+                                    toggleEditing={toggleEditing}
+                                    commentId={commentItem?._id}
+                                />
                             </div>
-
                         ) : (
                             ""
                         )}
                     </div>
-                    <p className={`text-darkBgSec dark:text-gray-300 text-sm pl-9`}>
+                    <p
+                        className={`text-darkBgSec dark:text-gray-300 text-sm pl-9`}
+                    >
                         {" "}
                         {commentItem?.comment}{" "}
                     </p>
