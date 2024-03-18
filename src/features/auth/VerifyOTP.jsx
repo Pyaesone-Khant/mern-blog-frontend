@@ -57,19 +57,18 @@ const VerifyOTP = () => {
     const onOtpVerify = async (value) => {
         try {
             const {otpCode} = value;
-            const {data} = await verifyOTP({otp: otpCode, email, newEmail});
-            if (data?.success) {
+            const {data, error} = await verifyOTP({otp: otpCode, email, newEmail});
+            if (data) {
                 if (prevRoute === "/forgotPassword") {
                     dispatch(setAlertMessage({type: "success", content: "OTP verified successfully!"}))
                     nav("/resetPassword", {state: {email}, replace: true});
                 } else {
                     dispatch(setAlertMessage({type: "success", content: data?.message}))
-                    dispatch(setLoginState({isLoggedIn: false, user: null, token: null}))
                     dispatch(logoutAccount())
                     nav("/login", {replace: true});
                 }
             } else {
-                dispatch(setAlertMessage({type: "error", content: data?.message}))
+                dispatch(setAlertMessage({type: "error", content: error?.data?.message}))
             }
         } catch (error) {
             throw new Error(error);

@@ -42,7 +42,6 @@ const CropEasyModal = () => {
             const croppedImage = await getCroppedImg(image.url, croppedAreaPixels);
 
             const file = new File([croppedImage], image.file.name, {type: image.file.type});
-            console.log(file);
             setImage(null);
             setOpenModal(false);
             setZoom(1);

@@ -45,7 +45,7 @@ const AccountDeleteForm = () => {
                 dispatch(setAlertMessage({content: data?.message, type: "error"}))
             }
         } catch (error) {
-            console.log(error)
+            throw new Error(error)
         }
     }
 

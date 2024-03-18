@@ -1,39 +1,39 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 // icons
-import {MdOutlineSearch} from "react-icons/md";
-import {RxPencil2} from "react-icons/rx";
+import { MdOutlineSearch } from "react-icons/md";
+import { RxPencil2 } from "react-icons/rx";
 
 // styles
 import "./link.css";
 
 // components
-import {CustomBtn, Logo} from "@/components/index.js";
+import { CustomBtn, Logo } from "@/components/index.js";
+import SearchBar from "@/components/navbar/SearchBar.jsx";
 import ThemeBtn from "../antd/btns/ThemeBtn";
 import AccountMenu from "./AccountMenu";
 import CNavlink from "./CNavlink";
-import SearchBar from "@/components/navbar/SearchBar.jsx";
 
 // hooks
-import {useAuth} from "@/hooks/useAuth.js";
-import {useResponsive} from "@/hooks/useResponsive.js";
+import { useAuth } from "@/hooks/useAuth.js";
+import { useResponsive } from "@/hooks/useResponsive.js";
 
 // reducers
-import {setCurrentPage} from "@/features/blogs/blogSlice.js";
+import { setCurrentPage } from "@/features/blogs/blogSlice.js";
 
 // utils
-import {cn} from "@/utils.js";
+import { cn } from "@/utils.js";
 
 // third-party
-import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
     const [isActive, setIsActive] = useState(false);
-    const {token} = useAuth();
+    const { token } = useAuth();
     const dispatch = useDispatch();
     const nav = useNavigate();
-    const {isMobile} = useResponsive();
+    const { isMobile } = useResponsive();
 
     useEffect(() => {
         if (!isMobile) {
@@ -66,31 +66,31 @@ const Navbar = () => {
                                 `px-0 py-0 w-9 h-9 !rounded-full flex items-center justify-center`
                             )}
                         >
-                            <MdOutlineSearch className={`!text-lg`}/>
+                            <MdOutlineSearch className={`!text-lg`} />
                         </CustomBtn>
                     ) : (
-                        <SearchBar/>
+                        <SearchBar />
                     )}
                 </div>
                 {token ? (
                     <nav className={cn("flex items-center gap-5")}>
                         {!isMobile && (
-                            <CNavlink href={"/write"}>
+                            <CNavlink href={"/write"} className={"px-0"}>
                                 <RxPencil2
                                     className={`!text-xl stroke-[0.3px]`}
                                 />
                                 write
                             </CNavlink>
                         )}
-                        <ThemeBtn/>
-                        <AccountMenu/>
+                        <ThemeBtn />
+                        <AccountMenu />
                     </nav>
                 ) : (
-                    <nav className={cn("flex items-center gap-3")}>
-                        <ThemeBtn/>
+                    <nav className={cn("flex items-center gap-5")}>
+                        <ThemeBtn />
                         <CNavlink
                             href={"/register"}
-                            className={`!text-cBlue dark:!text-darkTer`}
+                            className={`!text-cBlue dark:!text-darkTer px-1`}
                         >
                             Register
                         </CNavlink>
@@ -105,7 +105,7 @@ const Navbar = () => {
             </nav>
             {isActive && (
                 <div className={`pt-3 px-6`}>
-                    <SearchBar event={() => setIsActive(false)}/>
+                    <SearchBar event={() => setIsActive(false)} />
                 </div>
             )}
         </header>

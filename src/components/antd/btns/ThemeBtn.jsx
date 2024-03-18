@@ -1,5 +1,5 @@
 // icons
-import {BsMoonFill, BsSunFill} from "react-icons/bs";
+import { BsMoonFill, BsSunFill } from "react-icons/bs";
 
 const ThemeBtn = () => {
     const handleTheme = () => {
@@ -18,9 +18,9 @@ const ThemeBtn = () => {
         <button onClick={handleTheme} className="text-xl outline-none ">
             {" "}
             {localStorage.getItem("theme") === "dark" ? (
-                <BsSunFill/>
+                <BsSunFill />
             ) : (
-                <BsMoonFill/>
+                <BsMoonFill />
             )}{" "}
         </button>
     );

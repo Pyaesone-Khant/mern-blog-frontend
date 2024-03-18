@@ -1,42 +1,42 @@
-import {memo, useEffect, useState} from "react";
+import { memo, useEffect, useState } from "react";
 
 // components
-import Author from "./Author.jsx";
 import BlogCardFooter from "@/features/blogs/components/BlogCardFooter.jsx";
-import {Link} from "react-router-dom";
-import {Skeleton, Tag} from "antd";
+import { Skeleton, Tag } from "antd";
+import { Link } from "react-router-dom";
+import Author from "./Author.jsx";
 
 // utils
-import {cn, formatDate} from "@/utils.js";
+import { cn, formatDate } from "@/utils.js";
 
 // hooks
-import {useSlugChanger} from "@/hooks/useSlugChanger.js";
-import {useCurrentUser} from "@/hooks/useCurrentUser.js";
-import {useResponsive} from "@/hooks/useResponsive.js";
-import {useAuth} from "@/hooks/useAuth.js";
+import { useAuth } from "@/hooks/useAuth.js";
+import { useCurrentUser } from "@/hooks/useCurrentUser.js";
+import { useResponsive } from "@/hooks/useResponsive.js";
+import { useSlugChanger } from "@/hooks/useSlugChanger.js";
 
 // apis
-import {useGetUserByIdQuery} from "@/features/users/UserApi.js";
-import {useGetCategoryByIdQuery} from "@/features/categories/categoriesApi.js";
+import { useGetCategoryByIdQuery } from "@/features/categories/categoriesApi.js";
+import { useGetUserByIdQuery } from "@/features/users/UserApi.js";
 
-let BlogCard = ({blog, isDetail, isRecommended}) => {
-    const {_id: blogId, blogImage, userId, createdAt, categoryId, title} = blog;
+let BlogCard = ({ blog, isDetail, isRecommended }) => {
+    const { _id: blogId, blogImage, userId, createdAt, categoryId, title } = blog;
 
     const [linkProps, setLinkProps] = useState({});//[to, state, onClick]
-    const {token} = useAuth();
+    const { token } = useAuth();
     const date = formatDate(createdAt)
     const titleSlug = useSlugChanger(title) || null;
-    const {currentUser} = useCurrentUser();
-    const {isMobile} = useResponsive();
+    const { currentUser } = useCurrentUser();
+    const { isMobile } = useResponsive();
 
-    const {data: author, isLoading: isULoading} = useGetUserByIdQuery(
+    const { data: author, isLoading: isULoading } = useGetUserByIdQuery(
         userId
     );
     const nameSlug = useSlugChanger(author?.name) || null;
 
     const isUserAuth = currentUser?._id === author?._id && token;
 
-    const {data: blogCategory, isLoading: isCLoading} =
+    const { data: blogCategory, isLoading: isCLoading } =
         useGetCategoryByIdQuery(categoryId, {
             skip: !categoryId
         });
@@ -70,27 +70,27 @@ let BlogCard = ({blog, isDetail, isRecommended}) => {
                     <Skeleton active avatar={{
                         className: `!w-8 !h-8 rounded-full`
                     }}
-                              title={{
-                                  className: `!h-6 rounded-sm max-w-[180px] !my-0`
-                              }}
-                              paragraph={false}
-                              className={`flex items-center`}
+                        title={{
+                            className: `!h-6 rounded-sm max-w-[180px] !my-0`
+                        }}
+                        paragraph={false}
+                        className={`flex items-center`}
                     />
                     <Skeleton active title={{
                         className: `!h-8 rounded-sm !w-full md:max-w-[80%] max-w-[90%] !my-0`
                     }}
-                              paragraph={{
-                                  rows: 3
-                              }}
-                              className={`flex items-center`}
+                        paragraph={{
+                            rows: 3
+                        }}
+                        className={`flex items-center`}
                     />
-                    <Skeleton.Button className={`mt-2 max-w-[100px] !w-full !rounded-full`} size={"small"}/>
+                    <Skeleton.Button className={`mt-2 max-w-[100px] !w-full !rounded-full`} size={"small"} />
                 </div>
                 <Skeleton.Image active={true}
-                                className={cn({
-                                    "!w-full !max-w-[120px] !h-full max-h-[120px] !aspect-square": !isDetail & !isRecommended,
-                                    " !w-full aspect-[5/3] !h-full": isDetail || (isRecommended && !isMobile)
-                                })}/>
+                    className={cn({
+                        "!w-full !max-w-[120px] !h-full max-h-[120px] !aspect-square": !isDetail & !isRecommended,
+                        " !w-full aspect-[5/3] !h-full": isDetail || (isRecommended && !isMobile)
+                    })} />
             </div>
         );
     }
@@ -106,44 +106,44 @@ let BlogCard = ({blog, isDetail, isRecommended}) => {
         <div className={cn("flex flex-row items-center gap-1 mb-2", {
             "mt-4": isDetail
         })}>
-            <Author author={author} isDetail={isDetail}/>
+            <Author author={author} isDetail={isDetail} />
             <p className={`text-xs dark:text-gray-300 text-gray-600 font-grm`}>· {date} </p>
             {isUserAuth && <div className={`ml-3 inline-block h-fit`}>
                 <Tag color="success"
-                     className={`w-fit hidden dark:block`}> You </Tag>
+                    className={`w-fit hidden dark:block`}> You </Tag>
                 <Tag color="processing"
-                     className={`w-fit dark:hidden`}> You </Tag>
+                    className={`w-fit dark:hidden`}> You </Tag>
             </div>}
         </div>
         <div
-            className={cn("flex justify-between gap-10", {"flex-col gap-4": isDetail || (isRecommended && !isMobile)})}>
+            className={cn("flex justify-between gap-10", { "flex-col gap-4": isDetail || (isRecommended && !isMobile) })}>
             <div className={`w-full space-y-3`}>
                 <article className={cn("space-y-1")}>
                     {!isDetail && <Link {...linkProps}
-                                        className={cn(`capitalize font-bold text-lg md:text-xl w-fit cursor-pointer text-black dark:text-white`, {" line-clamp-1 ": isRecommended})}> {blog?.title} </Link>}
+                        className={cn(`capitalize font-bold text-lg md:text-xl w-fit cursor-pointer !text-black dark:!text-white`, { " line-clamp-1 ": isRecommended })}> {blog?.title} </Link>}
 
                     {/* description */}
-                    <Link {...linkProps} className={cn(`text-sm leading-6 dark:text-gray-300 font-medium
+                    <Link {...linkProps} className={cn(`text-sm leading-6 !text-gray-600 dark:!text-gray-300 font-medium
                 `, {
                         "whitespace-pre-line text-justify pointer-events-none": isDetail,
                         "md:line-clamp-3 line-clamp-2 cursor-pointer": !isDetail
                     })}> {blog?.description} </Link>
                 </article>
-                <BlogCardFooter blog={blog} blogCategory={blogCategory}/>
+                <BlogCardFooter blog={blog} blogCategory={blogCategory} />
             </div>
             <Link {...linkProps}
-                  className={cn(` overflow-hidden rounded-sm bg-gray-200`, {
-                      " min-h-max pointer-events-none w-full mt-2": isDetail,
-                      "max-w-[100px] min-h-max md:max-w-[120px] w-full cursor-pointer self-start ": !isDetail && (!isRecommended || isMobile),
-                      "aspect-[5/3]": isRecommended && !isMobile
-                  })}>
+                className={cn(` overflow-hidden rounded-sm bg-gray-200`, {
+                    " min-h-max pointer-events-none w-full mt-2": isDetail,
+                    "max-w-[100px] min-h-max md:max-w-[120px] w-full cursor-pointer self-start ": !isDetail && (!isRecommended || isMobile),
+                    "aspect-[5/3]": isRecommended && !isMobile
+                })}>
                 <img
                     src={blogImage ? blogImage : "https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg"}
                     alt={`${title} Image`}
                     className={cn("h-full w-full object-cover object-center border dark:border-none", {
                         "cursor-pointer aspect-square": !isDetail,
                         "aspect-[5/3]": (isRecommended && !isMobile)
-                    })}/>
+                    })} />
             </Link>
         </div>
     </section>

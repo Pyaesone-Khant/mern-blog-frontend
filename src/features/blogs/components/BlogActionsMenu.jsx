@@ -1,44 +1,42 @@
-import {useState} from "react";
+import { useState } from "react";
 
 // icons
-import {MdMoreHoriz, MdOutlineDelete, MdOutlineEdit} from "react-icons/md";
+import { MdMoreHoriz, MdOutlineDelete, MdOutlineEdit } from "react-icons/md";
 
 // components
-import {CustomBtn, CustomModal} from "@/components/index.js";
+import { CustomBtn, CustomModal } from "@/components/index.js";
 import MenuLink from "@/components/navbar/MenuLink.jsx";
-import {Dropdown} from "antd";
+import { Dropdown } from "antd";
 
 // hooks
-import {useCurrentUser} from "@/hooks/useCurrentUser.js";
-import {useSlugChanger} from "@/hooks/useSlugChanger.js";
+import { useCurrentUser } from "@/hooks/useCurrentUser.js";
+import { useSlugChanger } from "@/hooks/useSlugChanger.js";
 
 // api
-import {useDeleteBlogMutation} from "@/features/blogs/blogApi.js";
+import { useDeleteBlogMutation } from "@/features/blogs/blogApi.js";
 
 // reducer
-import {setAlertMessage} from "@/core/globalSlice.js";
+import { setAlertMessage } from "@/core/globalSlice.js";
 
 // third-party
-import {useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 
-const BlogActionsMenu = ({blogId, slug}) => {
+const BlogActionsMenu = ({ blogId, slug }) => {
 
     const [openModal, setOpenModal] = useState(false)
-    const {currentUser} = useCurrentUser()
+    const { currentUser } = useCurrentUser()
     const nameSlug = useSlugChanger(currentUser?.name)
     const dispatch = useDispatch()
 
-    const [deleteBlog, {isLoading}] = useDeleteBlogMutation();
+    const [deleteBlog, { isLoading }] = useDeleteBlogMutation();
 
     const handleDelete = async () => {
-        console.log(blogId);
-        return;
         try {
-            const {data, error} = await deleteBlog(blogId);
+            const { data, error } = await deleteBlog(blogId);
             if (data) {
-                dispatch(setAlertMessage({content: data?.message, type: "success"}))
+                dispatch(setAlertMessage({ content: data?.message, type: "success" }))
             } else {
-                dispatch(setAlertMessage({content: error?.data?.message, type: "error"}))
+                dispatch(setAlertMessage({ content: error?.data?.message, type: "error" }))
             }
         } catch (error) {
             throw new Error(error?.data?.message || "Something went wrong!")
@@ -50,30 +48,30 @@ const BlogActionsMenu = ({blogId, slug}) => {
     const items = [
         {
             key: 1,
-            label: <MenuLink path={`/${nameSlug}/${slug}/edit`} title={"edit"} state={blogId} className={"!py-1"}/>,
-            icon: <MdOutlineEdit className={`!text-lg`}/>
+            label: <MenuLink path={`/${nameSlug}/${slug}/edit`} title={"edit"} state={blogId} className={"!py-1"} />,
+            icon: <MdOutlineEdit className={`!text-lg`} />
         },
         {
             key: 2,
             label: <p className={`py-1`}> Delete </p>,
             danger: true,
-            icon: <MdOutlineDelete className={`!text-lg`}/>,
+            icon: <MdOutlineDelete className={`!text-lg`} />,
             onClick: toggleModal,
         }
     ]
 
     return (
         <section>
-            <Dropdown menu={{items}} trigger={["click"]} placement={"bottomRight"}>
+            <Dropdown menu={{ items }} trigger={["click"]} placement={"bottomRight"}>
                 <button
                     className={`text-2xl dark:text-gray-400 dark:hover:text-gray-200 text-darkBgSec/80 hover:text-darkBgSec duration-200`}>
-                    <MdMoreHoriz/></button>
+                    <MdMoreHoriz /></button>
             </Dropdown>
 
             {/*for delete confirmation*/}
             <CustomModal isOpen={openModal}
-                         closeModal={toggleModal}
-                         title={"Are you sure you want to delete this blog?"}
+                closeModal={toggleModal}
+                title={"Are you sure you want to delete this blog?"}
             >
                 <p>You won&apos;t be able revert this!</p>
                 <div className={`pt-2 flex items-center justify-center gap-2`}>

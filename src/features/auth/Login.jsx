@@ -1,31 +1,31 @@
 // components
-import {BackBtn, CustomBtn} from "@/components";
+import { BackBtn, CustomBtn } from "@/components";
 import AuthComponentWrapper from "@/features/auth/AuthComponentWrapper.jsx";
-import {Form, Input} from "antd";
+import { Form, Input } from "antd";
 
 // hooks
-import {useAuth} from "@/hooks/useAuth.js";
+import { useAuth } from "@/hooks/useAuth.js";
 
 // apis
-import {useLoginAccountMutation} from "./authApi";
+import { useLoginAccountMutation } from "./authApi";
 
 // reducers
-import {setLoginState} from "./authSlice";
-import {setAlertMessage} from "@/core/globalSlice.js";
+import { setAlertMessage } from "@/core/globalSlice.js";
+import { setLoginState } from "./authSlice";
 
 //third-party
-import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const dispatch = useDispatch();
-    const [loginAccount, {isLoading}] = useLoginAccountMutation();
+    const [loginAccount, { isLoading }] = useLoginAccountMutation();
     const nav = useNavigate();
-    const {saveToken, saveExpiredAt} = useAuth();
+    const { saveToken, saveExpiredAt } = useAuth();
 
     const onSubmit = async (userData) => {
         try {
-            const {data, error} = await loginAccount(userData);
+            const { data, error } = await loginAccount(userData);
             if (data) {
                 saveToken(data?.token);
                 saveExpiredAt(data?.expiredAt);
@@ -35,10 +35,10 @@ const Login = () => {
                         token: data?.token,
                     })
                 );
-                dispatch(setAlertMessage({type: "success", content: "Login successful!"}))
+                dispatch(setAlertMessage({ type: "success", content: "Login successful!" }))
                 nav("/");
             } else {
-                dispatch(setAlertMessage({type: "error", content: error?.data?.message || "Login failed!"}))
+                dispatch(setAlertMessage({ type: "error", content: error?.data?.message || "Login failed!" }))
             }
         } catch (error) {
             throw new Error(error);
@@ -52,14 +52,14 @@ const Login = () => {
                     <h2 className="form-tlt"> Login Account </h2>
                 </div>
                 <Form.Item name={"email"} rules={[
-                    {required: true, message: "Email address is required!"}
+                    { required: true, message: "Email address is required!" }
                 ]}>
-                    <Input placeholder={"Email"}/>
+                    <Input placeholder={"Email"} />
                 </Form.Item>
                 <Form.Item name={"password"} rules={[
-                    {required: true, message: "Password is required!"}
+                    { required: true, message: "Password is required!" }
                 ]}>
-                    <Input.Password placeholder={"Password"}/>
+                    <Input.Password placeholder={"Password"} />
                 </Form.Item>
                 <CustomBtn htmlType={"submit"} className={"w-full"} loading={isLoading}>
                     Login
@@ -83,7 +83,7 @@ const Login = () => {
                 </div>
 
                 <div className={`mt-10 flex justify-center`}>
-                    <BackBtn/>
+                    <BackBtn />
                 </div>
             </Form>
         </AuthComponentWrapper>

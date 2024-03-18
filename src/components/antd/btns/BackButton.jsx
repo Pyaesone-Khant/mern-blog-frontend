@@ -1,16 +1,16 @@
 // icons
-import {MdOutlineArrowBack} from "react-icons/md";
+import { MdOutlineArrowBack } from "react-icons/md";
 
 // components
-import {CustomBtn} from "@/components/index.js";
+import { CustomBtn } from "@/components/index.js";
 
 // utils
-import {cn} from "@/utils.js";
+import { cn } from "@/utils.js";
 
 // third-party
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const BackButton = ({isDetail}) => {
+const BackButton = ({ isDetail }) => {
     const nav = useNavigate();
     const handleGoBack = () => {
         window.scrollTo({
@@ -24,12 +24,12 @@ const BackButton = ({isDetail}) => {
         <CustomBtn
             variant={"ghost"}
             size={"xs"}
-            className={cn(`w-fit gap-1`, {
+            className={cn(`w-fit gap-1 px-0`, {
                 "!text-black dark:!text-white": !isDetail,
             })}
             onClick={handleGoBack}
         >
-            <MdOutlineArrowBack className={`text-xl`}/> Back
+            <MdOutlineArrowBack className={`text-xl`} /> Back
         </CustomBtn>
     );
 };

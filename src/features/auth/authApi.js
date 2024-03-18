@@ -46,7 +46,7 @@ export const authApi = baseApi.injectEndpoints({
                 method: "POST",
                 body: userData,
             }),
-            invalidatesTags: ["auth"],
+            invalidatesTags: ["auth", "user"],
         }),
 
         resendOTP: builder.mutation({
@@ -78,9 +78,9 @@ export const authApi = baseApi.injectEndpoints({
         getRefreshToken: builder.query({
             query: () => ({
                 url: `${endPoint}/refresh-token`,
-                method: "GET",S
+                method: "GET",
             }),
-            providesTags: ["auth"],
+            providesTags: ["auth", "user"],
         })
     }),
 });

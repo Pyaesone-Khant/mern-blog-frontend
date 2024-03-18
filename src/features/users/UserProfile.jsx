@@ -1,44 +1,45 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 
 // icons
-import {MdOutlineArrowForward} from "react-icons/md";
+import { MdOutlineArrowForward } from "react-icons/md";
 
 // components
-import {Loader} from "@/components";
-import {BlogsList} from "@/features/index.js";
+import { Loader } from "@/components";
+import { BlogsList } from "@/features/index.js";
+import AccountDeleteForm from "@/features/users/components/AccountDeleteForm.jsx";
 import ChangeNameModal from "@/features/users/components/ChangeNameModal.jsx";
 import ChangePasswordModal from "@/features/users/components/ChangePasswordModal.jsx";
 import UserAvatar from "@/features/users/components/UserAvatar.jsx";
-import AccountDeleteForm from "@/features/users/components/AccountDeleteForm.jsx";
-import {Link, useLocation} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 // hooks
-import {useAuth} from "@/hooks/useAuth.js";
-import {useSlugChanger} from "@/hooks/useSlugChanger.js";
-import {useResponsive} from "@/hooks/useResponsive.js";
+import { useAuth } from "@/hooks/useAuth.js";
+import { useCurrentUser } from "@/hooks/useCurrentUser.js";
+import { useResponsive } from "@/hooks/useResponsive.js";
+import { useSlugChanger } from "@/hooks/useSlugChanger.js";
 
 // apis
-import {useGetBlogByUserIdQuery} from "../blogs/blogApi";
-import {useGetSavedBlogsQuery, useGetUserByIdQuery, useGetUserDataQuery} from "../users/UserApi";
+import { useGetBlogByUserIdQuery } from "../blogs/blogApi";
+import { useGetSavedBlogsQuery, useGetUserByIdQuery } from "../users/UserApi";
 
 // utils
-import {cn} from "@/utils.js";
+import { cn } from "@/utils.js";
 
 const UserProfile = () => {
-    const {token} = useAuth();
+    const { token } = useAuth();
     const userId = useLocation()?.state;
     const pathname = useLocation().pathname;
-    const {isMediumDevice} = useResponsive();
+    const { isMediumDevice } = useResponsive();
 
-    const {data: currentUser} = useGetUserDataQuery();
+    const { currentUser } = useCurrentUser()
 
-    const {data: user, isLoading: isULoading} = useGetUserByIdQuery(userId, {
+    const { data: user, isLoading: isULoading } = useGetUserByIdQuery(userId, {
         skip: !userId,
     });
     const isUserAuth = currentUser?._id === user?._id && token;
     const nameSlug = useSlugChanger(user?.name)
 
-    const {data: createdBlogs, isLoading: isCBLoading} =
+    const { data: createdBlogs, isLoading: isCBLoading } =
         useGetBlogByUserIdQuery(userId, {
             skip: !userId,
         });
@@ -46,7 +47,7 @@ const UserProfile = () => {
     const hasMoreCBlogs = createdBlogs?.length > 3;
     const totalCBlogs = createdBlogs?.length;
 
-    const {data: savedBlogsData, isLoading: isSBLoading} = useGetSavedBlogsQuery(userId, {
+    const { data: savedBlogsData, isLoading: isSBLoading } = useGetSavedBlogsQuery(userId, {
         skip: !token,
     });
     const savedBlogs = isUserAuth && savedBlogsData?.slice(0, 3);
@@ -68,50 +69,50 @@ const UserProfile = () => {
     if (isULoading || isCBLoading || isSBLoading) {
         return (
             <div className="w-full flex items-center justify-center">
-                <Loader/>
+                <Loader />
             </div>
         );
     }
     return (
         <section
-            className={cn(`flex flex-col-reverse items-start w-full max-w-7xl mx-auto justify-between gap-10 pb-10`, {"flex-row": !isMediumDevice})}>
+            className={cn(`flex flex-col-reverse items-start w-full max-w-7xl mx-auto justify-between gap-10 pb-10`, { "flex-row": !isMediumDevice })}>
 
             <div className={`max-w-4xl w-full space-y-8`}>
                 <div className={`space-y-4`}>
-                    <BlogsList blogs={userBlogs} title={`created blogs (${totalCBlogs}) `}/>
+                    <BlogsList blogs={userBlogs} title={`created blogs (${totalCBlogs}) `} />
                     {
                         hasMoreCBlogs && isUserAuth && <Link to={`/users/${nameSlug}/blogs`}
-                                                             state={user?.id}
-                                                             className={`flex items-center gap-1 w-fit mx-auto text-sm text-cBlue dark:text-darkTer font-semibold border-b dark:border-darkTer border-cBlue font-sans`}>
-                            See All ({totalCBlogs}) <MdOutlineArrowForward/>
+                            state={user?.id}
+                            className={`flex items-center gap-1 w-fit mx-auto text-sm text-cBlue dark:text-darkTer font-semibold border-b dark:border-darkTer border-cBlue font-sans`}>
+                            See All ({totalCBlogs}) <MdOutlineArrowForward />
                         </Link>
                     }
                 </div>
 
                 {isUserAuth && <div className={`space-y-4`}>
-                    <BlogsList blogs={savedBlogs} title={`saved blogs (${totalSBlogs}) `}/>
+                    <BlogsList blogs={savedBlogs} title={`saved blogs (${totalSBlogs}) `} />
                     {
                         hasMoreSBlogs && <Link to={`/users/${nameSlug}/saved`}
-                                               state={user?.id}
-                                               className={`flex items-center gap-1 w-fit mx-auto text-sm text-cBlue dark:text-darkTer font-semibold border-b dark:border-darkTer border-cBlue font-sans`}>
-                            See All ({totalSBlogs}) <MdOutlineArrowForward/>
+                            state={user?.id}
+                            className={`flex items-center gap-1 w-fit mx-auto text-sm text-cBlue dark:text-darkTer font-semibold border-b dark:border-darkTer border-cBlue font-sans`}>
+                            See All ({totalSBlogs}) <MdOutlineArrowForward />
                         </Link>
                     }
                 </div>}
             </div>
 
             <section
-                className={cn("flex flex-col gap-5 w-full transition-200", {"max-w-md sticky top-[92px]": !isMediumDevice})}>
+                className={cn("flex flex-col gap-5 w-full transition-200", { "max-w-md sticky top-[92px]": !isMediumDevice })}>
                 <h2 className="text-2xl font-bold">
                     {" "}
                     {isUserAuth ? " Your " : (user?.name || "User") + "'s"} Profile{" "}
                 </h2>
 
                 {/* profile picture */}
-                <UserAvatar user={user} isUserAuth={isUserAuth}/>
+                <UserAvatar user={user} isUserAuth={isUserAuth} />
 
                 {/*name block*/}
-                <ChangeNameModal user={user} isUserAuth={isUserAuth}/>
+                <ChangeNameModal user={user} isUserAuth={isUserAuth} />
 
                 {/*email block*/}
                 {isUserAuth && <div
@@ -120,15 +121,15 @@ const UserProfile = () => {
                     <div className={`flex justify-between items-center w-full`}>
                         <p className="font-semibold text-xl"> {currentUser?.email} </p>
                         <Link to={"/changeEmail"} state={pathname}
-                              className={`text-sm border border-cBlue dark:border-darkTer h-9 px-4 rounded-sm flex items-center justify-center text-cBlue dark:text-darkTer`}>Change</Link>
+                            className={`text-sm border border-cBlue dark:border-darkTer h-9 px-4 rounded-sm flex items-center justify-center text-cBlue dark:text-darkTer`}>Change</Link>
                     </div>
                 </div>}
 
                 {/*password block*/}
-                <ChangePasswordModal isUserAuth={isUserAuth}/>
+                <ChangePasswordModal isUserAuth={isUserAuth} />
 
                 {isUserAuth && (
-                    <AccountDeleteForm/>
+                    <AccountDeleteForm />
                 )}
             </section>
         </section>
