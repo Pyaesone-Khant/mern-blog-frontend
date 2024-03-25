@@ -1,10 +1,14 @@
+import { useSearchParams } from "react-router-dom";
+
+// components
 import { Loader } from "@/components/index.js";
-import { useGetSearchedDataQuery } from "@/features/auth/authApi";
 import Author from "@/features/blogs/components/Author";
 import CategoryBtn from "@/features/categories/CategoryBtn";
 import { BlogsList } from "@/features/index.js";
 import { Tabs } from "antd";
-import { useSearchParams } from "react-router-dom";
+
+// apis
+import { useGetSearchedDataQuery } from "@/features/auth/authApi";
 
 const SearchedResult = () => {
 
