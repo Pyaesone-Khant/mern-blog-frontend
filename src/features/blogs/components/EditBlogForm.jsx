@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 // icons
 import { MdOutlineFileUpload } from "react-icons/md";
 
@@ -18,6 +18,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const EditBlogForm = () => {
     const blogId = useLocation()?.state
+    const [selectedImg, setSelectedImg] = useState(null);
 
     const { data: currentBlog, isLoading: isBlogDataLoading, isFetching } = useGetBlogByIdQuery(blogId, { skip: !blogId });
 
@@ -54,6 +55,17 @@ const EditBlogForm = () => {
         }
     };
 
+    const onImgChange = (info) => {
+        const file = info?.file;
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setSelectedImg(reader.result);
+            }
+            reader.readAsDataURL(file)
+        }
+    }
+
     const supportedFileType = [".jpg", ".jpeg", ".png", ".webp"];
     const uploadProps = {
         beforeUpload: () => false,
@@ -65,6 +77,8 @@ const EditBlogForm = () => {
             status: "done",
             url: currentBlog?.blogImage,
         }],
+        onChange: onImgChange,
+        onRemove: () => setSelectedImg(null)
     }
 
     const imageValidator = (rule, value) => {
@@ -80,6 +94,7 @@ const EditBlogForm = () => {
     useEffect(() => {
         if (!isBlogDataLoading) {
             form.setFieldsValue(currentBlog);
+            setSelectedImg(currentBlog?.blogImage);
         }
     }, [currentBlog]);
 
@@ -88,23 +103,26 @@ const EditBlogForm = () => {
             <div className="max-w-4xl mx-auto w-full">
                 <h2 className="form-tlt mb-8"> Edit Blog </h2>
                 <Form form={form} layout={"vertical"} onFinish={onSubmit}>
-                    <div className={`flex flex-col md:flex-row items-start justify-between md:gap-6 w-full`}>
-                        <Form.Item label={<FormLabel label={"title"} />} name={"title"} rules={[
-                            { required: true, message: "Blog title is required!" }
-                        ]} className={`w-full`}>
-                            <Input />
-                        </Form.Item>
-                        <Form.Item label={<FormLabel label={"Photo/Image"} isOptional={true} />} name={"image"}
-                            className={"w-full md:max-w-[50%]"}
-                            rules={[{ validator: imageValidator }]}>
-                            <Upload {...uploadProps} className={`bg-darkTer`}>
-                                <button type={"button"}
-                                    className={`flex items-center gap-1 h-10 px-4 rounded-md border border-gray-300 hover:border-blue-500 bg-white w-full duration-200`}>
-                                    <MdOutlineFileUpload className={`text-xl text-gray-600`} />Click to Upload
-                                </button>
-                            </Upload>
-                        </Form.Item>
-                    </div>
+                    <Form.Item label={<FormLabel label={"title"} />} name={"title"} rules={[
+                        { required: true, message: "Blog title is required!" }
+                    ]} className={`w-full`}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item label={<FormLabel label={"Photo/Image"} isOptional={true} />} name={"image"}
+                        className={"w-full"}
+                        rules={[{ validator: imageValidator }]}>
+                        <Upload {...uploadProps} className={`bg-darkTer`}>
+                            <button type={"button"}
+                                className={`flex items-center gap-1 h-10 px-4 rounded-md border border-gray-300 hover:border-blue-500 bg-white w-full duration-200`}>
+                                <MdOutlineFileUpload className={`text-xl text-gray-600`} />Click to Upload
+                            </button>
+                        </Upload>
+                    </Form.Item>
+                    {selectedImg && (
+
+                        <img src={selectedImg} alt={"Blog Image"}
+                            className={`min-h-[250px] w-full rounded-sm object-center object-cover aspect-[7/4] mt-3`} />
+                    )}
                     <Form.Item label={<FormLabel label={"content"} />} name={"description"} rules={[
                         { required: true, message: "Blog content is required!" }
                     ]}>

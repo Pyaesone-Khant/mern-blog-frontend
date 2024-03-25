@@ -1,3 +1,4 @@
+import { useState } from "react";
 // icons
 import { MdOutlineFileUpload } from "react-icons/md";
 
@@ -20,6 +21,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const CreateBlogForm = () => {
+
+    const [selectedImg, setSelectedImg] = useState(null);
     const { currentUser: user } = useCurrentUser();
     const [form] = Form.useForm();
     const [createBlog, { isLoading: isCreating }] = useCreateBlogMutation();
@@ -49,12 +52,25 @@ const CreateBlogForm = () => {
         }
     };
 
+    const onImgChange = (info) => {
+        const file = info?.file;
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setSelectedImg(reader.result);
+            }
+            reader.readAsDataURL(file)
+        }
+    }
+
     const supportedFileType = [".jpg", ".jpeg", ".png", ".webp"]
     const uploadProps = {
         // fileList : fileList,
         beforeUpload: () => false,
         accept: [...supportedFileType],
         maxCount: 1,
+        onChange: onImgChange,
+        onRemove: () => setSelectedImg(null),
     }
 
     const imageValidator = (rule, value) => {
@@ -75,13 +91,10 @@ const CreateBlogForm = () => {
         );
     }
 
-    // return <QuillEditor/>
-
     return (
         <section className=" w-full">
             <div className={`max-w-4xl w-full mx-auto`}>
                 <h2 className="form-tlt mb-8 "> Create New Blog </h2>
-                {/*<QuillEditor/>*/}
                 <Form form={form} layout={"vertical"} onFinish={onSubmit}>
                     <div className={`flex flex-col md:flex-row items-start justify-between md:gap-6`}>
                         <Form.Item label={<FormLabel label={"title"} />} name={"title"} rules={[
@@ -102,16 +115,21 @@ const CreateBlogForm = () => {
                                 })}
                             </Select>
                         </Form.Item>
-                        <Form.Item label={<FormLabel label={"Photo/Image"} isOptional={true} />} name={"image"}
-                            rules={[{ validator: imageValidator }]} className={`w-full`}>
-                            <Upload {...uploadProps} className={`!w-full bg-darkTer `}>
-                                <button type={"button"}
-                                    className={`flex items-center gap-1 h-10 px-4 rounded-md border border-gray-300 hover:border-blue-500 bg-white w-full duration-200`}>
-                                    <MdOutlineFileUpload className={`text-xl text-gray-600`} />Click to Upload
-                                </button>
-                            </Upload>
-                        </Form.Item>
                     </div>
+                    <Form.Item label={<FormLabel label={"Photo/Image"} isOptional={true} />} name={"image"}
+                        rules={[{ validator: imageValidator }]} className={`w-full`}>
+                        <Upload {...uploadProps} className={`!w-full bg-darkTer `}>
+                            <button type={"button"}
+                                className={`flex items-center gap-1 h-10 px-4 rounded-md border border-gray-300 hover:border-blue-500 bg-white w-full duration-200`}>
+                                <MdOutlineFileUpload className={`text-xl text-gray-600`} />Click to Upload
+                            </button>
+                        </Upload>
+                    </Form.Item>
+                    {selectedImg && (
+
+                        <img src={selectedImg} alt={"Blog Image"}
+                            className={`min-h-[250px] w-full rounded-sm object-center object-cover aspect-[7/4] mb-4 border border-black/20 dark:border-white/20 -mt-3 `} />
+                    )}
                     <Form.Item label={<FormLabel label={"content"} />} name={"description"} rules={[
                         { required: true, message: "Blog content is required!" },
                         { min: 50, message: "Blog content must be at least 50 characters!" }
