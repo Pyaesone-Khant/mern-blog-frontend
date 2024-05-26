@@ -1,33 +1,34 @@
-import {useState} from "react";
+import { useState } from "react";
 
 // icons
-import {MdAccountCircle, MdOutlineAdd} from "react-icons/md";
+import { MdOutlineAdd } from "react-icons/md";
 
 // components
-import {CustomBtn, CustomModal, Spinner} from "@/components/index.js";
+import { CustomBtn, CustomModal, Spinner } from "@/components/index.js";
 
 // apis
-import {useChangeUserAvatarMutation} from "@/features/users/UserApi.js";
+import { useChangeUserAvatarMutation } from "@/features/users/UserApi.js";
 
 // reducers
-import {setAlertMessage} from "@/core/globalSlice.js";
+import { setAlertMessage } from "@/core/globalSlice.js";
 
 // redux
-import {useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 
 // third-party
-import Cropper from "react-easy-crop";
 import getCroppedImg from "@/components/crop/cropImage.js";
+import Avvvatars from "avvvatars-react";
+import Cropper from "react-easy-crop";
 
-const UserAvatar = ({user, isUserAuth}) => {
-
+const UserAvatar = ({ user, isUserAuth }) => {
+    const [isImgLoaded, setIsImgLoaded] = useState(false);
     const [image, setImage] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [openRemoveModal, setOpenRemoveModal] = useState(false);
-    const [crop, setCrop] = useState({x: 0, y: 0});
+    const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-    const [changeUserAvatar, {isLoading}] = useChangeUserAvatarMutation();
+    const [changeUserAvatar, { isLoading }] = useChangeUserAvatarMutation();
     const dispatch = useDispatch();
 
     const toggleRemoveModal = () => setOpenRemoveModal(!openRemoveModal);
@@ -45,7 +46,7 @@ const UserAvatar = ({user, isUserAuth}) => {
                 })
             );
         } else {
-            setImage({url: URL.createObjectURL(file), file});
+            setImage({ url: URL.createObjectURL(file), file });
             setOpenModal(true);
         }
     };
@@ -72,21 +73,24 @@ const UserAvatar = ({user, isUserAuth}) => {
             const profileImage = new File(
                 [croppedImage.file],
                 image.file.name,
-                {type: image.file.type}
+                { type: image.file.type }
             );
             let formData = new FormData();
             formData.append("profileImage", profileImage);
             setOpenModal(false);
-            const {data, error} = await changeUserAvatar(formData);
+            const { data, error } = await changeUserAvatar(formData);
             if (data) {
                 dispatch(
-                    setAlertMessage({content: data.message, type: "success"})
+                    setAlertMessage({ content: data.message, type: "success" })
                 );
                 setImage(null);
                 setZoom(1);
             } else {
                 dispatch(
-                    setAlertMessage({content: error?.data?.message, type: "error"})
+                    setAlertMessage({
+                        content: error?.data?.message,
+                        type: "error",
+                    })
                 );
             }
         } catch (error) {
@@ -97,7 +101,7 @@ const UserAvatar = ({user, isUserAuth}) => {
     // removing profile image
     const onProfileRemove = async () => {
         try {
-            const {data, error} = await changeUserAvatar({
+            const { data, error } = await changeUserAvatar({
                 profileImage: null,
             });
             if (data) {
@@ -110,13 +114,19 @@ const UserAvatar = ({user, isUserAuth}) => {
                 );
             } else {
                 dispatch(
-                    setAlertMessage({content: error?.data.message, type: "error"})
+                    setAlertMessage({
+                        content: error?.data.message,
+                        type: "error",
+                    })
                 );
             }
         } catch (error) {
             throw new Error(error);
         }
     };
+
+    // check if an image is loaded or not
+    const onImageLoaded = () => setIsImgLoaded(true);
 
     return (
         <section
@@ -137,21 +147,22 @@ const UserAvatar = ({user, isUserAuth}) => {
                     isUserAuth ? "cursor-pointer" : ""
                 } relative group`}
             >
-                {user?.profileImage ? (
+                {user?.profileImage && isImgLoaded ? (
                     <img
                         src={user?.profileImage}
                         alt={"Profile Image"}
                         className={`p-1 w-full h-full rounded-full object-cover object-center`}
                         loading={"lazy"}
+                        onLoad={onImageLoaded}
                     />
                 ) : (
-                    <MdAccountCircle className={`w-full h-full`}/>
+                    <Avvvatars value={user?.name} size={144} />
                 )}
                 {isUserAuth && !isLoading && (
                     <div
                         className={`absolute bg-black/30 text-white w-full h-full flex group-hover:opacity-100 opacity-0 items-center justify-center duration-200 `}
                     >
-                        <MdOutlineAdd className={`text-4xl`}/>
+                        <MdOutlineAdd className={`text-4xl`} />
                     </div>
                 )}
             </label>
@@ -203,7 +214,12 @@ const UserAvatar = ({user, isUserAuth}) => {
                     >
                         Cancel
                     </CustomBtn>
-                    <CustomBtn onClick={onProfileChange} size={"sm"} data={"modal-button"} loading={isLoading}>
+                    <CustomBtn
+                        onClick={onProfileChange}
+                        size={"sm"}
+                        data={"modal-button"}
+                        loading={isLoading}
+                    >
                         Crop & Upload
                     </CustomBtn>
                 </div>
@@ -252,7 +268,7 @@ const UserAvatar = ({user, isUserAuth}) => {
                 <div
                     className={` w-full h-full z-20 bg-black/40 fixed top-0 left-0 flex items-center justify-center `}
                 >
-                    <Spinner/>
+                    <Spinner />
                 </div>
             )}
         </section>
