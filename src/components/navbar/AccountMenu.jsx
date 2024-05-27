@@ -53,7 +53,7 @@ const AccountMenu = () => {
     // check if image is loaded or not
     const onImageLoaded = () => setIsImgLoaded(true);
 
-    const isAdmin = user?.email === "admin123@gmail.com";
+    const isAdmin = user?.email === import.meta.env.VITE_ADMIN_EMAIL;
 
     const menuItems = [
         isMobile && {
