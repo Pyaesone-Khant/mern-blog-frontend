@@ -3,7 +3,7 @@ import { useState } from "react";
 // icons
 import { BiCategoryAlt } from "react-icons/bi";
 import { BsFileText } from "react-icons/bs";
-import { MdAccountCircle, MdOutlineBookmarks, MdOutlineLogout, } from "react-icons/md";
+import { MdOutlineBookmarks, MdOutlineLogout } from "react-icons/md";
 import { RxPencil2, RxPerson } from "react-icons/rx";
 
 // components
@@ -21,10 +21,12 @@ import { useSlugChanger } from "@/hooks/useSlugChanger.js";
 import { logoutAccount, setLoginState } from "@/features/auth/authSlice";
 
 // third-party
+import Avvvatars from "avvvatars-react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const AccountMenu = () => {
+    const [isImgLoaded, setIsImgLoaded] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const { isMobile } = useResponsive();
     const { saveToken, saveExpiredAt } = useAuth();
@@ -48,7 +50,10 @@ const AccountMenu = () => {
         nav("/", { replace: true });
     };
 
-    const isAdmin = user?.email === "admin123@gmail.com";
+    // check if image is loaded or not
+    const onImageLoaded = () => setIsImgLoaded(true);
+
+    const isAdmin = user?.email === import.meta.env.VITE_ADMIN_EMAIL;
 
     const menuItems = [
         isMobile && {
@@ -106,17 +111,16 @@ const AccountMenu = () => {
                 placement="bottomRight"
                 trigger={["click"]}
             >
-                <button className="duration-200 flex items-center gap-2 font-medium text-base select-none rounded-full">
-                    {user?.profileImage ? (
+                <button className="duration-200 flex items-center gap-2 font-medium text-base select-none rounded-full border border-darkBgSec/70">
+                    {user?.profileImage && isImgLoaded ? (
                         <img
                             src={user?.profileImage}
                             alt={"Profile Image"}
-                            className={`w-8 aspect-square rounded-full border border-darkBgSec/50`}
+                            className={`w-8 aspect-square rounded-full `}
+                            onLoad={onImageLoaded}
                         />
                     ) : (
-                        <MdAccountCircle
-                            className={`text-2xl text-blue-600 dark:text-darkTer `}
-                        />
+                        <Avvvatars value={user?.name} size={32} />
                     )}
                 </button>
             </Dropdown>
