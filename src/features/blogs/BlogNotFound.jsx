@@ -1,21 +1,24 @@
-import {useSelector} from "react-redux";
-import {useGetCategoryByIdQuery} from "@/features/categories/categoriesApi.js";
+import { CustomBtn } from "../../components";
 
 const BlogNotFound = () => {
-    const {keyword} = useSelector((state) => state.category);
-
-    const {data: category} = useGetCategoryByIdQuery(keyword)
+    const handleTryAgain = () => {
+        if (window) {
+            window.location.reload();
+        }
+    };
 
     return (
         <section
-            className={`flex flex-1 items-center justify-center rounded-md bg-cBlue/10 dark:bg-darkTer/10 `}>
-            <h2 className="p-3 text-center font-medium ">
-                There is no blogs with the category title
-                <span className="text-blue-600 dark:text-darkTer ml-2 font-medium ">
-                {`"${category?.title || "All"}"`}
-            </span>
-                !
-            </h2>
+            className={`flex flex-col gap-4 flex-1 items-center justify-center rounded-md bg-cBlue/10 dark:bg-darkTer/10 p-4 text-center`}
+        >
+            <h2 className="font-semibold text-xl">Something went wrong!</h2>
+            <p className="text-sm px-4">
+                No blogs found! Please check your network connection & try
+                again.
+            </p>
+            <CustomBtn size="sm" onClick={handleTryAgain}>
+                Try Again
+            </CustomBtn>
         </section>
     );
 };

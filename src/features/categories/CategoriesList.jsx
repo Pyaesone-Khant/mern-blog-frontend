@@ -1,11 +1,12 @@
-import {memo} from "react";
+import { memo } from "react";
 
 // components
 import CategoriesCarousel from "@/features/categories/components/CategoriesCarousel.jsx";
 
-const CategoriesList = ({categories}) => {
-
-    return <CategoriesCarousel categories={categories}/>
+const CategoriesList = ({ categories }) => {
+    return categories?.length > 0 ? (
+        <CategoriesCarousel categories={categories} />
+    ) : null;
 };
 
 export default memo(CategoriesList);
