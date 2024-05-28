@@ -10,12 +10,14 @@ import { cn } from "@/utils.js";
 import { Link } from "react-router-dom";
 
 // third-party
+import { getAvatarName } from "@/utils";
 import Avvvatars from "avvvatars-react";
 
 const Author = ({ author, isDetail, isComment }) => {
     const [isImgLoaded, setIsImgLoaded] = useState(false);
     const nameSlug = useSlugChanger(author?.name);
 
+    const avatarDisplayedName = getAvatarName(author?.name);
     // check if image is loaded or not
     const onImageLoaded = () => setIsImgLoaded(true);
 
@@ -38,7 +40,7 @@ const Author = ({ author, isDetail, isComment }) => {
                     onLoad={onImageLoaded}
                 />
             ) : (
-                <Avvvatars value={author?.name} size={32} />
+                <Avvvatars value={avatarDisplayedName} size={32} />
             )}
 
             {author?.name || "Author"}

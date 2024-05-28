@@ -1,5 +1,5 @@
-import {twMerge} from "tailwind-merge";
 import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 const months = [
     "Jan",
@@ -14,10 +14,10 @@ const months = [
     "Oct",
     "Nov",
     "Dec",
-]
+];
 
 export function cn(...className) {
-    return twMerge(clsx(className))
+    return twMerge(clsx(className));
 }
 
 export const formatDate = (dateString) => {
@@ -27,4 +27,14 @@ export const formatDate = (dateString) => {
     const date = `${month} ${day}, ${year}`;
 
     return date;
-}
+};
+
+export const getAvatarName = (name) => {
+    const nameArr = name?.split(" ");
+    const avatarName =
+        nameArr?.length > 1
+            ? nameArr[0].charAt(0) + nameArr[1].charAt(0)
+            : name;
+
+    return avatarName || "Unknown";
+};

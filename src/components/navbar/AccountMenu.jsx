@@ -21,6 +21,7 @@ import { useSlugChanger } from "@/hooks/useSlugChanger.js";
 import { logoutAccount, setLoginState } from "@/features/auth/authSlice";
 
 // third-party
+import { getAvatarName } from "@/utils";
 import Avvvatars from "avvvatars-react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -120,7 +121,10 @@ const AccountMenu = () => {
                             onLoad={onImageLoaded}
                         />
                     ) : (
-                        <Avvvatars value={user?.name} size={32} />
+                        <Avvvatars
+                            value={getAvatarName(user?.name)}
+                            size={32}
+                        />
                     )}
                 </button>
             </Dropdown>

@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 
 // third-party
 import getCroppedImg from "@/components/crop/cropImage.js";
+import { getAvatarName } from "@/utils";
 import Avvvatars from "avvvatars-react";
 import Cropper from "react-easy-crop";
 
@@ -156,7 +157,7 @@ const UserAvatar = ({ user, isUserAuth }) => {
                         onLoad={onImageLoaded}
                     />
                 ) : (
-                    <Avvvatars value={user?.name} size={144} />
+                    <Avvvatars value={getAvatarName(user?.name)} size={144} />
                 )}
                 {isUserAuth && !isLoading && (
                     <div
