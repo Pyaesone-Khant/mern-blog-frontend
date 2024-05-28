@@ -108,7 +108,7 @@ let BlogCard = ({ blog, isDetail, isRecommended }) => {
                     className={cn({
                         "!w-full !max-w-[120px] !h-full max-h-[120px] !aspect-square":
                             !isDetail & !isRecommended,
-                        " !w-full aspect-[5/3] !h-full":
+                        " !w-full aspect-[16/9] !h-full":
                             isDetail || (isRecommended && !isMobile),
                     })}
                 />
@@ -208,7 +208,7 @@ let BlogCard = ({ blog, isDetail, isRecommended }) => {
                     className={cn(
                         ` overflow-hidden rounded-sm bg-gray-200 dark:bg-black/50`,
                         {
-                            " min-h-max pointer-events-none w-full mt-2 aspect-[16/9]":
+                            " min-h-[360px] pointer-events-none w-full mt-2":
                                 isDetail,
                             "max-w-[100px] min-h-max md:max-w-[120px] w-full cursor-pointer self-start   ":
                                 !isDetail && (!isRecommended || isMobile),

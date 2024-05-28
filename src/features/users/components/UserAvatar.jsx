@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // icons
 import { MdOutlineAdd } from "react-icons/md";
@@ -15,9 +15,11 @@ import { setAlertMessage } from "@/core/globalSlice.js";
 // redux
 import { useDispatch } from "react-redux";
 
+// utils
+import { getAvatarName } from "@/utils";
+
 // third-party
 import getCroppedImg from "@/components/crop/cropImage.js";
-import { getAvatarName } from "@/utils";
 import Avvvatars from "avvvatars-react";
 import Cropper from "react-easy-crop";
 
@@ -29,6 +31,7 @@ const UserAvatar = ({ user, isUserAuth }) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
     const [changeUserAvatar, { isLoading }] = useChangeUserAvatarMutation();
     const dispatch = useDispatch();
 
@@ -89,12 +92,19 @@ const UserAvatar = ({ user, isUserAuth }) => {
             } else {
                 dispatch(
                     setAlertMessage({
-                        content: error?.data?.message,
+                        content:
+                            error?.data?.message || "Something went wrong!",
                         type: "error",
                     })
                 );
             }
         } catch (error) {
+            dispatch(
+                setAlertMessage({
+                    content: error?.data?.message || "Internal Server Error!",
+                    type: "error",
+                })
+            );
             throw new Error(error);
         }
     };
@@ -127,7 +137,13 @@ const UserAvatar = ({ user, isUserAuth }) => {
     };
 
     // check if an image is loaded or not
-    const onImageLoaded = () => setIsImgLoaded(true);
+    useEffect(() => {
+        const img = new Image();
+        img.src = user?.profileImage;
+        if (img.complete) {
+            setIsImgLoaded(true);
+        }
+    }, [user, isImgLoaded]);
 
     return (
         <section
@@ -151,13 +167,11 @@ const UserAvatar = ({ user, isUserAuth }) => {
                 {user?.profileImage && isImgLoaded ? (
                     <img
                         src={user?.profileImage}
-                        alt={"Profile Image"}
+                        alt={user?.name + "'s profile image"}
                         className={`p-1 w-full h-full rounded-full object-cover object-center`}
-                        loading={"lazy"}
-                        onLoad={onImageLoaded}
                     />
                 ) : (
-                    <Avvvatars value={getAvatarName(user?.name)} size={144} />
+                    <Avvvatars value={getAvatarName(user?.name)} size={120} />
                 )}
                 {isUserAuth && !isLoading && (
                     <div
