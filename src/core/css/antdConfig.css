@@ -1,19 +1,31 @@
 /* select box */
-.ant-select {
-    border: none !important;
+/*.ant-select {
+    border: 1px solid white !important;
+}*/
+
+.ant-select-selector{
+   background: transparent !important ;
 }
 
-/*.ant-select-selector{*/
-/*    background: rgba(255, 255, 255, 0.5) !important;*/
-/*}*/
+.ant-select-selection-placeholder{
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.dark .ant-select-selection-placeholder{
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.dark .ant-select-arrow{
+ color: rgba(255, 255, 255, 0.5) !important;
+}
 
 .ant-select-selection-item {
     font-family: "Raleway", sans-serif !important;
-    /*background-color: #262626 !important;*/
 }
 
+
 .dark .ant-select-selection-item {
-    color: var(--darkBgSec) !important;
+    color: white !important;
 }
 
 .dark .ant-select-selector {
@@ -29,8 +41,13 @@
 
 /*ant dropdown*/
 .ant-dropdown-menu,
+.ant-upload,
 .ant-upload > button {
     border-radius: 2px !important;
+}
+
+.ant-upload{
+    background-color: transparent !important;
 }
 
 .ant-dropdown-menu-item:hover:not(.ant-dropdown-menu-item-danger) {
@@ -78,19 +95,19 @@ label {
 
 .ant-pagination :where(.ant-pagination-prev, .ant-pagination-next),
 .ant-pagination .ant-pagination-item {
-    min-width: 35px !important;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
     height: 35px !important;
     border: none !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
     font-family: "Georama", sans-serif !important;
+    min-width: 35px !important;
 }
 
 .ant-pagination :where(.ant-pagination-prev, .ant-pagination-next) button {
     display: flex !important;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 }
 
 .ant-pagination :where(.ant-pagination-prev, .ant-pagination-next) button,
@@ -122,8 +139,8 @@ label {
 }
 
 .ant-pagination-simple-pager {
-    color: #262626 !important;
     height: 30px !important;
+    color: #262626 !important;
 }
 
 .dark .ant-pagination-simple-pager {
@@ -131,9 +148,9 @@ label {
 }
 
 .ant-pagination-simple-pager input {
+    border: none !important;
     background-color: #2563eb !important;
     color: #fff !important;
-    border: none !important;
     outline: none !important;
 }
 
@@ -149,21 +166,21 @@ label {
 
 .ant-modal-content,
 .ant-modal-header {
-    border-radius: 4px !important;
     background-color: aliceblue !important;
+    border-radius: 4px !important;
 }
 
 .auth-modal .ant-modal-content {
-    padding: 0 !important;
     overflow: hidden !important;
+    padding: 0 !important;
 }
 
 .auth-modal .modal-header {
-    color: #fff !important;
-    padding: 16px 24px !important;
     display: flex !important;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px !important;
+    color: #fff !important;
 }
 
 div:has(.dark) ~ div :where(.modal-header.bg-cBlue,
@@ -268,8 +285,8 @@ div:has(.dark) ~ div :where(.modal-header.bg-cBlue,
 
 /* tabs */
 .ant-tabs, .ant-tabs-content-holder {
-    flex: 1 !important;
     display: flex;
+    flex: 1 !important;
     flex-direction: column;
 }
 
@@ -291,8 +308,8 @@ div:has(.dark) ~ div :where(.modal-header.bg-cBlue,
 }
 
 .ant-tabs-tab-btn {
-    font-weight: 500;
     color: var(--c8C) !important;
+    font-weight: 500;
     user-select: none;
 }
 
@@ -306,4 +323,21 @@ div:has(.dark) ~ div :where(.modal-header.bg-cBlue,
 
 .dark .ant-tabs-ink-bar {
     background-color: var(--darkTer) !important;
+}
+
+/* for description textarea */
+
+.ant-upload{
+    padding: 4px !important;
+    background-color: white;
+    aspect-ratio: 16/9;
+}
+
+.ant-row{
+    height: 100%;
+}
+
+
+.ant-form-item-control-input:has([id="description"]), .ant-form-item-control-input-content:has([id="description"]), .ant-form-item-control-input-content:has([id="description"]) .ant-input{
+    height: 100%;
 }
