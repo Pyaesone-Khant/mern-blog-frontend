@@ -16,6 +16,7 @@ import { useResponsive } from "@/hooks/useResponsive.js";
 import { useSlugChanger } from "@/hooks/useSlugChanger.js";
 
 // apis
+import { NoImage } from "@/assets/index.js";
 import { useGetCategoryByIdQuery } from "@/features/categories/categoriesApi.js";
 import { useGetUserByIdQuery } from "@/features/users/UserApi.js";
 
@@ -217,11 +218,7 @@ let BlogCard = ({ blog, isDetail, isRecommended }) => {
                     )}
                 >
                     <img
-                        src={
-                            blogImage
-                                ? blogImage
-                                : "https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg"
-                        }
+                        src={blogImage ? blogImage : NoImage}
                         alt={`${title} Image`}
                         className={cn(
                             "h-full w-full object-cover object-center border dark:border-none",
