@@ -40,7 +40,6 @@ export const useGetRefreshToken = () => {
                 );
             }
         } catch (error) {
-            console.log(error);
             saveToken("");
             saveExpiredAt("");
             dispatch(

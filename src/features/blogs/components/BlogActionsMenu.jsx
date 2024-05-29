@@ -20,13 +20,14 @@ import { setAlertMessage } from "@/core/globalSlice.js";
 
 // third-party
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const BlogActionsMenu = ({ blogId, slug }) => {
-
-    const [openModal, setOpenModal] = useState(false)
-    const { currentUser } = useCurrentUser()
-    const nameSlug = useSlugChanger(currentUser?.name)
-    const dispatch = useDispatch()
+    const [openModal, setOpenModal] = useState(false);
+    const { currentUser } = useCurrentUser();
+    const nameSlug = useSlugChanger(currentUser?.name);
+    const dispatch = useDispatch();
+    const nav = useNavigate();
 
     const [deleteBlog, { isLoading }] = useDeleteBlogMutation();
 
@@ -34,22 +35,38 @@ const BlogActionsMenu = ({ blogId, slug }) => {
         try {
             const { data, error } = await deleteBlog(blogId);
             if (data) {
-                dispatch(setAlertMessage({ content: data?.message, type: "success" }))
+                toggleModal();
+                nav("/", { replace: true });
+                dispatch(
+                    setAlertMessage({ content: data?.message, type: "success" })
+                );
             } else {
-                dispatch(setAlertMessage({ content: error?.data?.message, type: "error" }))
+                dispatch(
+                    setAlertMessage({
+                        content: error?.data?.message,
+                        type: "error",
+                    })
+                );
             }
         } catch (error) {
-            throw new Error(error?.data?.message || "Something went wrong!")
+            throw new Error(error?.data?.message || "Something went wrong!");
         }
-    }
+    };
 
-    const toggleModal = () => setOpenModal(!openModal)
+    const toggleModal = () => setOpenModal(!openModal);
 
     const items = [
         {
             key: 1,
-            label: <MenuLink path={`/${nameSlug}/${slug}/edit`} title={"edit"} state={blogId} className={"!py-1"} />,
-            icon: <MdOutlineEdit className={`!text-lg`} />
+            label: (
+                <MenuLink
+                    path={`/${nameSlug}/${slug}/edit`}
+                    title={"edit"}
+                    state={blogId}
+                    className={"!py-1"}
+                />
+            ),
+            icon: <MdOutlineEdit className={`!text-lg`} />,
         },
         {
             key: 2,
@@ -57,19 +74,26 @@ const BlogActionsMenu = ({ blogId, slug }) => {
             danger: true,
             icon: <MdOutlineDelete className={`!text-lg`} />,
             onClick: toggleModal,
-        }
-    ]
+        },
+    ];
 
     return (
         <section>
-            <Dropdown menu={{ items }} trigger={["click"]} placement={"bottomRight"}>
+            <Dropdown
+                menu={{ items }}
+                trigger={["click"]}
+                placement={"bottomRight"}
+            >
                 <button
-                    className={`text-2xl dark:text-gray-400 dark:hover:text-gray-200 text-darkBgSec/80 hover:text-darkBgSec duration-200`}>
-                    <MdMoreHoriz /></button>
+                    className={`text-2xl dark:text-gray-400 dark:hover:text-gray-200 text-darkBgSec/80 hover:text-darkBgSec duration-200`}
+                >
+                    <MdMoreHoriz />
+                </button>
             </Dropdown>
 
             {/*for delete confirmation*/}
-            <CustomModal isOpen={openModal}
+            <CustomModal
+                isOpen={openModal}
                 closeModal={toggleModal}
                 title={"Are you sure you want to delete this blog?"}
             >

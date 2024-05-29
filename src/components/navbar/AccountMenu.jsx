@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // icons
 import { BiCategoryAlt } from "react-icons/bi";
@@ -18,7 +18,10 @@ import { useResponsive } from "@/hooks/useResponsive.js";
 import { useSlugChanger } from "@/hooks/useSlugChanger.js";
 
 // reducers
-import { logoutAccount, setLoginState } from "@/features/auth/authSlice";
+import { logoutAccount } from "@/features/auth/authSlice";
+
+//utils
+import { getAvatarName } from "@/utils";
 
 // third-party
 import Avvvatars from "avvvatars-react";
@@ -37,12 +40,6 @@ const AccountMenu = () => {
     const slug = useSlugChanger(user?.name);
 
     const handleLogout = async () => {
-        dispatch(
-            setLoginState({
-                isLoggedIn: false,
-                token: null,
-            })
-        );
         saveToken("");
         saveExpiredAt("");
         dispatch(logoutAccount());
@@ -51,7 +48,13 @@ const AccountMenu = () => {
     };
 
     // check if image is loaded or not
-    const onImageLoaded = () => setIsImgLoaded(true);
+    useEffect(() => {
+        const img = new Image();
+        img.src = user?.profileImage;
+        if (img.complete) {
+            setIsImgLoaded(true);
+        }
+    }, [user, isImgLoaded]);
 
     const isAdmin = user?.email === import.meta.env.VITE_ADMIN_EMAIL;
 
@@ -111,16 +114,18 @@ const AccountMenu = () => {
                 placement="bottomRight"
                 trigger={["click"]}
             >
-                <button className="duration-200 flex items-center gap-2 font-medium text-base select-none rounded-full border border-darkBgSec/70">
+                <button className="duration-200 flex items-center gap-2 font-medium text-base select-none rounded-full border border-darkBgSec/70 overflow-hidden relative">
                     {user?.profileImage && isImgLoaded ? (
                         <img
                             src={user?.profileImage}
-                            alt={"Profile Image"}
+                            alt={user?.name + "'s profile image"}
                             className={`w-8 aspect-square rounded-full `}
-                            onLoad={onImageLoaded}
                         />
                     ) : (
-                        <Avvvatars value={user?.name} size={32} />
+                        <Avvvatars
+                            value={getAvatarName(user?.name)}
+                            size={32}
+                        />
                     )}
                 </button>
             </Dropdown>

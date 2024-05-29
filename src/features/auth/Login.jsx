@@ -11,7 +11,6 @@ import { useLoginAccountMutation } from "./authApi";
 
 // reducers
 import { setAlertMessage } from "@/core/globalSlice.js";
-import { setLoginState } from "./authSlice";
 
 //third-party
 import { useDispatch } from "react-redux";
@@ -30,15 +29,19 @@ const Login = () => {
                 saveToken(data?.token);
                 saveExpiredAt(data?.expiredAt);
                 dispatch(
-                    setLoginState({
-                        isLoggedIn: true,
-                        token: data?.token,
+                    setAlertMessage({
+                        type: "success",
+                        content: "Login successful!",
                     })
                 );
-                dispatch(setAlertMessage({ type: "success", content: "Login successful!" }))
                 nav("/");
             } else {
-                dispatch(setAlertMessage({ type: "error", content: error?.data?.message || "Login failed!" }))
+                dispatch(
+                    setAlertMessage({
+                        type: "error",
+                        content: error?.data?.message || "Login failed!",
+                    })
+                );
             }
         } catch (error) {
             throw new Error(error);
@@ -47,25 +50,44 @@ const Login = () => {
 
     return (
         <AuthComponentWrapper>
-            <Form layout={"vertical"} onFinish={onSubmit} className={`max-w-md w-full px-4`}>
+            <Form
+                layout={"vertical"}
+                onFinish={onSubmit}
+                className={`max-w-md w-full px-4`}
+            >
                 <div className="text-center mb-6">
                     <h2 className="form-tlt"> Login Account </h2>
                 </div>
-                <Form.Item name={"email"} rules={[
-                    { required: true, message: "Email address is required!" }
-                ]}>
+                <Form.Item
+                    name={"email"}
+                    rules={[
+                        {
+                            required: true,
+                            message: "Email address is required!",
+                        },
+                    ]}
+                >
                     <Input placeholder={"Email"} />
                 </Form.Item>
-                <Form.Item name={"password"} rules={[
-                    { required: true, message: "Password is required!" }
-                ]}>
+                <Form.Item
+                    name={"password"}
+                    rules={[
+                        { required: true, message: "Password is required!" },
+                    ]}
+                >
                     <Input.Password placeholder={"Password"} />
                 </Form.Item>
-                <CustomBtn htmlType={"submit"} className={"w-full"} loading={isLoading}>
+                <CustomBtn
+                    htmlType={"submit"}
+                    className={"w-full"}
+                    loading={isLoading}
+                >
                     Login
                 </CustomBtn>
 
-                <div className={`space-y-3 text-center mt-6 dark:text-gray-300 text-black`}>
+                <div
+                    className={`space-y-3 text-center mt-6 dark:text-gray-300 text-black`}
+                >
                     <CustomBtn
                         isLink={true}
                         href={"/forgotPassword"}
@@ -77,7 +99,11 @@ const Login = () => {
                     </CustomBtn>
                     <p>OR</p>
                     <p>Don&apos;t have an account?</p>
-                    <CustomBtn isLink={true} href={"/register"} variant={"outline"}>
+                    <CustomBtn
+                        isLink={true}
+                        href={"/register"}
+                        variant={"outline"}
+                    >
                         Create Account
                     </CustomBtn>
                 </div>
@@ -87,7 +113,6 @@ const Login = () => {
                 </div>
             </Form>
         </AuthComponentWrapper>
-
     );
 };
 
