@@ -2,7 +2,7 @@ import { memo, useEffect, useState } from "react";
 
 // components
 import BlogCardFooter from "@/features/blogs/components/BlogCardFooter.jsx";
-import { Skeleton, Tag } from "antd";
+import { Tag } from "antd";
 import { Link } from "react-router-dom";
 import Author from "./Author.jsx";
 
@@ -19,6 +19,7 @@ import { useSlugChanger } from "@/hooks/useSlugChanger.js";
 import { NoImage } from "@/assets/index.js";
 import { useGetCategoryByIdQuery } from "@/features/categories/categoriesApi.js";
 import { useGetUserByIdQuery } from "@/features/users/UserApi.js";
+import { BCLoader } from "../../../components/index.js";
 
 let BlogCard = ({ blog, isDetail, isRecommended }) => {
     const {
@@ -64,58 +65,8 @@ let BlogCard = ({ blog, isDetail, isRecommended }) => {
         });
     };
 
-    if (isULoading || isCLoading) {
-        return (
-            <div
-                className={cn(
-                    "border-b border-black/20 dark:border-white/20 pb-5",
-                    {
-                        "flex items-center md:gap-10 gap-4":
-                            !isDetail && !isRecommended,
-                        "flex flex-col gap-4":
-                            isDetail || (isRecommended && !isMobile),
-                    }
-                )}
-            >
-                <div className={`w-full space-y-2`}>
-                    <Skeleton
-                        active
-                        avatar={{
-                            className: `!w-8 !h-8 rounded-full`,
-                        }}
-                        title={{
-                            className: `!h-6 rounded-sm max-w-[180px] !my-0`,
-                        }}
-                        paragraph={false}
-                        className={`flex items-center`}
-                    />
-                    <Skeleton
-                        active
-                        title={{
-                            className: `!h-8 rounded-sm !w-full md:max-w-[80%] max-w-[90%] !my-0`,
-                        }}
-                        paragraph={{
-                            rows: 3,
-                        }}
-                        className={`flex items-center`}
-                    />
-                    <Skeleton.Button
-                        className={`mt-2 max-w-[100px] !w-full !rounded-full`}
-                        size={"small"}
-                    />
-                </div>
-                <Skeleton.Image
-                    active={true}
-                    className={cn({
-                        "!w-full !max-w-[120px] !h-full max-h-[120px] !aspect-square":
-                            !isDetail & !isRecommended,
-                        " !w-full aspect-[16/9] !h-full":
-                            isDetail || (isRecommended && !isMobile),
-                    })}
-                />
-            </div>
-        );
-    }
+    if (isULoading || isCLoading)
+        return <BCLoader isDetail={isDetail} isRecommended={isRecommended} />;
 
     return (
         <section
@@ -169,7 +120,7 @@ let BlogCard = ({ blog, isDetail, isRecommended }) => {
                     "flex-col gap-4": isDetail || (isRecommended && !isMobile),
                 })}
             >
-                <div className={`w-full space-y-3`}>
+                <div className={`w-full flex flex-col gap-3`}>
                     <article className={cn("space-y-1")}>
                         {!isDetail && (
                             <Link
@@ -209,7 +160,7 @@ let BlogCard = ({ blog, isDetail, isRecommended }) => {
                     className={cn(
                         ` overflow-hidden rounded-sm bg-gray-200 dark:bg-black/50`,
                         {
-                            " min-h-[360px] pointer-events-none w-full mt-2":
+                            "md:min-h-[360px] min-h-[160px] pointer-events-none w-full mt-2 object-cover object-center":
                                 isDetail,
                             "max-w-[100px] min-h-max md:max-w-[120px] w-full cursor-pointer self-start   ":
                                 !isDetail && (!isRecommended || isMobile),

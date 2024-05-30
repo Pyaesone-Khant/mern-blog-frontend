@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 // components
 import { SaveBtn } from "@/components/index.js";
@@ -23,22 +23,31 @@ const BlogCardFooter = ({ blogCategory, blog }) => {
     const blogSlug = useSlugChanger(blog?.title);
 
     return (
-        <section className={cn("flex items-center justify-between w-full")}>
+        <section
+            className={cn("flex items-center justify-between w-full mt-auto")}
+        >
             <Link to={`/tag/${tagSlug}`} state={blogCategory?._id}>
-                <Tag color="success"
-                    className={`w-fit rounded-full hidden dark:block`}> {blogCategory?.title} </Tag>
-                <Tag color="processing"
-                    className={`w-fit rounded-full dark:hidden`}> {blogCategory?.title} </Tag>
+                <Tag
+                    color="success"
+                    className={`w-fit rounded-full hidden dark:block`}
+                >
+                    {" "}
+                    {blogCategory?.title}{" "}
+                </Tag>
+                <Tag
+                    color="processing"
+                    className={`w-fit rounded-full dark:hidden`}
+                >
+                    {" "}
+                    {blogCategory?.title}{" "}
+                </Tag>
             </Link>
             <div className={`flex items-center gap-2`}>
-                {
-                    (isAuthor ||
-                        currentUser?.email === "admin123@gmail.com") && token ?
-                        <BlogActionsMenu blogId={blog?._id} slug={blogSlug} /> : null
-                }
-                {
-                    !isAuthor ? <SaveBtn blogId={blog?._id} /> : null
-                }
+                {(isAuthor || currentUser?.email === "admin123@gmail.com") &&
+                token ? (
+                    <BlogActionsMenu blogId={blog?._id} slug={blogSlug} />
+                ) : null}
+                {!isAuthor ? <SaveBtn blogId={blog?._id} /> : null}
             </div>
         </section>
     );

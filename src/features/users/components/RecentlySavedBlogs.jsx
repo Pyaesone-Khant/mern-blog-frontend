@@ -38,7 +38,7 @@ const RecentlySavedBlogs = () => {
 
     return (
         <section
-            className={`w-full max-w-[40%] lg:max-w-[30%] sticky top-[78px] self-start`}
+            className={`w-full max-w-[40%] lg:max-w-[30%] sticky top-[78px] self-start duration-300`}
         >
             <h2
                 className={`font-semibold text-lg mb-4 text-cBlue dark:text-darkTer self`}
