@@ -1,6 +1,12 @@
+import { useCallback, useEffect, useState } from "react";
+
+//icons
+import { MdCheckCircle } from "react-icons/md";
+
 // components
 import { Loader } from "@/components/index.js";
 import { BlogsList, CatList, RSavedBlogs } from "@/features";
+import { Skeleton } from "antd";
 
 // apis
 import { useGetAllCategoriesQuery } from "@/features/categories/categoriesApi";
@@ -8,10 +14,9 @@ import axios from "axios";
 
 // hooks
 import { useResponsive } from "@/hooks/useResponsive.js";
+
+//utils
 import { cn } from "@/utils";
-import { Skeleton } from "antd";
-import { useCallback, useEffect, useState } from "react";
-import { MdCheckCircle } from "react-icons/md";
 
 const Home = () => {
     const [blogs, setBlogs] = useState([]);
@@ -31,7 +36,7 @@ const Home = () => {
                 import.meta.env.VITE_PROD_API_URL + `/blogs?page=${page}&size=3`
             )
             .then((res) => {
-                const fetchedBlogs = res?.data?.data;
+                const fetchedBlogs = res?.data?.data || [];
                 setBlogs((prev) => [...prev, ...fetchedBlogs]);
             })
             .catch((err) => {
@@ -48,7 +53,7 @@ const Home = () => {
                 .then((res) => {
                     const blogs = res.data?.data;
                     setBlogs(blogs);
-                    setTotalPages(res.data?.totalPages);
+                    setTotalPages(Math.ceil(res.data?.totalBlogs / 3));
                 })
                 .catch((err) => {
                     console.log(err);
@@ -76,6 +81,8 @@ const Home = () => {
     const { data: categories, isLoading: isCLoading } =
         useGetAllCategoriesQuery();
 
+    console.log(page, totalPages, isLoading);
+
     if (isCLoading) return <Loader />;
 
     return (
@@ -86,52 +93,45 @@ const Home = () => {
             >
                 <div className="w-full">
                     <BlogsList blogs={blogs} />
-                    {isLoading && (
-                        <div className="mt-6 space-y-6">
-                            {Array(3)
-                                .fill(null)
-                                .map((_, i) => (
-                                    <div
-                                        key={i}
-                                        className={cn(
-                                            "border-b border-black/20 dark:border-white/20 pb-5 flex items-center md:gap-10 gap-4"
-                                        )}
-                                    >
-                                        <div className={`w-full space-y-2`}>
-                                            <Skeleton
-                                                active
-                                                avatar={{
-                                                    className: `!w-8 !h-8 rounded-full`,
-                                                }}
-                                                title={{
-                                                    className: `!h-6 rounded-sm max-w-[180px] !my-0`,
-                                                }}
-                                                paragraph={false}
-                                                className={`flex items-center`}
-                                            />
-                                            <Skeleton
-                                                active
-                                                title={{
-                                                    className: `!h-8 rounded-sm !w-full md:max-w-[80%] max-w-[90%] !my-0`,
-                                                }}
-                                                paragraph={{
-                                                    rows: 3,
-                                                }}
-                                                className={`flex items-center`}
-                                            />
-                                            <Skeleton.Button
-                                                className={`mt-2 max-w-[100px] !w-full !rounded-full`}
-                                                size={"small"}
-                                            />
-                                        </div>
-                                        <Skeleton.Image
-                                            active={true}
-                                            className={cn(
-                                                "!w-full !max-w-[120px] !h-full max-h-[120px] !aspect-square"
-                                            )}
-                                        />
-                                    </div>
-                                ))}
+                    {isLoading && page !== totalPages && (
+                        <div
+                            className={cn(
+                                "border-b border-black/20 dark:border-white/20 pb-5 flex items-center md:gap-10 gap-4 mt-6"
+                            )}
+                        >
+                            <div className={`w-full space-y-2`}>
+                                <Skeleton
+                                    active
+                                    avatar={{
+                                        className: `!w-8 !h-8 rounded-full`,
+                                    }}
+                                    title={{
+                                        className: `!h-6 rounded-sm max-w-[180px] !my-0`,
+                                    }}
+                                    paragraph={false}
+                                    className={`flex items-center`}
+                                />
+                                <Skeleton
+                                    active
+                                    title={{
+                                        className: `!h-8 rounded-sm !w-full md:max-w-[80%] max-w-[90%] !my-0`,
+                                    }}
+                                    paragraph={{
+                                        rows: 3,
+                                    }}
+                                    className={`flex items-center`}
+                                />
+                                <Skeleton.Button
+                                    className={`mt-2 max-w-[100px] !w-full !rounded-full`}
+                                    size={"small"}
+                                />
+                            </div>
+                            <Skeleton.Image
+                                active={true}
+                                className={cn(
+                                    "!w-full !max-w-[120px] !h-full max-h-[120px] !aspect-square"
+                                )}
+                            />
                         </div>
                     )}
                 </div>
