@@ -28,8 +28,7 @@ const Home = () => {
 
         await axios
             .get(
-                import.meta.env.VITE_LOCAL_API_URL +
-                    `/blogs?page=${page}&size=3`
+                import.meta.env.VITE_PROD_API_URL + `/blogs?page=${page}&size=3`
             )
             .then((res) => {
                 const fetchedBlogs = res?.data?.data;
@@ -45,9 +44,7 @@ const Home = () => {
     useEffect(() => {
         try {
             axios
-                .get(
-                    import.meta.env.VITE_LOCAL_API_URL + "/blogs?page=1&size=3"
-                )
+                .get(import.meta.env.VITE_PROD_API_URL + "/blogs?page=1&size=3")
                 .then((res) => {
                     const blogs = res.data?.data;
                     setBlogs(blogs);
