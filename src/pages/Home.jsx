@@ -6,7 +6,6 @@ import { MdCheckCircle } from "react-icons/md";
 // components
 import { Loader } from "@/components/index.js";
 import { BlogsList, CatList, RSavedBlogs } from "@/features";
-import { Skeleton } from "antd";
 
 // apis
 import { useGetAllCategoriesQuery } from "@/features/categories/categoriesApi";
@@ -16,7 +15,7 @@ import axios from "axios";
 import { useResponsive } from "@/hooks/useResponsive.js";
 
 //utils
-import { cn } from "@/utils";
+import { BCLoader } from "../components";
 
 const Home = () => {
     const [blogs, setBlogs] = useState([]);
@@ -48,6 +47,7 @@ const Home = () => {
 
     useEffect(() => {
         try {
+            setIsLoading(true);
             axios
                 .get(import.meta.env.VITE_PROD_API_URL + "/blogs?page=1&size=3")
                 .then((res) => {
@@ -58,6 +58,7 @@ const Home = () => {
                 .catch((err) => {
                     console.log(err);
                 });
+            setIsLoading(false);
         } catch (error) {
             console.log(error);
         }
@@ -81,8 +82,6 @@ const Home = () => {
     const { data: categories, isLoading: isCLoading } =
         useGetAllCategoriesQuery();
 
-    console.log(page, totalPages, isLoading);
-
     if (isCLoading) return <Loader />;
 
     return (
@@ -93,47 +92,7 @@ const Home = () => {
             >
                 <div className="w-full">
                     <BlogsList blogs={blogs} />
-                    {isLoading && page !== totalPages && (
-                        <div
-                            className={cn(
-                                "border-b border-black/20 dark:border-white/20 pb-5 flex items-center md:gap-10 gap-4 mt-6"
-                            )}
-                        >
-                            <div className={`w-full space-y-2`}>
-                                <Skeleton
-                                    active
-                                    avatar={{
-                                        className: `!w-8 !h-8 rounded-full`,
-                                    }}
-                                    title={{
-                                        className: `!h-6 rounded-sm max-w-[180px] !my-0`,
-                                    }}
-                                    paragraph={false}
-                                    className={`flex items-center`}
-                                />
-                                <Skeleton
-                                    active
-                                    title={{
-                                        className: `!h-8 rounded-sm !w-full md:max-w-[80%] max-w-[90%] !my-0`,
-                                    }}
-                                    paragraph={{
-                                        rows: 3,
-                                    }}
-                                    className={`flex items-center`}
-                                />
-                                <Skeleton.Button
-                                    className={`mt-2 max-w-[100px] !w-full !rounded-full`}
-                                    size={"small"}
-                                />
-                            </div>
-                            <Skeleton.Image
-                                active={true}
-                                className={cn(
-                                    "!w-full !max-w-[120px] !h-full max-h-[120px] !aspect-square"
-                                )}
-                            />
-                        </div>
-                    )}
+                    {isLoading && page !== totalPages && <BCLoader />}
                 </div>
                 {!isMediumDevice && (
                     <div
