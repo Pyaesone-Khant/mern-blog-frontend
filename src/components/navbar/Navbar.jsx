@@ -47,12 +47,12 @@ const Navbar = () => {
             top: 0,
             behavior: "smooth",
         });
-        nav("/");
+        nav("/", { replace: true });
+        window.location.reload();
     };
 
     return (
-        <header
-            className="py-3 sticky top-0 shadow-lg border-b z-20 backdrop-blur-2xl bg-white dark:bg-darkBgSec dark:text-white dark:border-darkTer/20 duration-200">
+        <header className="py-3 sticky top-0 shadow-lg border-b z-20 backdrop-blur-2xl bg-white dark:bg-darkBgSec dark:text-white dark:border-darkTer/20 duration-200">
             <nav className="md:w-[95%] w-[90%] mx-auto flex items-center justify-between">
                 <div className={`flex items-center gap-5`}>
                     <Logo
