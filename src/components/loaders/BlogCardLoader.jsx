@@ -8,8 +8,8 @@ const BlogCardLoader = ({ isDetail, isRecommended }) => {
     return (
         <div
             className={cn("border-b border-black/20 dark:border-white/20", {
-                "flex items-center md:gap-10 gap-4":
-                    !isDetail && !isRecommended,
+                "flex items-center md:gap-10 gap-4 pb-4":
+                    !isDetail || !isRecommended,
                 "flex flex-col gap-4": isDetail || (isRecommended && !isMobile),
             })}
         >

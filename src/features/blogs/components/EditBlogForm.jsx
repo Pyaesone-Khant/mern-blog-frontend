@@ -6,7 +6,7 @@ import { CustomBtn, FormLabel, Loader } from "@/components/index.js";
 import { Form, Input, Upload } from "antd";
 
 // apis
-import { useGetBlogByIdQuery, useUpdateBlogMutation } from "../blogApi.js";
+import { useGetBlogByIdQuery, useUpdateBlogMutation } from "@/features/blogs/blogApi.js";
 
 // reducers
 import { setAlertMessage } from "@/core/globalSlice.js";
@@ -25,7 +25,7 @@ const EditBlogForm = () => {
 
     const imgName =
         currentBlog?.blogImage?.split("/")[
-            currentBlog?.blogImage?.split("/").length - 1
+        currentBlog?.blogImage?.split("/").length - 1
         ];
 
     const [updateBlog, { isLoading }] = useUpdateBlogMutation();

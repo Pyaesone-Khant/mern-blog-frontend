@@ -1,4 +1,4 @@
-import { CustomBtn } from "../../components";
+import { CustomBtn } from "@/components";
 
 const BlogNotFound = () => {
     const handleTryAgain = () => {

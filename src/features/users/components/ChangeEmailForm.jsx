@@ -6,7 +6,7 @@ import { Form, Input } from "antd";
 import { useChangeUserEmailMutation } from "@/features/users/UserApi.js";
 
 // hooks
-import { useCurrentUser } from "../../../hooks/useCurrentUser";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 // reducers
 import { setAlertMessage } from "@/core/globalSlice.js";

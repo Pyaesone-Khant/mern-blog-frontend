@@ -1,11 +1,11 @@
-import {useGetUserDataQuery} from "@/features/users/UserApi.js";
-import {useEffect, useState} from "react";
-import {useAuth} from "@/hooks/useAuth.js";
+import { useGetUserDataQuery } from "@/features/users/UserApi.js";
+import { useAuth } from "@/hooks/useAuth.js";
+import { useEffect, useState } from "react";
 
 export const useCurrentUser = () => {
     const [isMounted, setIsMounted] = useState(false);
-    const {token} = useAuth();
-    const {data: currentUser, isLoading} = useGetUserDataQuery()
+    const { token } = useAuth();
+    const { data: currentUser, isLoading } = useGetUserDataQuery()
 
     useEffect(() => {
         if (!isLoading && currentUser && token) {
@@ -13,5 +13,5 @@ export const useCurrentUser = () => {
         }
     }, [isLoading, token, currentUser])
 
-    return isMounted && {currentUser};
+    return isMounted && { currentUser, isLoading };
 }
