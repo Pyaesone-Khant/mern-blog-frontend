@@ -10,8 +10,8 @@ import { Form, Input, Select, Upload } from "antd";
 import { useCurrentUser } from "@/hooks/useCurrentUser.js";
 
 // apis
-import { useGetAllCategoriesQuery } from "../../categories/categoriesApi.js";
-import { useCreateBlogMutation } from "../blogApi.js";
+import { useCreateBlogMutation } from "@/features/blogs/blogApi.js";
+import { useGetAllCategoriesQuery } from "@/features/categories/categoriesApi.js";
 
 // reducers
 import { setAlertMessage } from "@/core/globalSlice.js";

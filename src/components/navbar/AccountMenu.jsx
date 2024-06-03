@@ -33,7 +33,7 @@ const AccountMenu = () => {
     const [openModal, setOpenModal] = useState(false);
     const { isMobile } = useResponsive();
     const { saveToken, saveExpiredAt } = useAuth();
-    const { currentUser: user } = useCurrentUser();
+    const { currentUser: user, isLoading } = useCurrentUser();
     const dispatch = useDispatch();
     const nav = useNavigate();
 
@@ -108,7 +108,7 @@ const AccountMenu = () => {
             <Dropdown
                 arrow
                 menu={{
-                    items: menuItems,
+                    items: user && !isLoading ? menuItems : [],
                     selectable: true,
                 }}
                 placement="bottomRight"

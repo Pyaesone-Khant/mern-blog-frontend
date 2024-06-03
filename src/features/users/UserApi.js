@@ -1,4 +1,4 @@
-import {baseApi} from "@/core/baseApi.js";
+import { baseApi } from "@/core/baseApi.js";
 
 const endPoint = "/users";
 
@@ -17,7 +17,7 @@ export const userApi = baseApi.injectEndpoints({
             query: (name) => ({
                 url: `${endPoint}`,
                 method: "PUT",
-                body: {name},
+                body: { name },
             }),
             invalidatesTags: ["user"],
         }),
@@ -61,7 +61,7 @@ export const userApi = baseApi.injectEndpoints({
             query: (blogId) => ({
                 url: `${endPoint}/save-blogs`,
                 method: "POST",
-                body: {blogId},
+                body: { blogId },
             }),
             invalidatesTags: ["user"],
         }),

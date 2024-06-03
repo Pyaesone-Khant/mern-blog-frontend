@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 // icons
 import { MdOutlineArrowForward } from "react-icons/md";
@@ -19,8 +19,8 @@ import { useResponsive } from "@/hooks/useResponsive.js";
 import { useSlugChanger } from "@/hooks/useSlugChanger.js";
 
 // apis
-import { useGetBlogByUserIdQuery } from "../blogs/blogApi";
-import { useGetSavedBlogsQuery, useGetUserByIdQuery } from "../users/UserApi";
+import { useGetBlogByUserIdQuery } from "@/features/blogs/blogApi";
+import { useGetSavedBlogsQuery, useGetUserByIdQuery } from "@/features/users/UserApi";
 
 // utils
 import { cn } from "@/utils.js";

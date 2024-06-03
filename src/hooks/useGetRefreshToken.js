@@ -1,10 +1,13 @@
-import { setAlertMessage } from "@/core/globalSlice.js";
-import { useAuth } from "@/hooks/useAuth.js";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-// const baseUrl = "https://blogapp-apis.onrender.com/api"
-const baseUrl = "http://localhost:3500/api";
+// core
+import { setAlertMessage } from "@/core/globalSlice.js";
+
+// hooks
+import { useAuth } from "@/hooks/useAuth.js";
+
+const BASE_URL = import.meta.env.VITE_PROD_API_URL;
 
 export const useGetRefreshToken = () => {
     const { token, saveToken, expiredAt, saveExpiredAt } = useAuth();
@@ -18,7 +21,7 @@ export const useGetRefreshToken = () => {
 
     const getRefreshToken = async () => {
         try {
-            const res = await fetch(`${baseUrl}/auth/refresh-token`, {
+            const res = await fetch(`${BASE_URL}/auth/refresh-token`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

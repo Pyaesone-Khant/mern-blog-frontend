@@ -1,6 +1,10 @@
 import { memo, useEffect, useState } from "react";
 
+// assets
+import { NoImage } from "@/assets/index.js";
+
 // components
+import { BCLoader } from "@/components/index.js";
 import BlogCardFooter from "@/features/blogs/components/BlogCardFooter.jsx";
 import { Tag } from "antd";
 import { Link } from "react-router-dom";
@@ -16,10 +20,8 @@ import { useResponsive } from "@/hooks/useResponsive.js";
 import { useSlugChanger } from "@/hooks/useSlugChanger.js";
 
 // apis
-import { NoImage } from "@/assets/index.js";
 import { useGetCategoryByIdQuery } from "@/features/categories/categoriesApi.js";
 import { useGetUserByIdQuery } from "@/features/users/UserApi.js";
-import { BCLoader } from "../../../components/index.js";
 
 let BlogCard = ({ blog, isDetail, isRecommended }) => {
     const {

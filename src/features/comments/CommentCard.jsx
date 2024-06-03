@@ -1,21 +1,21 @@
-import {useState} from "react";
+import { useState } from "react";
 
 // components
-import Author from "../blogs/components/Author.jsx";
+import Author from "@/features/blogs/components/Author.jsx";
 import CommentActionsMenu from "@/features/comments/CommentActionsMenu.jsx";
 import EditCommentForm from "./EditCommentForm";
 
 // hooks
-import {useCurrentUser} from "@/hooks/useCurrentUser.js";
+import { useCurrentUser } from "@/hooks/useCurrentUser.js";
 
 // api
-import {useGetUserByIdQuery} from "../users/UserApi";
+import { useGetUserByIdQuery } from "@/features/users/UserApi";
 
-const CommentCard = ({commentItem}) => {
+const CommentCard = ({ commentItem }) => {
 
     const [isEditing, setIsEditing] = useState(false);
-    const {currentUser} = useCurrentUser();
-    const {data: author} = useGetUserByIdQuery(commentItem?.userId, {
+    const { currentUser } = useCurrentUser();
+    const { data: author } = useGetUserByIdQuery(commentItem?.userId, {
         skip: !commentItem?.userId
     });
 
@@ -28,9 +28,9 @@ const CommentCard = ({commentItem}) => {
             {!isEditing ? (
                 <div>
                     <div className="flex items-center justify-between mb-1">
-                        <Author author={author} isComment={true}/>
+                        <Author author={author} isComment={true} />
                         {currentUser?._id === author?._id ||
-                        currentUser?.email === "admin123@gmail.com" ? (
+                            currentUser?.email === "admin123@gmail.com" ? (
                             <div className="flex items-center gap-3 ">
                                 <CommentActionsMenu
                                     toggleEditing={toggleEditing}
