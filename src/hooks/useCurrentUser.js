@@ -5,13 +5,15 @@ import { useEffect, useState } from "react";
 export const useCurrentUser = () => {
     const [isMounted, setIsMounted] = useState(false);
     const { token } = useAuth();
-    const { data: currentUser, isLoading } = useGetUserDataQuery()
+    const { data: currentUser, isLoading } = useGetUserDataQuery(null, {
+        skip: !token,
+    });
 
     useEffect(() => {
         if (!isLoading && currentUser && token) {
-            setIsMounted(true)
+            setIsMounted(true);
         }
-    }, [isLoading, token, currentUser])
+    }, [isLoading, token, currentUser]);
 
     return isMounted && { currentUser, isLoading };
-}
+};
