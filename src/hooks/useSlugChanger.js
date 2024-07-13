@@ -7,12 +7,15 @@ export const useSlugChanger = (title) => {
     useEffect(() => {
         if (title) {
             const slug = title
-                .trim() // remove spaces from both ends
-                .toLowerCase() // convert to lower case
-                .normalize('NFD') // separate accent from letter
-                .replace(/[\u0300-\u036f]/g, '') // remove accent
-                .replace(/\W+/g, '-') // replace non-alphanumeric and underscore with hyphen
-                .replace(/^-+|-+$/g, ''); // remove hyphen from both ends
+            .trim()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^\w\u1000-\u109F\s]/g, '-')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-')
+            .toLowerCase()
+            .replace(/^-+|-+$/g, '');
+
             setSlug(slug);
         }
     }, [title]);

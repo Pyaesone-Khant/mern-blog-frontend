@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo } from "react";
 
 // assets
 import { NoImage } from "@/assets/index.js";
@@ -33,7 +33,6 @@ let BlogCard = ({ blog, isDetail, isRecommended }) => {
         title,
     } = blog;
 
-    const [linkProps, setLinkProps] = useState({}); //[to, state, onClick]
     const { token } = useAuth();
     const date = formatDate(createdAt);
     const titleSlug = useSlugChanger(title) || null;
@@ -50,22 +49,18 @@ let BlogCard = ({ blog, isDetail, isRecommended }) => {
             skip: !categoryId,
         });
 
-    useEffect(() => {
-        if (nameSlug && titleSlug) {
-            setLinkProps({
-                to: nameSlug && titleSlug && `/${nameSlug}/${titleSlug}`,
-                state: blogId,
-                onClick: changeRoute,
-            });
-        }
-    }, [nameSlug, titleSlug]);
-
     const changeRoute = () => {
         window.scrollTo({
             top: 0,
             behavior: "smooth",
         });
     };
+
+    const linkProps = {
+        to: nameSlug && titleSlug && `/${nameSlug}/${titleSlug}`,
+        state: blogId,
+        onClick: changeRoute,
+    }
 
     if (isULoading || isCLoading)
         return <BCLoader isDetail={isDetail} isRecommended={isRecommended} />;
@@ -126,7 +121,7 @@ let BlogCard = ({ blog, isDetail, isRecommended }) => {
                     <article className={cn("space-y-1")}>
                         {!isDetail && (
                             <Link
-                                {...linkProps}
+                            {...linkProps}
                                 className={cn(
                                     `capitalize font-bold text-lg md:text-xl w-fit cursor-pointer !text-black dark:!text-white`,
                                     { " line-clamp-1 ": isRecommended }
