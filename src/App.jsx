@@ -1,7 +1,7 @@
-import {useEffect} from "react";
+import { useEffect } from "react";
 
 // components
-import MainLayout from "@/layouts/MainLayout";
+import { IsAdmin, IsAuth, IsNotAuth, OTPGuard } from "@/components";
 import {
     ADForm,
     BLByCategory,
@@ -20,22 +20,24 @@ import {
     UProfile,
     VerifyOTPPage,
 } from "@/features";
-import {ErrorPage, HomePage} from "./pages";
-import {IsAdmin, IsAuth, IsNotAuth, OTPGuard} from "@/components";
+import MainLayout from "@/layouts/MainLayout";
+import { ErrorPage, HomePage } from "./pages";
 
 // router
-import {Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 // antd
-import {ConfigProvider, notification} from "antd";
+import { ConfigProvider, notification } from "antd";
 
 // redux
-import {setAlertMessage} from "@/core/globalSlice.js";
-import {useDispatch, useSelector} from "react-redux";
+import { setAlertMessage } from "@/core/globalSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 const App = () => {
 
-    const {alertMsg} = useSelector(state => state.global)
+    const { alertMsg } = useSelector(state => state.global)
     const [api, contextHolder] = notification.useNotification()
     const dispatch = useDispatch()
 
@@ -51,7 +53,7 @@ const App = () => {
         if (alertMsg.type && alertMsg.content) {
             openNotificationWithIcon()
             setTimeout(() => {
-                dispatch(setAlertMessage({type: null, content: null}))
+                dispatch(setAlertMessage({ type: null, content: null }))
             }, 5000)
         }
     }, [alertMsg]);
@@ -78,59 +80,60 @@ const App = () => {
             }
         }}>
             {contextHolder}
+            <SpeedInsights />
             <Routes>
-                <Route path="/" element={<MainLayout/>}>
-                    <Route index element={<HomePage/>}/>
+                <Route path="/" element={<MainLayout />}>
+                    <Route index element={<HomePage />} />
 
-                    <Route path={"/tag/:tagSlug"} element={<BLByCategory/>}/>
+                    <Route path={"/tag/:tagSlug"} element={<BLByCategory />} />
 
                     <Route
                         path="write"
                         element={
                             <IsAuth>
-                                <CreateBlog/>
+                                <CreateBlog />
                             </IsAuth>
                         }
                     />
-                    <Route path="/:username/:slug" errorElement={<ErrorPage/>}>
-                        <Route index element={<BlogDetail/>}/>
+                    <Route path="/:username/:slug" errorElement={<ErrorPage />}>
+                        <Route index element={<BlogDetail />} />
                         <Route
                             path="edit"
                             element={
                                 <IsAuth>
-                                    <EditBlog/>
+                                    <EditBlog />
                                 </IsAuth>
                             }
                         />
                     </Route>
 
                     <Route path={"/categories"} element={<IsAdmin>
-                        <CatTable/>
-                    </IsAdmin>}/>
+                        <CatTable />
+                    </IsAdmin>} />
 
-                    <Route path={"/search"} element={<Search/>}/>
+                    <Route path={"/search"} element={<Search />} />
 
                     <Route path={"changeEmail"} element={<IsAuth>
-                        <ChangeEmailPage/>
-                    </IsAuth>}/>
+                        <ChangeEmailPage />
+                    </IsAuth>} />
 
                     <Route
                         path="delete_account"
                         element={
                             <IsAuth>
-                                <ADForm/>
+                                <ADForm />
                             </IsAuth>
                         }
                     />
 
                     <Route path="/users/:slug">
-                        <Route index element={<UProfile/>}/>
+                        <Route index element={<UProfile />} />
                         <Route path={"blogs"} element={<IsAuth>
-                            <CreatedBlogs/>
-                        </IsAuth>}/>
+                            <CreatedBlogs />
+                        </IsAuth>} />
                         <Route path={"saved"} element={<IsAuth>
-                            <SavedBlogs/>
-                        </IsAuth>}/>
+                            <SavedBlogs />
+                        </IsAuth>} />
                     </Route>
                     {/* user routes end */}
 
@@ -139,7 +142,7 @@ const App = () => {
                         path="register"
                         element={
                             <IsNotAuth>
-                                <RegisterPage/>
+                                <RegisterPage />
                             </IsNotAuth>
                         }
                     />
@@ -147,28 +150,28 @@ const App = () => {
                         path="login"
                         element={
                             <IsNotAuth>
-                                <LoginPage/>
+                                <LoginPage />
                             </IsNotAuth>
                         }
                     />
 
                     <Route path={"forgotPassword"} element={<IsNotAuth>
-                        <ForgotPasswordPage/>
-                    </IsNotAuth>}/>
+                        <ForgotPasswordPage />
+                    </IsNotAuth>} />
 
                     <Route path={"resetPassword"} element={<IsNotAuth>
                         <OTPGuard>
-                            <ResetPasswordPage/>
+                            <ResetPasswordPage />
                         </OTPGuard>
-                    </IsNotAuth>}/>
+                    </IsNotAuth>} />
 
                     <Route path={"verifyOtp"} element={
                         <OTPGuard>
-                            <VerifyOTPPage/>
-                        </OTPGuard>}/>
+                            <VerifyOTPPage />
+                        </OTPGuard>} />
 
                     {/* auth routes end */}
-                    <Route path="*" element={<ErrorPage type={"page"}/>}/>
+                    <Route path="*" element={<ErrorPage type={"page"} />} />
                 </Route>
             </Routes>
         </ConfigProvider>
