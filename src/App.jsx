@@ -34,6 +34,8 @@ import { setAlertMessage } from "@/core/globalSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { ChatProvider } from "./context/chat.context";
+import { ChatLayout } from "./layouts/ChatLayout";
 
 const App = () => {
 
@@ -173,8 +175,18 @@ const App = () => {
                     {/* auth routes end */}
                     <Route path="*" element={<ErrorPage type={"page"} />} />
                 </Route>
+                <Route
+                    path="/chat"
+                    element={
+                        <IsAuth>
+                            <ChatProvider>
+                                <ChatLayout />
+                            </ChatProvider>
+                        </IsAuth>
+                    }
+                />
             </Routes>
-        </ConfigProvider>
+        </ConfigProvider >
     );
 };
 
