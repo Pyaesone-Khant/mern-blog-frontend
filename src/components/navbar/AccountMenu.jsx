@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 // icons
 import { BiCategoryAlt } from "react-icons/bi";
-import { BsFileText } from "react-icons/bs";
+import { BsChat, BsFileText } from "react-icons/bs";
 import { MdOutlineBookmarks, MdOutlineLogout } from "react-icons/md";
 import { RxPencil2, RxPerson } from "react-icons/rx";
 
@@ -63,6 +63,11 @@ const AccountMenu = () => {
             key: "1",
             label: <MenuLink title={"Write"} path={"/write"} />,
             icon: <RxPencil2 className={`!text-lg stroke-[0.3px]`} />,
+        },
+        isMobile && {
+            key: "7",
+            label: <MenuLink title={"Chat"} path={"/chat"} />,
+            icon: <BsChat className={`!text-lg stroke-[0.3px]`} />,
         },
         isMobile && {
             type: "divider",

@@ -25,6 +25,7 @@ import { setCurrentPage } from "@/features/blogs/blogSlice.js";
 import { cn } from "@/utils.js";
 
 // third-party
+import { BsChat } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -48,7 +49,6 @@ const Navbar = () => {
             behavior: "smooth",
         });
         nav("/", { replace: true });
-        window.location.reload();
     };
 
     return (
@@ -75,12 +75,20 @@ const Navbar = () => {
                 {token ? (
                     <nav className={cn("flex items-center gap-5")}>
                         {!isMobile && (
-                            <CNavlink href={"/write"} className={"px-0"}>
-                                <RxPencil2
-                                    className={`!text-xl stroke-[0.3px]`}
-                                />
-                                write
-                            </CNavlink>
+                            <>
+                                <CNavlink href={"/write"} className={"px-0"}>
+                                    <RxPencil2
+                                        className={`!text-xl stroke-[0.3px]`}
+                                    />
+                                    write
+                                </CNavlink>
+                                <CNavlink href={"/chat"} className={"px-0"}>
+                                    <BsChat
+                                        className={`!text-xl stroke-[0.3px]`}
+                                    />
+                                    Chat
+                                </CNavlink>
+                            </>
                         )}
                         <ThemeBtn />
                         <AccountMenu />

@@ -15,7 +15,7 @@ const ThemeBtn = () => {
     };
 
     return (
-        <button onClick={handleTheme} className="text-xl outline-none ">
+        <button onClick={handleTheme} className="text-xl outline-none dark:text-white ">
             {" "}
             {localStorage.getItem("theme") === "dark" ? (
                 <BsSunFill />
