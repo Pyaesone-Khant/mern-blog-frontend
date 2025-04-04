@@ -14,9 +14,8 @@ import { useGetAllCategoriesQuery } from "@/features/categories/categoriesApi";
 import { useResponsive } from "@/hooks/useResponsive.js";
 
 //axios
+import { BASE_URL } from "@/constants";
 import axios from "axios";
-
-const BASE_URL = import.meta.env.VITE_PROD_API_URL;
 
 const Home = () => {
     // using js intersection observer api

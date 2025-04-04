@@ -1,9 +1,10 @@
+import { BASE_URL } from "@/constants";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const baseApi = createApi({
     reducerPath: "baseApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: import.meta.env.VITE_PROD_API_URL,
+        baseUrl: BASE_URL,
         prepareHeaders: (headers) => {
             const token = JSON.parse(localStorage.getItem("accessToken"));
             if (token) {
@@ -12,6 +13,6 @@ export const baseApi = createApi({
             }
         },
     }),
-    tagTypes: ["auth", "blog", "category", "comment", "user"],
+    tagTypes: ["auth", "blog", "category", "comment", "user", "messages", "conversations"],
     endpoints: () => ({}),
 });
