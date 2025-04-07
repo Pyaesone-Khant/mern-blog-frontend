@@ -1,8 +1,11 @@
 import ThemeBtn from "@/components/antd/btns/ThemeBtn";
+import { WS_URL } from "@/constants";
 import { useChatContext } from "@/context/chat.context";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { cn } from "@/utils";
 import PropTypes from "prop-types";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { io } from "socket.io-client";
 import Author from "../blogs/components/Author";
 import { useGetMessagesQuery } from "./chatApi";
 import { Message } from "./Message";
@@ -13,14 +16,60 @@ export function ChatBox() {
     const { currentConversation } = useChatContext();
     const { data: messages, isLoading } = useGetMessagesQuery(currentConversation?._id, {
         skip: !currentConversation?._id,
+        refetchOnMountOrArgChange: true,
     });
+    const [chatMessages, setChatMessages] = useState([]);
+
     const messageEndRef = useRef(null);
     const receiver = currentConversation?.receiver;
+    const { currentUser } = useCurrentUser();
+    const socket = useRef(io(WS_URL, {
+        transports: ["polling", "websocket"],
+    }));
+
+    useEffect(() => {
+        socket.current = io(WS_URL, {
+            transports: ["polling", "websocket"],
+        })
+
+        socket.current.on("getMessage", (msg) => {
+            setChatMessages((prev) => ([...prev, msg]));
+        });
+    }, []);
+
+    useEffect(() => {
+        setChatMessages(messages);
+    }, [messages]);
+
     useEffect(() => {
         if (messageEndRef.current) {
             messageEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
-    }, [messages]);
+    }, [chatMessages])
+
+    useEffect(() => {
+        const sc = socket.current;
+
+        sc.on("connect", () => {
+            console.log("connected to socket server!");
+            sc.emit("join", currentUser?._id);
+            sc.on("getUsers", (users) => {
+                console.log(users)
+            });
+        });
+
+        // default event for connection error from socket.io
+        sc.on("connect_error", (err) => {
+            console.log("socket connection error: ", err);
+        })
+
+        // default event for disconnection from socket.io
+        sc.on("disconnect", (reason, details) => {
+            console.log("disconnected from socket server: ", reason);
+            console.log("disconnect details: ", details);
+        });
+
+    }, [currentUser])
 
     return (
         <div
@@ -57,9 +106,9 @@ export function ChatBox() {
                     }
 
                     {
-                        messages?.map((msg) => (
+                        chatMessages?.map((msg) => (
                             <Message
-                                key={msg._id}
+                                key={msg._id ?? msg.createdAt}
                                 message={msg}
                             />
                         ))
@@ -69,7 +118,10 @@ export function ChatBox() {
                     />
                 </div>
 
-                <MessageForm />
+                <MessageForm
+                    socket={socket.current}
+
+                />
             </div>
         </div>
     );

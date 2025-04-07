@@ -1,9 +1,12 @@
 import { CustomBtn } from "@/components";
 import { useChatContext } from "@/context/chat.context";
 import { Form, Input } from "antd";
+import PropTypes from "prop-types";
 import { useCreateMessageMutation } from "./chatApi";
 
-export function MessageForm() {
+export function MessageForm({
+    socket
+}) {
 
     const [form] = Form.useForm();
     const [createMessage, { isLoading }] = useCreateMessageMutation();
@@ -12,10 +15,21 @@ export function MessageForm() {
     const message = Form.useWatch('message', form);
 
     const onFinish = async (values) => {
+
+        if (!currentConversation) return;
+
+        const { sender, receiver, _id } = currentConversation;
+        const { message } = values;
+
         const payload = {
-            conversationId: currentConversation,
-            text: values.message
+            conversationId: _id,
+            text: message
         }
+        socket.emit('sendMessage', {
+            senderId: sender?._id,
+            receiverId: receiver?._id,
+            text: message,
+        });
         const data = await createMessage(payload).unwrap();
         if (data) {
             form.resetFields();
@@ -53,4 +67,8 @@ export function MessageForm() {
             </CustomBtn>
         </Form>
     )
+}
+
+MessageForm.propTypes = {
+    socket: PropTypes.object.isRequired,
 }
