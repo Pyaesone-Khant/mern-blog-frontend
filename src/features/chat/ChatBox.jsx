@@ -35,6 +35,11 @@ export function ChatBox() {
         socket.current.on("getMessage", (msg) => {
             setChatMessages((prev) => ([...prev, msg]));
         });
+
+        return () => {
+            socket.current.off("getMessage");
+        }
+
     }, []);
 
     useEffect(() => {

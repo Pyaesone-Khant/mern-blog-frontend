@@ -24,7 +24,7 @@ export function ChatLayout() {
             className={` ${theme === "dark" ? "dark" : ""} `}
         >
             <section
-                className="min-h-screen grid lg:grid-cols-4 grid-cols-5"
+                className="min-h-screen grid lg:grid-cols-4 grid-cols-5 max-md:grid-cols-1"
             >
                 <ConversationList />
                 <ChatBox />

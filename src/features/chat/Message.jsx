@@ -1,7 +1,7 @@
 import { useCurrentUser } from "@/hooks/useCurrentUser"
 import { cn } from "@/utils"
 import { Avatar } from "antd"
-import { formatDistanceToNow } from "date-fns"
+import { formatDistanceToNowStrict } from "date-fns"
 import PropTypes from "prop-types"
 import { AiOutlineUser } from "react-icons/ai"
 
@@ -41,7 +41,7 @@ export function Message({
                     "pl-12": currentUser?._id !== message.sender?._id,
                 })}
             >
-                {formatDistanceToNow(new Date(message?.createdAt), { addSuffix: true })}
+                {formatDistanceToNowStrict(new Date(message?.createdAt), { addSuffix: true })}
             </p>
         </article>
     )
