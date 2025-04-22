@@ -83,109 +83,109 @@ const App = () => {
         }}>
             {contextHolder}
             <SpeedInsights />
-            <Routes>
-                <Route path="/" element={<MainLayout />}>
-                    <Route index element={<HomePage />} />
+            <ChatProvider>
+                <Routes>
+                    <Route path="/" element={<MainLayout />}>
+                        <Route index element={<HomePage />} />
 
-                    <Route path={"/tag/:tagSlug"} element={<BLByCategory />} />
+                        <Route path={"/tag/:tagSlug"} element={<BLByCategory />} />
 
-                    <Route
-                        path="write"
-                        element={
-                            <IsAuth>
-                                <CreateBlog />
-                            </IsAuth>
-                        }
-                    />
-                    <Route path="/:username/:slug" errorElement={<ErrorPage />}>
-                        <Route index element={<BlogDetail />} />
                         <Route
-                            path="edit"
+                            path="write"
                             element={
                                 <IsAuth>
-                                    <EditBlog />
+                                    <CreateBlog />
                                 </IsAuth>
                             }
                         />
+                        <Route path="/:username/:slug" errorElement={<ErrorPage />}>
+                            <Route index element={<BlogDetail />} />
+                            <Route
+                                path="edit"
+                                element={
+                                    <IsAuth>
+                                        <EditBlog />
+                                    </IsAuth>
+                                }
+                            />
+                        </Route>
+
+                        <Route path={"/categories"} element={<IsAdmin>
+                            <CatTable />
+                        </IsAdmin>} />
+
+                        <Route path={"/search"} element={<Search />} />
+
+                        <Route path={"changeEmail"} element={<IsAuth>
+                            <ChangeEmailPage />
+                        </IsAuth>} />
+
+                        <Route
+                            path="delete_account"
+                            element={
+                                <IsAuth>
+                                    <ADForm />
+                                </IsAuth>
+                            }
+                        />
+
+                        <Route path="/users/:slug">
+                            <Route index element={<UProfile />} />
+                            <Route path={"blogs"} element={<IsAuth>
+                                <CreatedBlogs />
+                            </IsAuth>} />
+                            <Route path={"saved"} element={<IsAuth>
+                                <SavedBlogs />
+                            </IsAuth>} />
+                        </Route>
+                        {/* user routes end */}
+
+                        {/* auth routes */}
+                        <Route
+                            path="register"
+                            element={
+                                <IsNotAuth>
+                                    <RegisterPage />
+                                </IsNotAuth>
+                            }
+                        />
+                        <Route
+                            path="login"
+                            element={
+                                <IsNotAuth>
+                                    <LoginPage />
+                                </IsNotAuth>
+                            }
+                        />
+
+                        <Route path={"forgotPassword"} element={<IsNotAuth>
+                            <ForgotPasswordPage />
+                        </IsNotAuth>} />
+
+                        <Route path={"resetPassword"} element={<IsNotAuth>
+                            <OTPGuard>
+                                <ResetPasswordPage />
+                            </OTPGuard>
+                        </IsNotAuth>} />
+
+                        <Route path={"verifyOtp"} element={
+                            <OTPGuard>
+                                <VerifyOTPPage />
+                            </OTPGuard>} />
+
+                        {/* auth routes end */}
+                        <Route path="*" element={<ErrorPage type={"page"} />} />
                     </Route>
-
-                    <Route path={"/categories"} element={<IsAdmin>
-                        <CatTable />
-                    </IsAdmin>} />
-
-                    <Route path={"/search"} element={<Search />} />
-
-                    <Route path={"changeEmail"} element={<IsAuth>
-                        <ChangeEmailPage />
-                    </IsAuth>} />
-
                     <Route
-                        path="delete_account"
+                        path="/chat"
                         element={
                             <IsAuth>
-                                <ADForm />
+                                <ChatLayout />
                             </IsAuth>
                         }
                     />
-
-                    <Route path="/users/:slug">
-                        <Route index element={<UProfile />} />
-                        <Route path={"blogs"} element={<IsAuth>
-                            <CreatedBlogs />
-                        </IsAuth>} />
-                        <Route path={"saved"} element={<IsAuth>
-                            <SavedBlogs />
-                        </IsAuth>} />
-                    </Route>
-                    {/* user routes end */}
-
-                    {/* auth routes */}
-                    <Route
-                        path="register"
-                        element={
-                            <IsNotAuth>
-                                <RegisterPage />
-                            </IsNotAuth>
-                        }
-                    />
-                    <Route
-                        path="login"
-                        element={
-                            <IsNotAuth>
-                                <LoginPage />
-                            </IsNotAuth>
-                        }
-                    />
-
-                    <Route path={"forgotPassword"} element={<IsNotAuth>
-                        <ForgotPasswordPage />
-                    </IsNotAuth>} />
-
-                    <Route path={"resetPassword"} element={<IsNotAuth>
-                        <OTPGuard>
-                            <ResetPasswordPage />
-                        </OTPGuard>
-                    </IsNotAuth>} />
-
-                    <Route path={"verifyOtp"} element={
-                        <OTPGuard>
-                            <VerifyOTPPage />
-                        </OTPGuard>} />
-
-                    {/* auth routes end */}
-                    <Route path="*" element={<ErrorPage type={"page"} />} />
-                </Route>
-                <Route
-                    path="/chat"
-                    element={
-                        <IsAuth>
-                            <ChatProvider>
-                                <ChatLayout />
-                            </ChatProvider>
-                        </IsAuth>
-                    }
-                />
-            </Routes>
+                </Routes>
+            </ChatProvider>
         </ConfigProvider >
     );
 };

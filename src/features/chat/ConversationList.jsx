@@ -1,28 +1,19 @@
 import { Logo } from "@/components";
-import { useChatContext } from "@/context/chat.context";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useGetConversationsQuery } from "./chatApi";
 import { Conversation } from "./Conversation";
 
 export function ConversationList() {
 
-    const { setCurrentConversation } = useChatContext();
     const { data } = useGetConversationsQuery();
-
-    useEffect(() => {
-        if (data) {
-            setCurrentConversation(data[0]);
-        }
-    }, [data, setCurrentConversation]);
 
     return (
         <section
-            className="space-y-4 lg:col-span-1 col-span-2 dark:bg-darkBg duration-200"
+            className="space-y-4 lg:col-span-1 col-span-2 duration-200 max-md:border-b dark:border-white/20"
         >
             <Link
                 to={"/"}
-                className="flex items-center justify-center gap-4 mb-4  p-4 border-b dark:border-white/20 "
+                className="flex items-center justify-center gap-4 mb-4  p-4 border-b dark:border-white/20"
             >
                 <Logo
                     className="w-14 mx-0"
@@ -30,11 +21,11 @@ export function ConversationList() {
                 <h1
                     className="text-3xl font-bold dark:text-white text-c1A"
                 >
-                    WriteeChat
+                    Writee
                 </h1>
             </Link>
             <div
-                className="space-y-4 p-4"
+                className="space-y-4 p-4 max-w-2xl mx-auto"
             >
                 {
                     data?.map((it) => (

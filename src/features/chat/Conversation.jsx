@@ -16,7 +16,7 @@ export function Conversation({ data }) {
     return (
         <div
             onClick={handleClick}
-            className={cn("p-3 rounded-lg shadow-md flex items-center gap-2 cursor-pointer transition-all duration-200 ease-in-out dark:hover:bg-darkTer hover:bg-cBlue dark:bg-darkTer/50 bg-cBlue/50", {
+            className={cn("p-3 rounded-lg shadow-md flex items-center gap-2 cursor-pointer transition-all duration-200 ease-in-out dark:hover:bg-darkTer hover:bg-cBlue bg-gray-200 hover:text-white", {
                 " dark:bg-darkTer text-white bg-cBlue ": data?._id === currentConversation?._id,
 
             })}

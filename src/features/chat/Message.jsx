@@ -30,7 +30,7 @@ export function Message({
                     icon={<AiOutlineUser />}
                 />
                 <p
-                    className={cn("p-2 flex-1 text-[15px] bg-blue-600 dark:bg-darkTer rounded-xl space-y-1 text-white")}
+                    className={cn("p-2 text-[15px] bg-blue-600 dark:bg-darkTer rounded-xl space-y-1 text-white")}
                 >
                     {message.text}
                 </p>

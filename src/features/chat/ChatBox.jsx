@@ -78,7 +78,7 @@ export function ChatBox() {
 
     return (
         <div
-            className="col-span-3 bg-white dark:bg-darkBg place-items-center border-l dark:border-white/20 duration-200 "
+            className="col-span-3 place-items-center border-l dark:border-white/20 duration-200 "
         >
             <div
                 className="max-w-2xl w-full h-screen flex flex-col p-5 pt-0 gap-4"
@@ -118,6 +118,21 @@ export function ChatBox() {
                             />
                         ))
                     }
+
+                    {
+                        chatMessages?.length === 0 && !isLoading && (
+                            <div
+                                className="h-full p-4 flex items-center justify-center"
+                            >
+                                <p
+                                    className="text-center text-gray-500 dark:text-gray-400"
+                                >
+                                    No messages yet.
+                                </p>
+                            </div>
+                        )
+                    }
+
                     <div
                         ref={messageEndRef}
                     />

@@ -24,6 +24,7 @@ import { useGetSavedBlogsQuery, useGetUserByIdQuery } from "@/features/users/Use
 
 // utils
 import { cn } from "@/utils.js";
+import { CreateConversation } from "./components/CreateConversation";
 
 const UserProfile = () => {
     const { token } = useAuth();
@@ -113,6 +114,13 @@ const UserProfile = () => {
 
                 {/*name block*/}
                 <ChangeNameModal user={user} isUserAuth={isUserAuth} />
+
+                {/* start coneversation */}
+                {
+                    token && !isUserAuth && (
+                        <CreateConversation user={user} />
+                    )
+                }
 
                 {/*email block*/}
                 {isUserAuth && <div
