@@ -1,9 +1,9 @@
 import { useCurrentUser } from "@/hooks/useCurrentUser"
 import { cn } from "@/utils"
 import { Avatar } from "antd"
-import { formatDistanceToNowStrict } from "date-fns"
 import PropTypes from "prop-types"
 import { AiOutlineUser } from "react-icons/ai"
+import { TimeAgo } from "./TimeAgo"
 
 export function Message({
     message
@@ -35,14 +35,13 @@ export function Message({
                     {message.text}
                 </p>
             </div>
-            <p
-                className={cn("text-[13px] text-gray-500 font-medium", {
+            <TimeAgo
+                timestamp={message.createdAt}
+                className={cn({
                     "text-right pr-12": currentUser?._id === message.sender?._id,
                     "pl-12": currentUser?._id !== message.sender?._id,
                 })}
-            >
-                {formatDistanceToNowStrict(new Date(message?.createdAt), { addSuffix: true })}
-            </p>
+            />
         </article>
     )
 }
