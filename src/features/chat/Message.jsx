@@ -6,7 +6,8 @@ import { AiOutlineUser } from "react-icons/ai"
 import { TimeAgo } from "./TimeAgo"
 
 export function Message({
-    message
+    message,
+    isUserActive
 }) {
 
     const { currentUser } = useCurrentUser();
@@ -23,12 +24,22 @@ export function Message({
                     "flex-row-reverse": currentUser?._id === message.sender?._id,
                 })}
             >
-                <Avatar
-                    src={message.sender?.profileImage}
-                    size={36}
-                    alt="User"
-                    icon={<AiOutlineUser />}
-                />
+                <div
+                    className="relative"
+                >
+                    <Avatar
+                        src={message.sender?.profileImage}
+                        size={36}
+                        alt="User"
+                        icon={<AiOutlineUser />}
+                    />
+                    <p
+                        className={cn("w-[10px] aspect-square absolute bottom-0 right-0 rounded-full border border-white", {
+                            "bg-darkTer dark:bg-cBlue": message.sender?._id === currentUser?._id || isUserActive,
+                            "bg-gray-400": message.sender?._id !== currentUser?._id && !isUserActive
+                        })}
+                    />
+                </div>
                 <p
                     className={cn("p-2 text-[15px] bg-blue-600 dark:bg-darkTer rounded-xl space-y-1 text-white")}
                 >
@@ -47,5 +58,6 @@ export function Message({
 }
 
 Message.propTypes = {
-    message: PropTypes.object.isRequired
+    message: PropTypes.object.isRequired,
+    isUserActive: PropTypes.bool.isRequired
 }

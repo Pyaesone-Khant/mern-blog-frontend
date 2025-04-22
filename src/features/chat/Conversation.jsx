@@ -4,7 +4,7 @@ import { Avatar } from "antd";
 import PropTypes from "prop-types";
 import { AiOutlineUser } from "react-icons/ai";
 
-export function Conversation({ data }) {
+export function Conversation({ data, isActive }) {
 
     const { setCurrentConversation, currentConversation } = useChatContext();
     const user = data?.receiver;
@@ -33,10 +33,18 @@ export function Conversation({ data }) {
             >
                 {user?.name}
             </h2>
+
+            <p
+                className={cn("w-3 aspect-square rounded-full ml-auto", {
+                    "bg-darkTer dark:bg-cBlue border border-white": isActive,
+                    "hidden": !isActive
+                })}
+            />
         </div>
     )
 }
 
 Conversation.propTypes = {
-    data: PropTypes.object.isRequired
+    data: PropTypes.object.isRequired,
+    isActive: PropTypes.bool.isRequired
 }

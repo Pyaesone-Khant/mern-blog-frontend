@@ -1,9 +1,10 @@
 import { Logo } from "@/components";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useGetConversationsQuery } from "./chatApi";
 import { Conversation } from "./Conversation";
 
-export function ConversationList() {
+export function ConversationList({ activeUsers }) {
 
     const { data } = useGetConversationsQuery();
 
@@ -32,10 +33,15 @@ export function ConversationList() {
                         <Conversation
                             key={it._id}
                             data={it}
+                            isActive={activeUsers?.some((userId) => userId === it.receiver._id)}
                         />
                     ))
                 }
             </div>
         </section>
     )
+}
+
+ConversationList.propTypes = {
+    activeUsers: PropTypes.array.isRequired
 }

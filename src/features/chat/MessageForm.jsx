@@ -70,5 +70,5 @@ export function MessageForm({
 }
 
 MessageForm.propTypes = {
-    socket: PropTypes.object.isRequired,
+    socket: PropTypes.object,
 }

@@ -1,80 +1,23 @@
 import ThemeBtn from "@/components/antd/btns/ThemeBtn";
-import { WS_URL } from "@/constants";
 import { useChatContext } from "@/context/chat.context";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { cn } from "@/utils";
 import PropTypes from "prop-types";
-import { useEffect, useRef, useState } from "react";
-import { io } from "socket.io-client";
+import { useEffect, useRef } from "react";
 import Author from "../blogs/components/Author";
-import { useGetMessagesQuery } from "./chatApi";
 import { Message } from "./Message";
 import { MessageForm } from "./MessageForm";
 
-export function ChatBox() {
+export function ChatBox({ messages, isLoading, socket, activeUsers }) {
 
     const { currentConversation } = useChatContext();
-    const { data: messages, isLoading } = useGetMessagesQuery(currentConversation?._id, {
-        skip: !currentConversation?._id,
-        refetchOnMountOrArgChange: true,
-    });
-    const [chatMessages, setChatMessages] = useState([]);
-
     const messageEndRef = useRef(null);
     const receiver = currentConversation?.receiver;
-    const { currentUser } = useCurrentUser();
-    const socket = useRef(io(WS_URL, {
-        transports: ["polling", "websocket"],
-    }));
-
-    useEffect(() => {
-        socket.current = io(WS_URL, {
-            transports: ["polling", "websocket"],
-        })
-
-        socket.current.on("getMessage", (msg) => {
-            setChatMessages((prev) => ([...prev, msg]));
-        });
-
-        return () => {
-            socket.current.off("getMessage");
-        }
-
-    }, []);
-
-    useEffect(() => {
-        setChatMessages(messages);
-    }, [messages]);
 
     useEffect(() => {
         if (messageEndRef.current) {
             messageEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
-    }, [chatMessages])
-
-    useEffect(() => {
-        const sc = socket.current;
-
-        sc.on("connect", () => {
-            console.log("connected to socket server!");
-            sc.emit("join", currentUser?._id);
-            sc.on("getUsers", (users) => {
-                console.log(users)
-            });
-        });
-
-        // default event for connection error from socket.io
-        sc.on("connect_error", (err) => {
-            console.log("socket connection error: ", err);
-        })
-
-        // default event for disconnection from socket.io
-        sc.on("disconnect", (reason, details) => {
-            console.log("disconnected from socket server: ", reason);
-            console.log("disconnect details: ", details);
-        });
-
-    }, [currentUser])
+    }, [messages])
 
     return (
         <div
@@ -111,16 +54,17 @@ export function ChatBox() {
                     }
 
                     {
-                        chatMessages?.map((msg) => (
+                        messages?.map((msg) => (
                             <Message
                                 key={msg._id ?? msg.createdAt}
                                 message={msg}
+                                isUserActive={activeUsers?.some((userId) => userId === msg.sender._id)}
                             />
                         ))
                     }
 
                     {
-                        chatMessages?.length === 0 && !isLoading && (
+                        messages?.length === 0 && !isLoading && (
                             <div
                                 className="h-full p-4 flex items-center justify-center"
                             >
@@ -139,12 +83,19 @@ export function ChatBox() {
                 </div>
 
                 <MessageForm
-                    socket={socket.current}
+                    socket={socket}
 
                 />
             </div>
         </div>
     );
+}
+
+ChatBox.propTypes = {
+    messages: PropTypes.array,
+    isLoading: PropTypes.bool.isRequired,
+    socket: PropTypes.object,
+    activeUsers: PropTypes.array,
 }
 
 const MessageLoader = ({
